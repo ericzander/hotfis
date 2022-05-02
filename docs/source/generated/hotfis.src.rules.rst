@@ -1,7 +1,7 @@
-src.rules
-=========
+rules
+=====
 
-.. automodule:: src.rules
+.. automodule:: hotfis.src.rules
 
    
    
@@ -25,7 +25,8 @@ src.rules
 
 .. autosummary::
    :toctree:
+   :template: custom-module-template.rst
    :recursive:
 
-   src.rules.rule
+   hotfis.src.rules.rule
 

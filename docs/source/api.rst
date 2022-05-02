@@ -1,9 +1,6 @@
-API
-===
+API Reference
+=============
 
-.. autosummary::
-   :toctree: generated
-   :recursive:
+.. toctree::
 
-   src
-   tests
+   generated/hotfis

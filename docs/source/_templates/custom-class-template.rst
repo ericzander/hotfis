@@ -1,8 +1,8 @@
-{{ fullname | escape | underline}}
+{{ name | escape | underline}}
 
 .. currentmodule:: {{ module }}
 
-.. autoclass:: {{ objname }}
+.. autofunction:: {{ objname }}
    :members:
    :show-inheritance:
    :inherited-members:

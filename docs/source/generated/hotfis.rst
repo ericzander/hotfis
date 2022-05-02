@@ -1,7 +1,7 @@
-﻿src
-===
+﻿hotfis
+======
 
-.. automodule:: src
+.. automodule:: hotfis
 
    
    
@@ -25,8 +25,9 @@
 
 .. autosummary::
    :toctree:
+   :template: custom-module-template.rst
    :recursive:
 
-   src.fuzzy
-   src.rules
+   hotfis.src
+   hotfis.tests
 

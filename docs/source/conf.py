@@ -31,10 +31,13 @@ release = '0.1'
 # ones.
 extensions = [
     "sphinx.ext.autodoc",
+    "sphinx.ext.napoleon",     # Enable Google/NumPy docstrings
     "sphinx.ext.autosummary",
-    "sphinx.ext.napoleon",  # Enable Google/NumPy docstrings
 ]
+
+add_module_names = False     # Turn off prepended module names
 autosummary_generate = True  # Turn on sphinx.ext.autosummary
+
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

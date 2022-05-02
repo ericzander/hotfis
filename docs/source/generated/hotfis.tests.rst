@@ -1,7 +1,7 @@
 ﻿tests
 =====
 
-.. automodule:: tests
+.. automodule:: hotfis.tests
 
    
    
@@ -25,7 +25,8 @@
 
 .. autosummary::
    :toctree:
+   :template: custom-module-template.rst
    :recursive:
 
-   tests.test
+   hotfis.tests.test
 
