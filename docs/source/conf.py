@@ -9,15 +9,14 @@
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-#
-# import os
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
 
+import os
+import sys
+sys.path.insert(0, os.path.abspath('../..'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'hotfis'
+project = 'HotFIS'
 copyright = '2022, Eric Zander'
 author = 'Eric Zander'
 
@@ -31,7 +30,11 @@ release = '0.1'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    "sphinx.ext.autodoc",
+    "sphinx.ext.autosummary",
+    "sphinx.ext.napoleon",  # Enable Google/NumPy docstrings
 ]
+autosummary_generate = True  # Turn on sphinx.ext.autosummary
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -51,16 +54,6 @@ html_theme = 'classic'
 
 # Theme options
 html_theme_options = {
-    #"relbarbgcolor": "#E53935",
-    #"relbartextcolor": "#FFE082",
-    #"relbarlinkcolor": "#331919",
-
-    #"sidebarbgcolor": "#FFEEEE",
-    #"sidebartextcolor": "#882222",
-    #"sidebarlinkcolor": "#AA2222",
-
-    #"headbgcolor": "#F44336",
-    #"footerbgcolor": "#F44336",
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,
