@@ -1,2 +1,2 @@
-"""Primary source code.
+"""Core source code.
 """

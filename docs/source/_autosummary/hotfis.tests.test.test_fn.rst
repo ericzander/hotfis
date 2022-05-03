@@ -1,4 +1,4 @@
-﻿test\_fn
+test\_fn
 ========
 
 .. currentmodule:: hotfis.tests.test

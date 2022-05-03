@@ -1,15 +1,14 @@
-TestClass
+﻿TestClass
 =========
 
 .. currentmodule:: hotfis.tests.test
 
-.. autofunction:: TestClass
+.. autoclass:: TestClass
    :members:
    :show-inheritance:
    :inherited-members:
 
    
-   .. automethod:: __init__
 
    
    .. rubric:: Methods
@@ -18,6 +17,11 @@ TestClass
    
       ~TestClass.__init__
       ~TestClass.test_method
+
+   
+
+   .. automethod:: __init__
+
    
    
 

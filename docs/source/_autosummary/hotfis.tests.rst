@@ -1,7 +1,7 @@
-﻿src
-===
+tests
+=====
 
-.. automodule:: hotfis.src
+.. automodule:: hotfis.tests
 
    
    
@@ -28,6 +28,6 @@
    :template: custom-module-template.rst
    :recursive:
 
-   hotfis.src.fuzzy
-   hotfis.src.rules
+   hotfis.tests.test
+   hotfis.tests.test_membfunc
 

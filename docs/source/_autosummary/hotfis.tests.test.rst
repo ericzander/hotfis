@@ -1,4 +1,4 @@
-﻿test
+test
 ====
 
 .. automodule:: hotfis.tests.test

@@ -1,7 +1,7 @@
-﻿function
-========
+test\_membfunc
+==============
 
-.. automodule:: hotfis.src.fuzzy.function
+.. automodule:: hotfis.tests.test_membfunc
 
    
    
@@ -15,7 +15,7 @@
       :toctree:
       :template: custom-function-template.rst
    
-      memb_fn
+      main
    
    
 
