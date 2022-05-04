@@ -1,7 +1,7 @@
-set
-===
+group
+=====
 
-.. automodule:: hotfis.src.fuzzy.set
+.. automodule:: hotfis.src.fuzzy.group
 
    
    

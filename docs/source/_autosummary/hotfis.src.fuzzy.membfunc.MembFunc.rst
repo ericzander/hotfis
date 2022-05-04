@@ -9,6 +9,8 @@
    :inherited-members:
 
    
+   .. rubric:: Constructor
+   .. automethod:: __init__
 
    
    .. rubric:: Methods
@@ -16,14 +18,11 @@
    .. autosummary::
    
       ~MembFunc.__call__
-      ~MembFunc.__init__
-      ~MembFunc.test
+      ~MembFunc.plot
 
    
    .. automethod:: __call__
    
-
-   .. automethod:: __init__
 
    
    

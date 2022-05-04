@@ -1,4 +1,4 @@
-fuzzy
+﻿fuzzy
 =====
 
 .. automodule:: hotfis.src.fuzzy
@@ -28,7 +28,7 @@ fuzzy
    :template: custom-module-template.rst
    :recursive:
 
+   hotfis.src.fuzzy.group
    hotfis.src.fuzzy.groupset
    hotfis.src.fuzzy.membfunc
-   hotfis.src.fuzzy.set
 

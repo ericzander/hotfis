@@ -9,18 +9,17 @@
    :inherited-members:
 
    
+   .. rubric:: Constructor
+   .. automethod:: __init__
 
    
    .. rubric:: Methods
 
    .. autosummary::
    
-      ~TestClass.__init__
       ~TestClass.test_method
 
    
-
-   .. automethod:: __init__
 
    
    
