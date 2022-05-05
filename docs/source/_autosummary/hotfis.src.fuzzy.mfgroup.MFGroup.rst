@@ -1,9 +1,9 @@
-MembFunc
-========
+MFGroup
+=======
 
-.. currentmodule:: hotfis.src.fuzzy.membfunc
+.. currentmodule:: hotfis.src.fuzzy.mfgroup
 
-.. autoclass:: MembFunc
+.. autoclass:: MFGroup
    :members:
    :show-inheritance:
    :inherited-members:
@@ -19,8 +19,13 @@ MembFunc
 
    .. autosummary::
    
-      ~MembFunc.__call__
-      ~MembFunc.plot
+      ~MFGroup.__getitem__
+      ~MFGroup.__iter__
+      ~MFGroup.__setitem__
+      ~MFGroup.items
+      ~MFGroup.keys
+      ~MFGroup.plot
+      ~MFGroup.values
 
    
    

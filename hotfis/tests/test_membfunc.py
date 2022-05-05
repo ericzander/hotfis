@@ -7,13 +7,12 @@ from hotfis.src.fuzzy.membfunc import MembFunc
 
 
 def main():
-    fn = MembFunc([0, 2, 4], [0, 1, 0])
+    # fn = MembFunc([0, 2, 4], [0, 1, 0])
     # fn = MembFunc([0, 2, 4, 6], "trapezoidal")
     # fn = MembFunc([2, 1], "gaussian")
+    fn = MembFunc([0, 2, 4, 5, 9], [0.2, 0.4, 1.0, 0.65, 1.0])
 
-    print(fn(2.3))
-
-    fn.plot(-2, 8, color="grey")
+    fn.plot(-2, 10)
     plt.show()
 
 

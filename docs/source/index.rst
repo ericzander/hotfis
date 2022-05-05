@@ -13,7 +13,7 @@ Contents
    :maxdepth: 1
 
    api
-   mf_templates
+   membfunc_templates
 
 Index
 =====

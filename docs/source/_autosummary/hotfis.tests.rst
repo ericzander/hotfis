@@ -28,6 +28,6 @@ tests
    :template: custom-module-template.rst
    :recursive:
 
-   hotfis.tests.test
    hotfis.tests.test_membfunc
+   hotfis.tests.test_mfgroup
 

@@ -6,6 +6,8 @@
    :members:
    :show-inheritance:
    :inherited-members:
+   :special-members:
+   :exclude-members: __init__, __weakref__
 
    {% block methods %}
    .. rubric:: {{ _('Constructor') }}
@@ -27,10 +29,6 @@
       ~{{ name }}.{{ item }}
       {%- endif -%}
    {%- endfor %}
-
-   {% if '__call__' in all_methods %}
-   .. automethod:: __call__
-   {% endif %}
 
    {% endif %}
    {% endblock %}
