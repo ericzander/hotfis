@@ -1,4 +1,10 @@
 """Contains membership function definition.
+
+Membership functions calculate membership to a fuzzy set that is implicitly
+defined as the function is created.
+
+For example, some examples of different membership functions for temperature
+could be 'cold', 'warm', and 'hot'.
 """
 
 from typing import Iterable, Union
@@ -38,7 +44,7 @@ class MembFunc:
     # ----------
 
     # Templates
-    _function_templates = {
+    templates = {
         # Generic
         "triangular": [0, 1, 0],
         "trapezoidal": [0, 1, 1, 0],
@@ -180,7 +186,7 @@ class MembFunc:
         """
         # Get template membership
         try:
-            membership = MembFunc._function_templates[template_name]
+            membership = MembFunc.templates[template_name]
         except KeyError:
             raise KeyError(f"Template name {template_name} not found!")
 
@@ -218,8 +224,8 @@ class MembFunc:
 
         if self.params.shape[0] != memb_vals.shape[0]:
             s1, s2 = self.params.shape[0], memb_vals.shape[0]
-            raise ValueError(f"Shape of domain parameters ({s1}) and values "
-                             f"({s2}) don't match.")
+            raise ValueError(f"Shape of domain parameters ({s1}) and function "
+                             f"values ({s2}) don't match.")
 
         # Sort parameters if standard
         self.params.sort()
@@ -232,7 +238,7 @@ class MembFunc:
         self.center = np.mean(self.params[np.where(memb_vals == memb_vals.max())])
 
     def _build_special(self, memb_func: callable):
-        """Builds special function from template or given callable.
+        """Builds special membership function from template or given callable.
 
         Args:
             memb_func: Template or given callable that takes input (a) and params (x)

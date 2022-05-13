@@ -2,6 +2,9 @@
 
 MFGroups serve as named collections of membership functions and has a method
 for plotting.
+
+An example of a group could be 'temperature', comprised of membership functions
+such as 'cold', 'warm', and 'hot'.
 """
 
 from typing import List
@@ -56,6 +59,9 @@ class MFGroup:
     def __getitem__(self, fn_name) -> MembFunc:
         """Supports subscripting with membership function name.
 
+        Example:
+            fn = example_group["fn_name"]
+
         Args:
             fn_name: Name of the function to retrieve.
         """
@@ -66,6 +72,9 @@ class MFGroup:
 
         Will overwrite a function if it already exists.
 
+        Example:
+            example_group["fn_name"] = new_fn
+
         Args:
             fn: Function to save in group.
         """
@@ -73,6 +82,10 @@ class MFGroup:
 
     def __iter__(self):
         """Can iterate through each membership function.
+
+        Example:
+            for fn in example_group:
+                ...
         """
         return iter(self.fns.values())
 

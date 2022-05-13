@@ -1,4 +1,4 @@
-"""Membership function groiup testing.
+"""Membership function group testing.
 """
 
 import matplotlib.pyplot as plt

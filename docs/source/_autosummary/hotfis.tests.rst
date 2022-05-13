@@ -1,4 +1,4 @@
-tests
+﻿tests
 =====
 
 .. automodule:: hotfis.tests
@@ -30,4 +30,5 @@ tests
 
    hotfis.tests.test_membfunc
    hotfis.tests.test_mfgroup
+   hotfis.tests.test_mfgroupset
 
