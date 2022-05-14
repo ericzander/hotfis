@@ -1,7 +1,7 @@
 membfunc
 ========
 
-.. automodule:: hotfis.src.fuzzy.membfunc
+.. automodule:: hotfis.fuzzy.membfunc
 
    
    

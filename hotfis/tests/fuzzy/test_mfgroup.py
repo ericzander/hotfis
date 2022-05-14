@@ -3,8 +3,8 @@
 
 import matplotlib.pyplot as plt
 
-from hotfis.src.fuzzy.membfunc import MembFunc
-from hotfis.src.fuzzy.mfgroup import MFGroup
+from hotfis.fuzzy.membfunc import MembFunc
+from hotfis.fuzzy.mfgroup import MFGroup
 
 
 def main():

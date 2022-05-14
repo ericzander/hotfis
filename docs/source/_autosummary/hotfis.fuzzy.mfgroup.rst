@@ -1,7 +1,7 @@
 mfgroup
 =======
 
-.. automodule:: hotfis.src.fuzzy.mfgroup
+.. automodule:: hotfis.fuzzy.mfgroup
 
    
    

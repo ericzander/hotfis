@@ -3,7 +3,7 @@
 
 import matplotlib.pyplot as plt
 
-from hotfis.src.fuzzy.membfunc import MembFunc
+from hotfis.fuzzy.membfunc import MembFunc
 
 
 def main():

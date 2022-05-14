@@ -1,7 +1,7 @@
-rules
+fuzzy
 =====
 
-.. automodule:: hotfis.src.rules
+.. automodule:: hotfis.fuzzy
 
    
    
@@ -28,5 +28,7 @@ rules
    :template: custom-module-template.rst
    :recursive:
 
-   hotfis.src.rules.rule
+   hotfis.fuzzy.membfunc
+   hotfis.fuzzy.mfgroup
+   hotfis.fuzzy.mfgroupset
 

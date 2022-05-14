@@ -1,9 +1,9 @@
-MFGroupset
-==========
+MFGroup
+=======
 
-.. currentmodule:: hotfis.src.fuzzy.mfgroupset
+.. currentmodule:: hotfis.fuzzy.mfgroup
 
-.. autoclass:: MFGroupset
+.. autoclass:: MFGroup
    :members:
    :show-inheritance:
    :inherited-members:
@@ -19,12 +19,13 @@ MFGroupset
 
    .. autosummary::
    
-      ~MFGroupset.__getitem__
-      ~MFGroupset.__iter__
-      ~MFGroupset.__setitem__
-      ~MFGroupset.items
-      ~MFGroupset.keys
-      ~MFGroupset.values
+      ~MFGroup.__getitem__
+      ~MFGroup.__iter__
+      ~MFGroup.__setitem__
+      ~MFGroup.items
+      ~MFGroup.keys
+      ~MFGroup.plot
+      ~MFGroup.values
 
    
    

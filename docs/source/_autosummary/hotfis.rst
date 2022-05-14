@@ -28,6 +28,7 @@
    :template: custom-module-template.rst
    :recursive:
 
-   hotfis.src
+   hotfis.fuzzy
+   hotfis.rules
    hotfis.tests
 

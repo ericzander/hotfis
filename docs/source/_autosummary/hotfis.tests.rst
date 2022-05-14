@@ -1,4 +1,4 @@
-﻿tests
+tests
 =====
 
 .. automodule:: hotfis.tests
@@ -28,7 +28,5 @@
    :template: custom-module-template.rst
    :recursive:
 
-   hotfis.tests.test_membfunc
-   hotfis.tests.test_mfgroup
-   hotfis.tests.test_mfgroupset
+   hotfis.tests.fuzzy
 

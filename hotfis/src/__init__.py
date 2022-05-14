@@ -1,2 +1,0 @@
-"""Core source code.
-"""

@@ -1,7 +1,7 @@
 test\_membfunc
 ==============
 
-.. automodule:: hotfis.tests.test_membfunc
+.. automodule:: hotfis.tests.fuzzy.test_membfunc
 
    
    

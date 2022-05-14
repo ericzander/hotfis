@@ -1,7 +1,6 @@
 """Membership function groupset testing.
 """
-
-from hotfis.src.fuzzy.mfgroupset import MFGroupset
+from hotfis.fuzzy import MFGroupset
 
 import matplotlib.pyplot as plt
 

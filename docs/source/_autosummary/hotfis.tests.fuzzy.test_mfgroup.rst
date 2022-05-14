@@ -1,7 +1,7 @@
-test\_mfgroupset
-================
+test\_mfgroup
+=============
 
-.. automodule:: hotfis.tests.test_mfgroupset
+.. automodule:: hotfis.tests.fuzzy.test_mfgroup
 
    
    

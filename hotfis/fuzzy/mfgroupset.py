@@ -12,9 +12,8 @@ from typing import List, Dict, Union
 
 import os
 
-from hotfis.src.fuzzy.mfgroup import MFGroup
-from hotfis.src.fuzzy.membfunc import MembFunc
-
+from . import MFGroup
+from . import MembFunc
 
 class MFGroupset:
     """Collection of membership function groups for FIS evaluation.
