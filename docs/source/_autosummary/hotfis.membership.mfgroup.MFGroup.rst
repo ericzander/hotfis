@@ -1,7 +1,7 @@
-MFGroup
+﻿MFGroup
 =======
 
-.. currentmodule:: hotfis.fuzzy.mfgroup
+.. currentmodule:: hotfis.membership.mfgroup
 
 .. autoclass:: MFGroup
    :members:

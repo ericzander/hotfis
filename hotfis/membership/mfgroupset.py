@@ -1,10 +1,10 @@
 """Contains membership function groupset (MFGroupset) definition.
 
 MFGroupsets are collections of groups of membership functions to streamline
-fuzzy inference system evaluation.
+membership inference system evaluation.
 
 For example, an MFGroupset could contain a 'temperature' group and 'heater'
-group to be used in a fuzzy inference system designed for setting heat based on
+group to be used in a membership inference system designed for setting heat based on
 temperature.
 """
 
@@ -12,14 +12,14 @@ from typing import List, Dict, Union
 
 import os
 
-from . import MFGroup
-from . import MembFunc
+from hotfis import MFGroup, MembFunc
+
 
 class MFGroupset:
     """Collection of membership function groups for FIS evaluation.
 
     Membership function groupsets are collections of membership function groups
-    used for streamlined fuzzy inference system evaluation.
+    used for streamlined membership inference system evaluation.
 
     Attributes:
         groups (Dict[str, MFGroup]): Dictionary of named groups.

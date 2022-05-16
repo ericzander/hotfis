@@ -25,19 +25,12 @@ class MembFunc:
             parameters in custom functions.
         center (float): Central or important point in domain of function
             used in built-in visualization and potentially as a zeroth order
-            Takagi-Sugeno output if the function is used as output in a ruleset.
-            In linear functions, this defaults to the average of domain
-            parameters corresponding to max membership values. For custom and
-            Takagi-Sugeno output functions, this defaults to the first parameter.
+            Takagi-Sugeno output. In linear functions, this defaults to the
+            average of domain parameters corresponding to max membership values.
+            For custom and Takagi-Sugeno output functions, this defaults to the
+            first parameter.
         name (str): Name of membership function.
         fn_type (str): Name of template if used. Otherwise, 'custom'.
-
-    Example usages for a 'cold' temperature fuzzy set:
-        |  cold_func = MembFunc([0, 10, 20], "triangular", "cold")
-        |  cold_membership = cold_func(12)
-        |  cold_memberships = cold_func([12, 0, 3])
-        |  cold_func.plot()
-        |  plt.show()
     """
     # ----------
     # Attributes
@@ -74,8 +67,8 @@ class MembFunc:
             params: Parameters of membership function.
             membership: Indicates how membership should be calculated.
                 A string is interpreted as one of the :doc:`../membfunc_templates`.
-                A custom callable that takes an input value (a), an iterable
-                with each parameter (x), and returns a float can also be given.
+                A custom callable that takes an array-like of floats (a), an iterable
+                with each parameter (x), and returns membership can also be given.
                 An iterable of floats of the same shape as the given domain
                 parameters with corresponding membership values will be
                 interpreted as a custom piecewise linear function.
@@ -125,7 +118,7 @@ class MembFunc:
     # Methods
     # -------
 
-    def __call__(self, a: np.typing.ArrayLike) -> np.typing.ArrayLike:
+    def __call__(self, a: np.ndarray) -> np.ndarray:
         """Given a scalar or iterable input, returns membership values.
 
         Args:

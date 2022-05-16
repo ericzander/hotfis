@@ -1,9 +1,9 @@
-﻿FuzzyRule
-=========
+﻿MFGroupset
+==========
 
-.. currentmodule:: hotfis.rules.fuzzyrule
+.. currentmodule:: hotfis.membership.mfgroupset
 
-.. autoclass:: FuzzyRule
+.. autoclass:: MFGroupset
    :members:
    :show-inheritance:
    :inherited-members:
@@ -19,7 +19,12 @@
 
    .. autosummary::
    
-      ~FuzzyRule.evaluate
+      ~MFGroupset.__getitem__
+      ~MFGroupset.__iter__
+      ~MFGroupset.__setitem__
+      ~MFGroupset.items
+      ~MFGroupset.keys
+      ~MFGroupset.values
 
    
    

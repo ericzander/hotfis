@@ -1,8 +1,9 @@
 """Membership function groupset testing.
 """
-from hotfis.fuzzy import MFGroupset
+from hotfis import MFGroupset
 
 import matplotlib.pyplot as plt
+
 
 def main():
     gset = MFGroupset("objects/group1.txt")
@@ -12,6 +13,7 @@ def main():
 
     gset["heater"].plot(0, 1)
     plt.show()
+
 
 if __name__ == "__main__":
     main()

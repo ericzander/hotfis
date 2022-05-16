@@ -12,7 +12,7 @@ from typing import List
 import numpy as np
 import matplotlib.pyplot as plt
 
-from . import MembFunc
+from hotfis import MembFunc
 
 
 class MFGroup:

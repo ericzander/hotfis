@@ -4,7 +4,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-from hotfis.fuzzy.membfunc import MembFunc
+from hotfis.membership.membfunc import MembFunc
 
 
 def main():

@@ -1,10 +1,7 @@
 """Fuzzy rule testing.
 """
 
-import numpy as np
-
-from hotfis.fuzzy import MFGroupset
-from hotfis.rules import FuzzyRule
+from hotfis import MFGroupset, FuzzyRule
 
 
 def main():

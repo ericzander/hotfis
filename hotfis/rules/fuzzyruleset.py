@@ -5,13 +5,13 @@ from typing import List, Union, Set
 
 import os
 
-from .fuzzyrule import FuzzyRule
+from hotfis import FuzzyRule
 
 
 class FuzzyRuleset:
     """Ruleset to be used in fuzzy inference system evaluation.
 
-    FuzzyRulesets are collections of rules that may be evaluated in fuzzy
+    FuzzyRulesets are collections of rules that may be evaluated in membership
     inference.
 
     Attributes:

@@ -1,7 +1,7 @@
-﻿hotfis
-======
+membership
+==========
 
-.. automodule:: hotfis
+.. automodule:: hotfis.membership
 
    
    
@@ -28,8 +28,7 @@
    :template: custom-module-template.rst
    :recursive:
 
-   hotfis.fis
-   hotfis.membership
-   hotfis.rules
-   hotfis.tests
+   hotfis.membership.membfunc
+   hotfis.membership.mfgroup
+   hotfis.membership.mfgroupset
 

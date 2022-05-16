@@ -1,7 +1,7 @@
-mfgroup
-=======
+fis
+===
 
-.. automodule:: hotfis.fuzzy.mfgroup
+.. automodule:: hotfis.fis.fis
 
    
    
@@ -19,7 +19,7 @@ mfgroup
       :toctree:
       :template: custom-class-template.rst
    
-      MFGroup
+      FIS
    
    
 

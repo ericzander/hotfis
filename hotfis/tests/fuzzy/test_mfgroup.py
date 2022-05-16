@@ -3,8 +3,8 @@
 
 import matplotlib.pyplot as plt
 
-from hotfis.fuzzy.membfunc import MembFunc
-from hotfis.fuzzy.mfgroup import MFGroup
+from hotfis.membership.membfunc import MembFunc
+from hotfis.membership.mfgroup import MFGroup
 
 
 def main():
@@ -12,8 +12,8 @@ def main():
         MembFunc([0, 1], "leftedge"),
         MembFunc([0, 1, 2], "triangular"),
         MembFunc([1, 2], "rightedge"),
-        #MembFunc([0, 1, 3, 4, 8], [0.4, 0.9, 0.65, 0.9, 0.3]),
-        #MembFunc([0, 2, 4, 5, 9], [0.2, 0.4, 1.0, 0.65, 1.0])
+        #  MembFunc([0, 1, 3, 4, 8], [0.4, 0.9, 0.65, 0.9, 0.3]),
+        #  MembFunc([0, 2, 4, 5, 9], [0.2, 0.4, 1.0, 0.65, 1.0])
     ])
 
     for fn in fns:

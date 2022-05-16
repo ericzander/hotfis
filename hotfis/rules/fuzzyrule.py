@@ -4,9 +4,8 @@
 from typing import Tuple, List, Mapping
 
 import numpy as np
-from numpy.typing import ArrayLike
 
-from hotfis.fuzzy import MFGroupset
+from hotfis import MFGroupset
 
 
 # --------------------------
@@ -87,7 +86,7 @@ class FuzzyRule:
     # Methods
     # -------
 
-    def evaluate(self, inputs: Mapping[str, np.typing.ArrayLike],
+    def evaluate(self, inputs: Mapping[str, np.ndarray],
                  mf_groupset: MFGroupset) -> Tuple[str, str, float]:
         """Evaluates the rule given valid input values and compatible groupset.
 

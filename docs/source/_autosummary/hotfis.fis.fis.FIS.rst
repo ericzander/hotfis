@@ -1,9 +1,9 @@
-MembFunc
-========
+﻿FIS
+===
 
-.. currentmodule:: hotfis.fuzzy.membfunc
+.. currentmodule:: hotfis.fis.fis
 
-.. autoclass:: MembFunc
+.. autoclass:: FIS
    :members:
    :show-inheritance:
    :inherited-members:
@@ -19,18 +19,10 @@ MembFunc
 
    .. autosummary::
    
-      ~MembFunc.__call__
-      ~MembFunc.plot
 
    
    
 
    
-   
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~MembFunc.templates
    
    

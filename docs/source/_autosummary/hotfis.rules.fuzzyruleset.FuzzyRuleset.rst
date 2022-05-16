@@ -1,4 +1,4 @@
-FuzzyRuleset
+﻿FuzzyRuleset
 ============
 
 .. currentmodule:: hotfis.rules.fuzzyruleset
@@ -19,8 +19,8 @@ FuzzyRuleset
 
    .. autosummary::
    
-      ~FuzzyRuleset.save_outputs
-      ~FuzzyRuleset.save_req_inputs
+      ~FuzzyRuleset.get_input_names
+      ~FuzzyRuleset.get_outputs_name
 
    
    
