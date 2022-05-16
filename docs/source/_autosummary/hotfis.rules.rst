@@ -28,5 +28,6 @@ rules
    :template: custom-module-template.rst
    :recursive:
 
-   hotfis.rules.rule
+   hotfis.rules.fuzzyrule
+   hotfis.rules.fuzzyruleset
 

@@ -111,7 +111,10 @@ class MembFunc:
             self._build_generic(membership)
             self.fn_type = "custom"
 
-        # Save function name
+        # Create vectorized numpy function for applying sub-functions to inputs
+        self._apply_sub_fns = np.vectorize(lambda x, ind: self._sub_fns[ind](x))
+
+        # Save member function name
         if not name:
             self.name = f"fn{MembFunc._fn_count}"
             MembFunc._fn_count += 1
@@ -122,7 +125,7 @@ class MembFunc:
     # Methods
     # -------
 
-    def __call__(self, a: Union[float, Iterable[float]]) -> Union[float, np.ndarray]:
+    def __call__(self, a: np.typing.ArrayLike) -> np.typing.ArrayLike:
         """Given a scalar or iterable input, returns membership values.
 
         Args:
@@ -145,13 +148,9 @@ class MembFunc:
         else:
             indices = np.zeros(a.shape, dtype=np.int)
 
-        # If scalar input, apply corresponding sub-function
-        if indices.ndim == 0:
-            output = self._sub_fns[indices](a)
-            return np.squeeze(output)
+        # Apply appropriate sub-functions to each input based on indices
+        output = self._apply_sub_fns(a, indices)
 
-        # If array input, apply corresponding sub-function for each value
-        output = np.array([self._sub_fns[ind](val) for val, ind in zip(a, indices)])
         return output
 
     def plot(self, start: float, stop: float, num: int = 300,

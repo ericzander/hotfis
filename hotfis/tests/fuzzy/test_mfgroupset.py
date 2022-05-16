@@ -5,7 +5,7 @@ from hotfis.fuzzy import MFGroupset
 import matplotlib.pyplot as plt
 
 def main():
-    gset = MFGroupset("fuzzy_objects/ex_group1.txt")
+    gset = MFGroupset("objects/group1.txt")
 
     for group in gset:
         print(group.name)

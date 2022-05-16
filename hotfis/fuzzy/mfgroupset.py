@@ -20,6 +20,9 @@ class MFGroupset:
 
     Membership function groupsets are collections of membership function groups
     used for streamlined fuzzy inference system evaluation.
+
+    Attributes:
+        groups (Dict[str, MFGroup]): Dictionary of named groups.
     """
     # -----------
     # Constructor
@@ -30,7 +33,12 @@ class MFGroupset:
 
         Groupsets can be defined directly with a List of named membership
         function groups (MFGroups) or by passing the path to text file
-        formatted with template names and parameters as follows:
+        formatted with template names and parameters:
+
+        Args:
+            source: Path to file with membership function groups or list of MFGroups.
+
+        Example input file:
 
             |  **example_groups.txt**
 
@@ -44,8 +52,9 @@ class MFGroupset:
             |  *trapezoidal medium 0.1 0.2 0.8 0.9*
             |  *rightedge on 0.8 0.9*
 
-        Parameters:
-            source: Filepath with groups or list of membership function groups.
+        Example construction:
+            |  *gset1 = MFGroupset("example_groups.txt")*
+            |  *gset2 = MFGroupset([group1, group2])*
         """
         self.groups: Dict[str, MFGroup] = dict()
 
@@ -62,11 +71,11 @@ class MFGroupset:
     def __getitem__(self, group_name) -> MFGroup:
         """Supports subscripting with group name.
 
-        Example:
-            group = example_groupset["group_name"]
-
         Args:
             group_name: Name of the group to retrieve.
+
+        Example:
+            group = example_groupset["group_name"]
         """
         return self.groups[group_name]
 
@@ -75,11 +84,11 @@ class MFGroupset:
 
         Will overwrite a group if it already exists.
 
-        Example:
-            example_groupset["group_name"] = new_group
-
         Args:
             group: Group to save in groupset.
+
+        Example:
+            example_groupset["group_name"] = new_group
         """
         self.groups[group.name] = group
 
@@ -147,8 +156,7 @@ class MFGroupset:
 
     @staticmethod
     def __read_function(line: List[str]) -> MembFunc:
-        """
-        Helper function for reading a single membership function
+        """Helper function for reading a single membership function
         """
         fn_type = line[0]
         fn_name = line[1]
