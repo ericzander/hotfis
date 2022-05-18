@@ -11,9 +11,6 @@
    :exclude-members: __init__, __weakref__
 
    
-   .. rubric:: Constructor
-   .. automethod:: __init__
-
    
    .. rubric:: Methods
 
@@ -22,15 +19,5 @@
       ~MembFunc.__call__
       ~MembFunc.plot
 
-   
-   
-
-   
-   
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~MembFunc.templates
    
    

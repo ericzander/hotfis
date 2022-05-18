@@ -12,38 +12,41 @@ class FuzzyRuleset:
     """Ruleset to be used in fuzzy inference system evaluation.
 
     FuzzyRulesets are collections of rules that may be evaluated in membership
-    inference.
+    inference. FuzzyRulesets can be defined directly with a List of FuzzyRules
+    or by passing the path to text file with rules on separate lines.
+
+    Args:
+        source: Filepath to file with rules or list of FuzzyRules.
 
     Attributes:
         rules (List[FuzzyRule]): FuzzyRules comprising the ruleset.
         input_names (Set[str]): Names of required inputs (ex. {"food", "service"})
         output_names (Set[str]): Names of ruleset outputs (ex. {"tip"})
+
+    Example:
+        Method 1:
+
+        >>> ruleset1 = FuzzyRuleset([
+        >>>     FuzzyRule("if temperature is cold then heater is on"),
+        >>>     FuzzyRule("if temperature is warm then heater is medium"),
+        >>>     FuzzyRule("if temperature is hot then heater is off"),
+        >>> ])
+
+        Method 2::
+
+            === example_rules.txt ===
+
+            if service is poor or food is rancid then tip is cheap
+            if service is good then tip is average
+            if service is excellent and food is delicioius then tip is generous
+
+        >>> ruleset2 = FuzzyRuleset("example_rules.txt")
     """
     # -----------
     # Constructor
     # -----------
 
     def __init__(self, source: Union[str, List[FuzzyRule]]):
-        """Fuzzy ruleset constructor.
-
-        FuzzyRulesets can be defined directly with a List of FuzzyRules or by
-        passing the path to text file with rules on separate lines.
-
-        Args:
-            source: Filepath to file with rules or list of FuzzyRules.
-
-        Example input file:
-
-            |  **rules.txt**
-
-            |  *if service is poor or food is rancid then tip is cheap*
-            |  *if service is good then tip is average*
-            |  *if service is excellent and food is delicioius then tip is generous*
-
-        Example construction:
-            |  *rset1 = FuzzyRuleset("rules.txt")*
-            |  *rset2 = FuzzyRuleset([rule1, rule2])*
-        """
         # Read rules
         if isinstance(source, str):
             self._read_rules(source)
@@ -58,9 +61,16 @@ class FuzzyRuleset:
     # Methods
     # -------
 
-    def get_input_names(self) -> Set[str]:
+    def __iter__(self):
+        """Supports iteration through rules.
+
+        Example:
+            >>> for rule in ruleset:
         """
-        Returns a set of required input names.
+        return iter(self.rules)
+
+    def get_input_names(self) -> Set[str]:
+        """Returns a set of required input names.
         """
         input_names = set()
 
@@ -71,8 +81,7 @@ class FuzzyRuleset:
         return input_names
 
     def get_outputs_name(self) -> Set[str]:
-        """
-        Returns a set of output names.
+        """Returns a set of output names.
         """
         output_names = set()
 

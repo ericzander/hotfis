@@ -10,9 +10,6 @@
    :exclude-members: __init__, __weakref__
 
    {% block methods %}
-   .. rubric:: {{ _('Constructor') }}
-   .. automethod:: __init__
-
    {% if methods %}
    .. rubric:: {{ _('Methods') }}
 
@@ -30,16 +27,5 @@
       {%- endif -%}
    {%- endfor %}
 
-   {% endif %}
-   {% endblock %}
-
-   {% block attributes %}
-   {% if attributes %}
-   .. rubric:: {{ _('Attributes') }}
-
-   .. autosummary::
-   {% for item in attributes %}
-      ~{{ name }}.{{ item }}
-   {%- endfor %}
    {% endif %}
    {% endblock %}

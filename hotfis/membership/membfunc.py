@@ -3,34 +3,66 @@
 Membership functions calculate membership to a fuzzy set that is implicitly
 defined as the function is created.
 
-For example, some examples of different membership functions for temperature
-could be 'cold', 'warm', and 'hot'.
+For example, membership functions for temperature could be 'cold', 'warm',
+and 'hot'.
 """
 
+from __future__ import annotations  # Doc aliases
 from typing import Iterable, Union
+from numpy.typing import ArrayLike
 
 import numpy as np
 import matplotlib.pyplot as plt
 
 
 class MembFunc:
-    """Function that encompasses and can calculate membership to a fuzzy set.
+    """Membership function that can determine membership to a fuzzy set.
 
     Can be called as a function on both individual scalar inputs and
     iterable inputs such as lists and numpy arrays.
+
+    Args:
+        name: Name of membership function.
+        params: Parameters of membership function.
+        membership: Indicates how membership should be calculated.
+            A string is interpreted as one of the :doc:`../membfunc_templates`.
+            A custom callable that takes an array-like of floats (a), an iterable
+            with each parameter (x), and returns membership can also be given.
+            An iterable of floats of the same shape as the given domain
+            parameters with corresponding membership values will be
+            interpreted as a custom piecewise linear function.
 
     Attributes:
         params (np.ndarray[float]): Parameters of the membership function.
             These can be domain parameters for linear functions or unique
             parameters in custom functions.
+        name (str): Name of membership function.
+        fn_type (str): Name of template if used. Otherwise, 'custom'.
         center (float): Central or important point in domain of function
             used in built-in visualization and potentially as a zeroth order
             Takagi-Sugeno output. In linear functions, this defaults to the
             average of domain parameters corresponding to max membership values.
             For custom and Takagi-Sugeno output functions, this defaults to the
             first parameter.
-        name (str): Name of membership function.
-        fn_type (str): Name of template if used. Otherwise, 'custom'.
+        templates (Dict[str, Union[Iterable[float], callable, None]]):
+            Template name keys with iterables of membership values corresponding
+            to parameters, a callable that takes input and parameters and
+            returns membership, or None to indicate the function is to be
+            a Takagi Sugeno output function.
+
+    Examples:
+            >>> # Trapezoidal function with and without templates:
+            >>> fn1 = MembFunc([1, 2, 3, 4], "trapezoidal")
+            >>> fn2 = MembFunc([1, 2, 3, 4], [0, 1, 1, 0])
+
+            >>> # Standard gaussian function with and without templates:
+            >>> fn3 = MembFunc([0, 1], "gaussian")
+            >>> fn4 = MembFunc([0, 1], lambda a, x: exp(-((a - x[0]) ** 2 / (2 * x[1] ** 2)))
+
+            >>> # Zeroth, first, and second order Takagi-Sugeno-Kang output functions:
+            >>> fn5 = MembFunc([2.5], "tsk")     # --> 2.5
+            >>> fn6 = MembFunc([8, 2], "tsk")    # --> 8 + 2^2
+            >>> fn7 = MembFunc([1, 2, 3], "tsk") # --> 1 + 2^2 + 3^3
     """
     # ----------
     # Attributes
@@ -51,42 +83,15 @@ class MembFunc:
         "tsk": None
     }
 
-    # Function count used for naming functions when names are not supplied
-    _fn_count = 0
-
     # -----------
     # Constructor
     # -----------
 
-    def __init__(self, params: Iterable[float],
-                 membership: Union[str, callable, Iterable[float]],
-                 name: str = ""):
-        """Membership function constructor.
+    def __init__(self, name: str, params: Iterable[float],
+                 membership: Union[str, callable, Iterable[float]]):
+        # Save member function name
+        self.name = name
 
-        Args:
-            params: Parameters of membership function.
-            membership: Indicates how membership should be calculated.
-                A string is interpreted as one of the :doc:`../membfunc_templates`.
-                A custom callable that takes an array-like of floats (a), an iterable
-                with each parameter (x), and returns membership can also be given.
-                An iterable of floats of the same shape as the given domain
-                parameters with corresponding membership values will be
-                interpreted as a custom piecewise linear function.
-            name: Name of membership function. If not given, uses generic default.
-
-        Examples of a trapezoidal function with and without templates:
-            |  fn1 = MembFunc([1, 2, 3, 4], "trapezoidal")
-            |  fn2 = MembFunc([1, 2, 3, 4], [0, 1, 1, 0])
-
-        Example of the standard gaussian function with and without templates:
-            |  fn3 = MembFunc([0, 1], "gaussian")
-            |  fn4 = MembFunc([0, 1], lambda a, x: exp(-((a - x[0]) ** 2 / (2 * x[1] ** 2)))
-
-        Example of Takagi-Sugeno-Kang output functions:
-            |  fn5 = MembFunc([2.5], "tsk")     *--> 2.5*
-            |  fn6 = MembFunc([8, 2], "tsk")    *--> 8 + 2^2*
-            |  fn7 = MembFunc([1, 2, 3], "tsk") *--> 1 + 2^2 + 3^3*
-        """
         # Save parameters and default to linear
         self.params = np.array(params)
         self._is_linear = False
@@ -107,28 +112,26 @@ class MembFunc:
         # Create vectorized numpy function for applying sub-functions to inputs
         self._apply_sub_fns = np.vectorize(lambda x, ind: self._sub_fns[ind](x))
 
-        # Save member function name
-        if not name:
-            self.name = f"fn{MembFunc._fn_count}"
-            MembFunc._fn_count += 1
-        else:
-            self.name = name
-
     # -------
     # Methods
     # -------
 
-    def __call__(self, a: np.ndarray) -> np.ndarray:
+    def __call__(self, a: ArrayLike) -> ArrayLike:
         """Given a scalar or iterable input, returns membership values.
 
         Args:
-            a: Input scalar or array.
+            a: Input scalar, iterable, numpy array, or other array-like.
 
         Returns:
             Scalar or array of membership to the function depending on input.
 
         Raises:
             NotImplemented: TSK output functions cannot determine membership.
+
+        Example:
+            >>> fn = MembFunc("cold", [30, 40], "leftedge")
+            >>> float_membership = fn(35)
+            >>> list_memberships = fn([32, 35, 21, 68])
         """
         if self.fn_type == "tsk":
             raise NotImplemented("TSK output functions can't determine membership.")
@@ -227,7 +230,7 @@ class MembFunc:
         self._is_linear = True
 
         # Save center point used in zeroth order tsk evaluation and plotting
-        self.center = np.mean(self.params[np.where(memb_vals == memb_vals.max())])
+        self.center = np.mean(self.params[np.where(memb_vals == np.max(memb_vals))])
 
     def _build_special(self, memb_func: callable):
         """Builds special membership function from template or given callable.

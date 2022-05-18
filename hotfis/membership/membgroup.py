@@ -15,42 +15,26 @@ import matplotlib.pyplot as plt
 from hotfis import MembFunc
 
 
-class MFGroup:
+class MembGroup:
     """A collection of membership functions corresponding to fuzzy sets.
+
+    Args:
+        fns: A list of MembFuncs stored in the group.
+        name: The name of the group. If not given, uses a generic name.
 
     Attributes:
         fns (Dict[MembFunc]): Dictionary of MembFuncs stored in the group.
             Their names are keys and the objects themselves are values.
         name (str): The name of the group. If not given, uses a generic name.
     """
-    # ----------
-    # Attributes
-    # ----------
-
-    # Counter used for naming groups when names are not supplied
-    _group_count = 0
-
     # -----------
     # Constructor
     # -----------
 
-    def __init__(self, fns: List[MembFunc], name: str = ""):
-        """Membership function group constructor.
-
-        Supports plotting of each function on a created figure.
-
-        Args:
-            fns: A list of MembFuncs stored in the group.
-            name: The name of the group. If not given, uses a generic name.
-        """
+    def __init__(self, name: str, fns: List[MembFunc]):
+        # Save group name and functions
+        self.name = name
         self.fns = {fn.name: fn for fn in fns}
-
-        # Save group name
-        if not name:
-            self.name = f"group{MFGroup._group_count}"
-            MFGroup._group_count += 1
-        else:
-            self.name = name
 
     # -------
     # Methods
@@ -63,7 +47,7 @@ class MFGroup:
             fn_name: Name of the function to retrieve.
 
         Example:
-            fn = example_group["fn_name"]
+            >>> fn = example_group["fn_name"]
         """
         return self.fns[fn_name]
 
@@ -76,7 +60,7 @@ class MFGroup:
             fn: Function to save in group.
 
         Example:
-            example_group["fn_name"] = new_fn
+            >>> example_group["fn_name"] = new_fn
         """
         self.fns[fn.name] = fn
 
@@ -84,8 +68,7 @@ class MFGroup:
         """Can iterate through each membership function.
 
         Example:
-            for fn in example_group:
-                ...
+            >>> for fn in example_group:
         """
         return iter(self.fns.values())
 

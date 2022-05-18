@@ -1,0 +1,3 @@
+if temperature is cold then heater is on
+if temperature is warm then heater is medium
+if temperature is hot then heater is off

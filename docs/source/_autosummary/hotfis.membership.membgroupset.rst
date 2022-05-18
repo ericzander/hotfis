@@ -1,7 +1,7 @@
-mfgroup
-=======
+membgroupset
+============
 
-.. automodule:: hotfis.membership.mfgroup
+.. automodule:: hotfis.membership.membgroupset
 
    
    
@@ -19,7 +19,7 @@ mfgroup
       :toctree:
       :template: custom-class-template.rst
    
-      MFGroup
+      MembGroupset
    
    
 

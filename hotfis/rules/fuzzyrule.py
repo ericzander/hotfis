@@ -1,11 +1,13 @@
 """Contains FuzzyRule definition.
 """
 
+from __future__ import annotations  # Doc aliases
 from typing import Tuple, List, Mapping
+from numpy.typing import ArrayLike
 
 import numpy as np
 
-from hotfis import MFGroupset
+from hotfis import MembGroupset
 
 
 # --------------------------
@@ -28,9 +30,9 @@ class _Antecedent:
         self.mf_name = mf_name
         self.is_and = is_and
 
-    def eval(self, input_val: np.ndarray, mf_groupset: MFGroupset) -> float:
-        # Calculate membership to respective function in group
-        return mf_groupset[self.mf_group_name][self.mf_name](input_val)
+    def eval(self, x: ArrayLike, mf_groupset: MembGroupset) -> ArrayLike:
+        # Calculate membership(s) to respective function in group
+        return mf_groupset[self.mf_group_name][self.mf_name](x)
 
 
 class _Consequent:
@@ -52,31 +54,24 @@ class _Consequent:
 class FuzzyRule:
     """Fuzzy rule used to comprise rulesets in fuzzy inference systems.
 
-    Rules are constructed with natural language in the form of strings using
-    the names of membership function objects.
+    Rules can be constructed with natural language using the names of
+    membership function groups and functions.
+
+    Args:
+        rule_text: A rule as a string.
 
     Attributes:
         antecedents (List[_Antecedent]): List of rule antecedents.
         consequent (_Consequent): Rule consequent.
+
+    Example:
+        >>> rule = FuzzyRule("if temperature is cold then heater is on")
     """
     # -----------
     # Constructor
     # -----------
 
     def __init__(self, rule_text: str):
-        """Fuzzy rule constructor.
-
-        Constructs a rule by parsing natural language as follows.
-
-        Args:
-            rule_text: A rule as a string.
-
-        Format:
-            |  *"if {group} is {membfunc} then {group} is {membfunc}"*
-
-        Example:
-            |  *rule = FuzzyRule("if temperature is cold then heater is on")*
-        """
         antecedents, consequent = self._read_rule(rule_text)
 
         self.antecedents = antecedents
@@ -86,8 +81,8 @@ class FuzzyRule:
     # Methods
     # -------
 
-    def evaluate(self, inputs: Mapping[str, np.ndarray],
-                 mf_groupset: MFGroupset) -> Tuple[str, str, float]:
+    def evaluate(self, x: Mapping[str, ArrayLike],
+                 mf_groupset: MembGroupset) -> Tuple[str, str, float]:
         """Evaluates the rule given valid input values and compatible groupset.
 
         The inputs can be dictionaries or similar data structures where the
@@ -96,7 +91,7 @@ class FuzzyRule:
         values.
 
         Args:
-            inputs: Input group names and values.
+            x: Input group names and values.
             mf_groupset: groupset of required membership function groups.
 
         Returns:
@@ -107,7 +102,7 @@ class FuzzyRule:
         for antecedent in self.antecedents:
             # Calculate antecedent membership
             try:
-                ante_input = np.asarray(inputs[antecedent.mf_group_name])
+                ante_input = np.asarray(x[antecedent.mf_group_name])
                 membership = antecedent.eval(ante_input, mf_groupset)
             except KeyError:
                 err_str = f"Rule - Failed to find an input or membership function " \

@@ -28,5 +28,5 @@ tests
    :template: custom-module-template.rst
    :recursive:
 
-   hotfis.tests.fuzzy
+   hotfis.tests.membership
 

@@ -12,51 +12,64 @@ from typing import List, Dict, Union
 
 import os
 
-from hotfis import MFGroup, MembFunc
+from hotfis import MembGroup, MembFunc
 
 
-class MFGroupset:
-    """Collection of membership function groups for FIS evaluation.
+class MembGroupset:
+    """A collection of membership function groups for use in FIS evaluation.
 
     Membership function groupsets are collections of membership function groups
     used for streamlined membership inference system evaluation.
 
+    Groupsets can be defined directly with a List of named membership function
+    groups. Alternatively, they may be defined by passing the path to text file
+    formatted with template names and parameters.
+
+    Args:
+        source: Path to file with membership function groups or MembGroups.
+
     Attributes:
-        groups (Dict[str, MFGroup]): Dictionary of named groups.
+        groups (Dict[str, MembGroup]): Dictionary of named groups.
+
+    Example:
+        Method 1:
+
+        >>> groupset1 = MembGroupset([
+        >>>     MembGroup("temperature", [
+        >>>         MembFunc("cold", [30, 40], "leftedge", ),
+        >>>         MembFunc("warm", [30, 40, 60, 70], "trapezoidal"),
+        >>>         MembFunc("hot", [60, 70], "rightedge")
+        >>>     ]),
+        >>>     MembGroup("heater", [
+        >>>         MembFunc("off", [0.1, 0.2], "leftedge"),
+        >>>         MembFunc("medium", [0.1, 0.2, 0.8, 0.9], "trapezoidal"),
+        >>>         MembFunc("on", [0.8, 0.9], "rightedge")
+        >>>     ]),
+        >>> ])
+
+        Method 2::
+
+            === example_groups.txt ===
+
+            group temperature
+            leftedge cold 30 40
+            trapezoidal warm 30 40 60 70
+            rightedge hot 60 70
+
+            group heater
+            leftedge off 0.1 0.2
+            trapezoidal medium 0.1 0.2 0.8 0.9
+            rightedge on 0.8 0.9
+
+        >>> groupset2 = MembGroupset("example_groups.txt")
+
     """
     # -----------
     # Constructor
     # -----------
 
-    def __init__(self, source: Union[str, List[MFGroup]]):
-        """Membership function groupset constructor.
-
-        Groupsets can be defined directly with a List of named membership
-        function groups (MFGroups) or by passing the path to text file
-        formatted with template names and parameters:
-
-        Args:
-            source: Path to file with membership function groups or list of MFGroups.
-
-        Example input file:
-
-            |  **example_groups.txt**
-
-            |  *group temperature*
-            |  *leftedge cold 30 40*
-            |  *trapezoidal warm 30 40 60 70*
-            |  *rightedge hot 60 70*
-
-            |  *group heater*
-            |  *leftedge off 0.1 0.2*
-            |  *trapezoidal medium 0.1 0.2 0.8 0.9*
-            |  *rightedge on 0.8 0.9*
-
-        Example construction:
-            |  *gset1 = MFGroupset("example_groups.txt")*
-            |  *gset2 = MFGroupset([group1, group2])*
-        """
-        self.groups: Dict[str, MFGroup] = dict()
+    def __init__(self, source: Union[str, List[MembGroup]]):
+        self.groups: Dict[str, MembGroup] = dict()
 
         # Read groups from given file or list of groups
         if isinstance(source, str):
@@ -68,18 +81,18 @@ class MFGroupset:
     # Methods
     # -------
 
-    def __getitem__(self, group_name) -> MFGroup:
+    def __getitem__(self, group_name) -> MembGroup:
         """Supports subscripting with group name.
 
         Args:
             group_name: Name of the group to retrieve.
 
         Example:
-            group = example_groupset["group_name"]
+            >>> group = example_groupset["group_name"]
         """
         return self.groups[group_name]
 
-    def __setitem__(self, group: MFGroup):
+    def __setitem__(self, group: MembGroup):
         """Supports group assignment with subscripting.
 
         Will overwrite a group if it already exists.
@@ -88,7 +101,7 @@ class MFGroupset:
             group: Group to save in groupset.
 
         Example:
-            example_groupset["group_name"] = new_group
+            >>> example_groupset["group_name"] = new_group
         """
         self.groups[group.name] = group
 
@@ -96,8 +109,7 @@ class MFGroupset:
         """Can iterate through each group.
 
         Example:
-            for group in example_groupset:
-                ...
+            >>> for group in example_groupset:
         """
         return iter(self.groups.values())
 
@@ -139,7 +151,7 @@ class MFGroupset:
 
             # Evaluate line
             if not line:
-                self.groups[name] = MFGroup(functions, name)
+                self.groups[name] = MembGroup(name, functions)
                 name = None
                 functions = []
             elif line[0] == "group":
@@ -152,7 +164,7 @@ class MFGroupset:
 
         # Wrap-up
         if name and functions:
-            self.groups[name] = MFGroup(functions, name)
+            self.groups[name] = MembGroup(name, functions)
 
     @staticmethod
     def __read_function(line: List[str]) -> MembFunc:
@@ -162,4 +174,4 @@ class MFGroupset:
         fn_name = line[1]
 
         # Pass function type, name, and parameters as floats to create_mf
-        return MembFunc([float(x) for x in line[2:]], fn_type, fn_name)
+        return MembFunc(fn_name, [float(x) for x in line[2:]], fn_type)

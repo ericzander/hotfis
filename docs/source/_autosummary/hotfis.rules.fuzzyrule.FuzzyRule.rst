@@ -11,9 +11,6 @@
    :exclude-members: __init__, __weakref__
 
    
-   .. rubric:: Constructor
-   .. automethod:: __init__
-
    
    .. rubric:: Methods
 
@@ -21,9 +18,5 @@
    
       ~FuzzyRule.evaluate
 
-   
-   
-
-   
    
    
