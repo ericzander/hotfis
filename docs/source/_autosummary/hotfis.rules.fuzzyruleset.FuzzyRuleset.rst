@@ -1,4 +1,4 @@
-﻿FuzzyRuleset
+FuzzyRuleset
 ============
 
 .. currentmodule:: hotfis.rules.fuzzyruleset

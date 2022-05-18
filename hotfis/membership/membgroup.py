@@ -20,12 +20,12 @@ class MembGroup:
 
     Args:
         fns: A list of MembFuncs stored in the group.
-        name: The name of the group. If not given, uses a generic name.
+        name: The name of the group.
 
     Attributes:
         fns (Dict[MembFunc]): Dictionary of MembFuncs stored in the group.
             Their names are keys and the objects themselves are values.
-        name (str): The name of the group. If not given, uses a generic name.
+        name (str): The name of the group.
     """
     # -----------
     # Constructor
@@ -45,9 +45,6 @@ class MembGroup:
 
         Args:
             fn_name: Name of the function to retrieve.
-
-        Example:
-            >>> fn = example_group["fn_name"]
         """
         return self.fns[fn_name]
 
@@ -58,17 +55,11 @@ class MembGroup:
 
         Args:
             fn: Function to save in group.
-
-        Example:
-            >>> example_group["fn_name"] = new_fn
         """
         self.fns[fn.name] = fn
 
     def __iter__(self):
         """Can iterate through each membership function.
-
-        Example:
-            >>> for fn in example_group:
         """
         return iter(self.fns.values())
 

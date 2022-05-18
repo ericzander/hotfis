@@ -17,6 +17,8 @@
    .. autosummary::
    
       ~FIS.eval_membership
+      ~FIS.raw_to_mamdani
+      ~FIS.raw_to_tsk
 
    
    

@@ -1,4 +1,4 @@
-﻿MembFunc
+MembFunc
 ========
 
 .. currentmodule:: hotfis.membership.membfunc

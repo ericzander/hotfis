@@ -62,7 +62,6 @@ class MembGroupset:
             rightedge on 0.8 0.9
 
         >>> groupset2 = MembGroupset("example_groups.txt")
-
     """
     # -----------
     # Constructor
@@ -86,9 +85,6 @@ class MembGroupset:
 
         Args:
             group_name: Name of the group to retrieve.
-
-        Example:
-            >>> group = example_groupset["group_name"]
         """
         return self.groups[group_name]
 
@@ -99,17 +95,11 @@ class MembGroupset:
 
         Args:
             group: Group to save in groupset.
-
-        Example:
-            >>> example_groupset["group_name"] = new_group
         """
         self.groups[group.name] = group
 
     def __iter__(self):
         """Can iterate through each group.
-
-        Example:
-            >>> for group in example_groupset:
         """
         return iter(self.groups.values())
 

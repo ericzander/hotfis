@@ -1,4 +1,4 @@
-﻿MembGroupset
+MembGroupset
 ============
 
 .. currentmodule:: hotfis.membership.membgroupset

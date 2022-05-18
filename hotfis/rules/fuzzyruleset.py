@@ -63,9 +63,6 @@ class FuzzyRuleset:
 
     def __iter__(self):
         """Supports iteration through rules.
-
-        Example:
-            >>> for rule in ruleset:
         """
         return iter(self.rules)
 

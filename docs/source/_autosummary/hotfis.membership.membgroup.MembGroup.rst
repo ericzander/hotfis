@@ -1,4 +1,4 @@
-﻿MembGroup
+MembGroup
 =========
 
 .. currentmodule:: hotfis.membership.membgroup

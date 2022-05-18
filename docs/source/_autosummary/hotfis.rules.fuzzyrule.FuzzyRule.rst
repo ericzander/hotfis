@@ -1,4 +1,4 @@
-﻿FuzzyRule
+FuzzyRule
 =========
 
 .. currentmodule:: hotfis.rules.fuzzyrule

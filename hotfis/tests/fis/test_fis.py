@@ -32,6 +32,8 @@ def main():
         ])
     )
 
+    membs = fis.eval_membership({"temperature": [32, 56, 77, 55, 33, 21, 90]})
+
     print("done")
 
 

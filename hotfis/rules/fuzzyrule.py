@@ -91,7 +91,9 @@ class FuzzyRule:
         values.
 
         Args:
-            x: Input group names and values.
+            x: Input values as dictionary with groups as keys and a scalar or
+                array-like as values. Also supports other data structures
+                accessible by group name.
             mf_groupset: groupset of required membership function groups.
 
         Returns:

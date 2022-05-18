@@ -33,10 +33,10 @@ class MembFunc:
             interpreted as a custom piecewise linear function.
 
     Attributes:
+        name (str): Name of membership function.
         params (np.ndarray[float]): Parameters of the membership function.
             These can be domain parameters for linear functions or unique
             parameters in custom functions.
-        name (str): Name of membership function.
         fn_type (str): Name of template if used. Otherwise, 'custom'.
         center (float): Central or important point in domain of function
             used in built-in visualization and potentially as a zeroth order
@@ -45,10 +45,10 @@ class MembFunc:
             For custom and Takagi-Sugeno output functions, this defaults to the
             first parameter.
         templates (Dict[str, Union[Iterable[float], callable, None]]):
-            Template name keys with iterables of membership values corresponding
-            to parameters, a callable that takes input and parameters and
-            returns membership, or None to indicate the function is to be
-            a Takagi Sugeno output function.
+            Static dictionary with template names as keys with iterables of
+            membership values corresponding to parameters, a callable that
+            takes input and parameters and returns membership, or None to
+            indicate the function is to be a Takagi Sugeno output function.
 
     Examples:
             >>> # Trapezoidal function with and without templates:
@@ -60,9 +60,9 @@ class MembFunc:
             >>> fn4 = MembFunc([0, 1], lambda a, x: exp(-((a - x[0]) ** 2 / (2 * x[1] ** 2)))
 
             >>> # Zeroth, first, and second order Takagi-Sugeno-Kang output functions:
-            >>> fn5 = MembFunc([2.5], "tsk")     # --> 2.5
-            >>> fn6 = MembFunc([8, 2], "tsk")    # --> 8 + 2^2
-            >>> fn7 = MembFunc([1, 2, 3], "tsk") # --> 1 + 2^2 + 3^3
+            >>> fn5 = MembFunc([2.5], "tsk")      # --> 2.5
+            >>> fn6 = MembFunc([8, 2], "tsk")     # --> 8 + 2^2
+            >>> fn7 = MembFunc([1, 2, 3], "tsk")  # --> 1 + 2^2 + 3^3
     """
     # ----------
     # Attributes
