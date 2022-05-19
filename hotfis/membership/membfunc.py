@@ -109,9 +109,6 @@ class MembFunc:
             self._build_generic(membership)
             self.fn_type = "custom"
 
-        # Create vectorized numpy function for applying sub-functions to inputs
-        self._apply_sub_fns = np.vectorize(lambda x, ind: self._sub_fns[ind](x))
-
     # -------
     # Methods
     # -------
@@ -136,7 +133,7 @@ class MembFunc:
         if self.fn_type == "tsk":
             raise NotImplemented("TSK output functions can't determine membership.")
 
-        a = np.asarray(a)
+        a = np.asarray(a, dtype=float)
 
         # Get sub-function indices based on input's position in domain
         if self._is_linear:
@@ -144,24 +141,26 @@ class MembFunc:
         else:
             indices = np.zeros(a.shape, dtype=np.int)
 
+        # One-hot encode sub-function indices and reshape for np.piecewise
+        conditions = np.eye(len(self._sub_fns))[indices].astype(bool)
+        conditions = np.swapaxes(conditions, 0, -1)
+
         # Apply appropriate sub-functions to each input based on indices
-        output = self._apply_sub_fns(a, indices)
+        output = np.piecewise(a, conditions, self._sub_fns)
 
         return output
 
-    def plot(self, start: float, stop: float, num: int = 300,
-             color: str = "black", **plt_kwargs):
+    def plot(self, num: int = 300, color: str = "black", **plt_kwargs):
         """Plots the function for a given domain using matplotlib.
 
         Args:
-            start: Start of domain to plot.
-            stop: End of domain to plot.
             num: Number of points to find membership to for plotting.
             color: matplotlib.pyplot color of the line representing the function.
             **plt_kwargs: matplotlib.pyplot plotting options.
         """
-        domain = np.linspace(start, stop, num)
-        plt.plot(domain, self(domain), color=color, **plt_kwargs)
+        domain = np.linspace(self.domain[0], self.domain[1], num)
+        codomain = self(domain)
+        plt.plot(domain, codomain, color=color, **plt_kwargs)
 
         # Decorate
         plt.ylim(0.0, 1.05)
@@ -229,6 +228,9 @@ class MembFunc:
         self._sub_fns = self.__create_linear_subfunctions(memb_vals)
         self._is_linear = True
 
+        # Save function min and max
+        self.domain = (np.min(self.params), np.max(self.params))
+
         # Save center point used in zeroth order tsk evaluation and plotting
         self.center = np.mean(self.params[np.where(memb_vals == np.max(memb_vals))])
 
@@ -243,6 +245,10 @@ class MembFunc:
 
         # Save first parameter as center
         self.center = self.params[0]
+
+    def _apply_subfunction(self, a, ind):
+        output = self._sub_fns[ind](a)
+        return output
 
     def __create_linear_subfunctions(self, memb_vals: np.ndarray) -> np.ndarray:
         """Creates an array of linear sub-functions to comprise the function.

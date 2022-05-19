@@ -6,6 +6,7 @@ from typing import Union, Mapping, Dict, Tuple
 from numpy.typing import ArrayLike
 
 import numpy as np
+import matplotlib.pyplot as plt
 
 from hotfis import MembFunc, MembGroup, MembGroupset, FuzzyRule, FuzzyRuleset
 
@@ -86,10 +87,12 @@ class FIS:
         self.ruleset = FuzzyRuleset(ruleset) if isinstance(ruleset, str) else ruleset
 
     # ------------------
-    # Evaluation Methods
+    # Membership Methods
     # ------------------
 
-    def eval_membership(self, x: Mapping[str, ArrayLike]) -> Dict[str, Dict[str, float]]:
+    # Membership Evaluation
+
+    def eval_membership(self, x: Mapping[str, ArrayLike]) -> Dict[str, Dict[str, ArrayLike]]:
         """Given input, evaluates memberships to all output functions.
 
         Args:
@@ -120,15 +123,41 @@ class FIS:
 
             # Take max if old mf value exists or just save if it does not
             if fn in all_outputs[group]:
-                prev = all_outputs[group][fn]
-                all_outputs[group][fn] = max(prev, output)
+                all_outputs[group][fn] = max(all_outputs[group][fn], output)
             else:
                 all_outputs[group][fn] = output
 
         return all_outputs
 
-    def raw_to_mamdani(self, memberships: Dict[str, Dict[str, float]],
-                       num_points: int = 100) -> Dict[str, Tuple[np.ndarray, np.ndarray]]:
+    # ---------------
+    # Mamdani Methods
+    # ---------------
+
+    def eval_mamdani(self, x: Mapping[str, ArrayLike],
+                     num_points: int = 100) -> Dict[str, Tuple[np.ndarray, np.ndarray]]:
+        """Evaluates input and returns fuzzified Mamdani output.
+
+        Args:
+            x: Input values as dictionary with input groups names as keys and
+                a scalar or array-like as values. Also supports other data
+                structures similarly accessible by input group name.
+            num_points: Number of points to evaluate when building output.
+
+        Returns:
+            Dictionary with output group names as keys and values that are
+            tuples with two arrays. The first is the domain of the
+            membership function. The second is a corresponding codomain
+            for each input value. See the defuzz_mamdani method for
+            converting a domain and codomain(s) into scalar inputs.
+        """
+        # Evaluate entire ruleset for all consequent memberships
+        outputs_raw = self.eval_membership(x)
+
+        # Convert to Mamdani output functions and return
+        return self.convert_to_mamdani(outputs_raw, num_points)
+
+    def convert_to_mamdani(self, memberships: Dict[str, Dict[str, ArrayLike]],
+                           num_points: int = 100) -> Dict[str, Tuple[np.ndarray, np.ndarray]]:
         """Converts membership values to fuzzified Mamdani output.
 
         Args:
@@ -139,12 +168,80 @@ class FIS:
 
         Returns:
             Dictionary with output group names as keys and values that are
-            dictionaries with membership function names as keys and memberships
-            as values.
+            dictionaries with membership function names as keys and an array
+            with arrays of memberships as for each input value.
         """
-        pass
+        outputs = dict()
 
-    def raw_to_tsk(self, memberships: Dict[str, Dict[str, float]]) -> Dict[str, float]:
+        # For each output group
+        for group_name in memberships:
+            # Get output group and domain for evaluation
+            group = self.groupset[group_name]
+            domain = np.linspace(group.domain[0], group.domain[1], num_points)
+
+            # Initialize membership of Mamdani output to zero
+            codomain = 0.0
+
+            # For each output function's calculated membership
+            for fn_name, fn_alpha in memberships[group_name].items():
+                # Get output membership function values for each point in domain
+                fn_vals = group[fn_name](domain)
+
+                # Take whichever is less, function membership value or membership
+                vals = np.vectorize(lambda x: np.minimum(fn_vals, x),
+                                    signature="()->(n)")(fn_alpha)
+
+                # Take max of output membership so far
+                codomain = np.maximum(codomain, vals)
+
+            # Save output domain and codomain
+            outputs[group_name] = (domain, np.squeeze(codomain))
+
+        return outputs
+
+    @staticmethod
+    def defuzz_mamdani(domain: np.ndarray, codomain: np.ndarray) -> ArrayLike:
+        """Defuzzifies Mamdani output and returns scalar value(s).
+
+        Args:
+            domain: Domain of Mamdani output.
+            codomain: Output memberships corresponding to domain.
+
+        Returns:
+            Defuzzified output(s).
+        """
+        top = codomain * domain
+        top = np.sum(np.atleast_2d(top), axis=-1)
+        bot = np.sum(np.atleast_2d(codomain), axis=-1)
+
+        return top / bot
+
+    @staticmethod
+    def plot_mamdani(domain: np.ndarray, codomain: np.ndarray):
+        """Plots output of Mamdani inference.
+
+        Can be used in conjunction with an output membership function group's
+        plot method to visualize both the group and inference output.
+
+        Args:
+            domain: Domain values of output as returned by Mamdani eval.
+            codomain: Output membership values as returned by Mamdani eval.
+        """
+        # Plot line
+        plt.plot(domain, codomain, ls=":", color="black")
+
+        # Plot shading below function
+        plt.fill_between(domain, codomain, color="grey", alpha=0.2)
+
+        # Plot line indicating defuzzified output
+        defuzzed = FIS.defuzz_mamdani(domain, codomain)
+        plt.axvline(defuzzed, ls=":", color="black", ymin=0.05, ymax=0.95)
+
+    # --------------------------
+    # Takagi-Sugeno-Kang Methods
+    # --------------------------
+
+    def convert_to_tsk(self, memberships: Dict[str, Dict[str, float]]) -> Dict[str, float]:
         """Converts membership values to defuzzified Takagi-Sugeno output.
 
         Args:
@@ -156,3 +253,7 @@ class FIS:
             Dictionary with output group names as keys and memberships as values.
         """
         pass
+
+    # --------------
+    # Helper Methods
+    # --------------

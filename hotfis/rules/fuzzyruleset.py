@@ -73,7 +73,7 @@ class FuzzyRuleset:
 
         for rule in self.rules:
             for ante in rule.antecedents:
-                input_names.add(ante.mf_group_name)
+                input_names.add(ante.group_name)
 
         return input_names
 
@@ -83,7 +83,7 @@ class FuzzyRuleset:
         output_names = set()
 
         for rule in self.rules:
-            output_names.add(rule.consequent.mf_group_name)
+            output_names.add(rule.consequent.group_name)
 
         return output_names
 

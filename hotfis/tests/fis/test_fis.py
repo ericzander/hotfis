@@ -3,6 +3,8 @@
 
 import hotfis as hf
 
+import matplotlib.pyplot as plt
+
 
 def main():
     # Fuzzy inference system
@@ -11,7 +13,7 @@ def main():
         hf.MembGroupset([
             # Input group
             hf.MembGroup("temperature", [
-                hf.MembFunc("cold", [30, 40], "leftedge", ),
+                hf.MembFunc("cold", [30, 40], "leftedge"),
                 hf.MembFunc("warm", [30, 40, 60, 70], "trapezoidal"),
                 hf.MembFunc("hot", [60, 70], "rightedge")
             ]),
@@ -32,7 +34,13 @@ def main():
         ])
     )
 
-    membs = fis.eval_membership({"temperature": [32, 56, 77, 55, 33, 21, 90]})
+    output = fis.eval_mamdani({"temperature": [[32, 56], [77, 63]]})
+    domain, codomains = output["heater"]
+    defuzzed = fis.defuzz_mamdani(domain, codomains)
+
+    fis.groupset["heater"].plot()
+    fis.plot_mamdani(domain, codomains[1][1])
+    plt.show()
 
     print("done")
 

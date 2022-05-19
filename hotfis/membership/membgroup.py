@@ -7,7 +7,7 @@ An example of a group could be 'temperature', comprised of membership functions
 such as 'cold', 'warm', and 'hot'.
 """
 
-from typing import List
+from typing import List, Tuple
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -35,6 +35,9 @@ class MembGroup:
         # Save group name and functions
         self.name = name
         self.fns = {fn.name: fn for fn in fns}
+
+        # Get domain range used in Mamdani evaluation
+        self.domain = self.get_domain()
 
     # -------
     # Methods
@@ -78,17 +81,30 @@ class MembGroup:
         """
         return self.fns.values()
 
-    def plot(self, start: float, stop: float, num: int = 500,
-             stagger_labels: bool = False, color: str = "black",
-             **plt_kwargs):
+    def get_domain(self) -> Tuple[float, float]:
+        """Finds and returns tuple with domain boundaries for membership.
+
+        Returns:
+            Minimum and maximum domain values respectively.
+        """
+        min_val = float("inf")
+        max_val = float("-inf")
+
+        for fn in self:
+            min_val = min(min_val, fn.domain[0])
+            max_val = max(max_val, fn.domain[1])
+
+        return min_val, max_val
+
+    def plot(self, num_points: int = 500, stagger_labels: bool = False,
+             line_color: str = "black", fill_alpha=0.1, **plt_kwargs):
         """Plots every function in the group in a new figure.
 
         Args:
-            start: Domain start.
-            stop: Domain end.
-            num: Number of points to plot for each function.
+            num_points: Number of points to plot for each function.
             stagger_labels: Whether to stagger function label names on top.
-            color: matplotlib.pyplot color of the line representing the function.
+            line_color: matplotlib.pyplot color of the line representing the function.
+            fill_alpha: Alpha of function color. Set to 0.0 for no fill.
             **plt_kwargs: matplotlib.pyplot plotting options.
         """
         # Create figure twin x axes (top one for function names)
@@ -97,15 +113,17 @@ class MembGroup:
         ax2 = ax1.twiny()
 
         # Create domain and xticks
-        domain = np.linspace(start, stop, num)
-        xlim = (start, stop)
+        domain = np.linspace(self.domain[0], self.domain[1], num_points)
+        xlim = self.domain
         xticks = dict()
 
         # For each function, plot and update xticks
         for fn in self:
             # Plot function if not TSK
             try:
-                ax1.plot(domain, fn(domain), color=color, **plt_kwargs)
+                codomain = fn(domain)
+                ax1.plot(domain, codomain, color=line_color, **plt_kwargs)
+                ax1.fill_between(domain, codomain, alpha=fill_alpha)
 
                 # Update function xtick labels
                 xtick_val = fn.center

@@ -17,7 +17,7 @@ def main():
     for fn in fns:
         print(fn.center)
 
-    fns.plot(-1, 10)
+    fns.plot()
     plt.show()
 
 

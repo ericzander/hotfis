@@ -21,30 +21,30 @@ class _Antecedent:
     given an input.
 
     Attributes:
-        mf_group_name (str): Membership group name (ex: "temp").
-        mf_name (str): Membership function name (ex: "cold").
+        group_name (str): Membership group name (ex: "temp").
+        fn_name (str): Membership function name (ex: "cold").
         is_and (bool): Whether is antecedent is "and" (T) or "or" (F).
     """
-    def __init__(self, mf_group_name: str, mf_name: str, is_and: bool):
-        self.mf_group_name = mf_group_name
-        self.mf_name = mf_name
+    def __init__(self, group_name: str, fn_name: str, is_and: bool):
+        self.group_name = group_name
+        self.fn_name = fn_name
         self.is_and = is_and
 
-    def eval(self, x: ArrayLike, mf_groupset: MembGroupset) -> ArrayLike:
+    def eval(self, x: ArrayLike, groupset: MembGroupset) -> ArrayLike:
         # Calculate membership(s) to respective function in group
-        return mf_groupset[self.mf_group_name][self.mf_name](x)
+        return groupset[self.group_name][self.fn_name](x)
 
 
 class _Consequent:
     """Contains info describing the rule's single consequent.
 
     Attributes:
-        mf_group_name (str): Membership group name (ex: "heater").
-        mf_name (str): Membership function name (ex: "on").
+        group_name (str): Membership group name (ex: "heater").
+        fn_name (str): Membership function name (ex: "on").
     """
-    def __init__(self, mf_group_name: str, mf_name: str):
-        self.mf_group_name = mf_group_name
-        self.mf_name = mf_name
+    def __init__(self, group_name: str, fn_name: str):
+        self.group_name = group_name
+        self.fn_name = fn_name
 
 
 # ---------------
@@ -82,7 +82,7 @@ class FuzzyRule:
     # -------
 
     def evaluate(self, x: Mapping[str, ArrayLike],
-                 mf_groupset: MembGroupset) -> Tuple[str, str, float]:
+                 groupset: MembGroupset) -> Tuple[str, str, ArrayLike]:
         """Evaluates the rule given valid input values and compatible groupset.
 
         The inputs can be dictionaries or similar data structures where the
@@ -94,7 +94,7 @@ class FuzzyRule:
             x: Input values as dictionary with groups as keys and a scalar or
                 array-like as values. Also supports other data structures
                 accessible by group name.
-            mf_groupset: groupset of required membership function groups.
+            groupset: Groupset of membership functions required for evaluation.
 
         Returns:
             Tuple with output group name, function name, and value.
@@ -104,22 +104,22 @@ class FuzzyRule:
         for antecedent in self.antecedents:
             # Calculate antecedent membership
             try:
-                ante_input = np.asarray(x[antecedent.mf_group_name])
-                membership = antecedent.eval(ante_input, mf_groupset)
+                ante_input = np.asarray(x[antecedent.group_name])
+                membership = antecedent.eval(ante_input, groupset)
             except KeyError:
                 err_str = f"Rule - Failed to find an input or membership function " \
-                          f"for the rule's '{antecedent.mf_group_name}' group."
+                          f"for the rule's '{antecedent.group_name}' group."
                 raise KeyError(err_str)
 
             # Update membership depending if antecedent is 'and' or 'or'
             if prev_ms is None:
                 prev_ms = membership
             elif antecedent.is_and:
-                prev_ms = min(prev_ms, membership)
+                prev_ms = np.minimum(prev_ms, membership)
             else:
-                prev_ms = max(prev_ms, membership)
+                prev_ms = np.maximum(prev_ms, membership)
 
-        return self.consequent.mf_group_name, self.consequent.mf_name, prev_ms
+        return self.consequent.group_name, self.consequent.fn_name, prev_ms
 
     # ---------------
     # Reading Methods
