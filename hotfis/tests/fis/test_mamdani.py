@@ -34,7 +34,14 @@ def main():
         ])
     )
 
+    inputs = {"temperature": [[32, 56], [77, 0]]}
+
+    mam_outputs = fis.eval_mamdani(inputs)
+    domain, codomains = mam_outputs["heater"]
+    defuzzed = fis.defuzz_mamdani(domain, codomains)
+
     fis.groupset["heater"].plot()
+    fis.plot_mamdani(domain, codomains[1][1])
     plt.show()
 
     print("done")

@@ -151,10 +151,10 @@ class FIS:
             converting a domain and codomain(s) into scalar inputs.
         """
         # Evaluate entire ruleset for all consequent memberships
-        outputs_raw = self.eval_membership(x)
+        membership_outputs = self.eval_membership(x)
 
         # Convert to Mamdani output functions and return
-        return self.convert_to_mamdani(outputs_raw, num_points)
+        return self.convert_to_mamdani(membership_outputs, num_points)
 
     def convert_to_mamdani(self, memberships: Dict[str, Dict[str, ArrayLike]],
                            num_points: int = 100) -> Dict[str, Tuple[np.ndarray, np.ndarray]]:
@@ -235,11 +235,29 @@ class FIS:
 
         # Plot line indicating defuzzified output
         defuzzed = FIS.defuzz_mamdani(domain, codomain)
-        plt.axvline(defuzzed, ls=":", color="black", ymin=0.05, ymax=0.95)
+        plt.axvline(defuzzed, ls=":", color="black", ymin=0.0, ymax=0.95)
 
     # --------------------------
     # Takagi-Sugeno-Kang Methods
     # --------------------------
+
+    def eval_tsk(self, x: Mapping[str, ArrayLike]) -> Dict[str, ArrayLike]:
+        """Evaluates input and returns de-fuzzified Takagi Sugeno Kang output.
+
+        Args:
+            x: Input values as dictionary with input groups names as keys and
+                a scalar or array-like as values. Also supports other data
+                structures similarly accessible by input group name.
+
+        Returns:
+            Dictionary with output group names as keys and de-fuzzified outputs
+            for each input.
+        """
+        # Evaluate entire ruleset for all consequent memberships
+        membership_outputs = self.eval_membership(x)
+
+        # Convert to Mamdani output functions and return
+        return self.convert_to_tsk(membership_outputs)
 
     def convert_to_tsk(self, memberships: Dict[str, Dict[str, float]]) -> Dict[str, float]:
         """Converts membership values to defuzzified Takagi-Sugeno output.
@@ -252,7 +270,42 @@ class FIS:
         Returns:
             Dictionary with output group names as keys and memberships as values.
         """
-        pass
+        outputs_tsk = dict()
+
+        # For each output group
+        for group_name, group_memberships in memberships.items():
+            top, bot = 0, 0
+
+            # Calc top and bottom for each membership function
+            for fn_name, fn_memberships in group_memberships.items():
+                # Calculate TSK output value
+                fn = self.groupset[group_name][fn_name]
+                tsk_val = fn.center
+
+                top += fn_memberships * tsk_val
+                bot += fn_memberships
+
+            # Save tsk output for membership group as float
+            try:
+                outputs_tsk[group_name] = top / bot
+            except ZeroDivisionError:
+                err_str = "Output memberships in TSK evaluation " \
+                          f"sum to zero for group '{group_name}'."
+                raise ZeroDivisionError(err_str)
+
+        return outputs_tsk
+
+    @staticmethod
+    def plot_tsk(tsk_output: float):
+        """Plots output of Takagi-Sugeno-Kang inference as a vertical line.
+
+        Can be used in conjunction with an output membership function group's
+        plot method to visualize both the group and inference output.
+
+        Args:
+            tsk_output: Single TSK output value.
+        """
+        plt.axvline(tsk_output, ls=":", color="black", ymax=0.95)
 
     # --------------
     # Helper Methods

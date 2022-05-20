@@ -8,7 +8,7 @@ and 'hot'.
 """
 
 from __future__ import annotations  # Doc aliases
-from typing import Iterable, Union
+from typing import Iterable, Union, Optional
 from numpy.typing import ArrayLike
 
 import numpy as np
@@ -24,6 +24,11 @@ class MembFunc:
     Args:
         name: Name of membership function.
         params: Parameters of membership function.
+            These can be domain parameters for linear functions corresponding
+            to given membership values, unique parameters used in the
+            custom callable functions supplied to membership, or coefficients
+            of a polynomial used in evaluation of dedicated Takagi-Sugeno-Kang
+            output functions if the template name "tsk" is supplied as membership.
         membership: Indicates how membership should be calculated.
             A string is interpreted as one of the :doc:`../membfunc_templates`.
             A custom callable that takes an array-like of floats (a), an iterable
@@ -35,15 +40,13 @@ class MembFunc:
     Attributes:
         name (str): Name of membership function.
         params (np.ndarray[float]): Parameters of the membership function.
-            These can be domain parameters for linear functions or unique
-            parameters in custom functions.
         fn_type (str): Name of template if used. Otherwise, 'custom'.
-        center (float): Central or important point in domain of function
-            used in built-in visualization and potentially as a zeroth order
-            Takagi-Sugeno output. In linear functions, this defaults to the
-            average of domain parameters corresponding to max membership values.
-            For custom and Takagi-Sugeno output functions, this defaults to the
-            first parameter.
+        center (float):
+            Central/important point to be evaluated if the function is used as
+            output in Takagi-Sugeno-Kang inference. In linear functions, this
+            defaults to the average of domain parameters corresponding to max
+            membership values. For custom output functions, this defaults to the
+            first parameter. For dedicated TSK functions, this is the first parameter.
         templates (Dict[str, Union[Iterable[float], callable, None]]):
             Static dictionary with template names as keys with iterables of
             membership values corresponding to parameters, a callable that
@@ -57,7 +60,7 @@ class MembFunc:
 
             >>> # Standard gaussian function with and without templates:
             >>> fn3 = MembFunc([0, 1], "gaussian")
-            >>> fn4 = MembFunc([0, 1], lambda a, x: exp(-((a - x[0]) ** 2 / (2 * x[1] ** 2)))
+            >>> fn4 = MembFunc([0, 1], lambda a, x: np.exp(-((a - x[0]) ** 2 / (2 * x[1] ** 2)))
 
             >>> # Zeroth, first, and second order Takagi-Sugeno-Kang output functions:
             >>> fn5 = MembFunc([2.5], "tsk")      # --> 2.5
@@ -131,7 +134,7 @@ class MembFunc:
             >>> list_memberships = fn([32, 35, 21, 68])
         """
         if self.fn_type == "tsk":
-            raise NotImplemented("TSK output functions can't determine membership.")
+            raise NotImplementedError("TSK output functions can't determine membership.")
 
         a = np.asarray(a, dtype=float)
 
@@ -150,17 +153,30 @@ class MembFunc:
 
         return output
 
-    def plot(self, num: int = 300, color: str = "black", **plt_kwargs):
+    def plot(self, start: Optional[float] = None, stop: Optional[float] = None,
+             num_points: int = 300, color: str = "black", **plt_kwargs):
         """Plots the function for a given domain using matplotlib.
 
         Args:
-            num: Number of points to find membership to for plotting.
+            start: Specified start of plot domain.
+                Defaults to fn domain start if None is passed.
+            stop: Specified end of plot domain.
+                Defaults to fn domain end if None is passed.
+            num_points: Number of points to find membership to for plotting.
             color: matplotlib.pyplot color of the line representing the function.
             **plt_kwargs: matplotlib.pyplot plotting options.
         """
-        domain = np.linspace(self.domain[0], self.domain[1], num)
-        codomain = self(domain)
-        plt.plot(domain, codomain, color=color, **plt_kwargs)
+        # Plot normal function or Takagi-Sugeno-Kang function
+        if self.fn_type != "tsk":
+            if start is not None and stop is not None:
+                domain = np.linspace(start, stop, num_points)
+            else:
+                domain = np.linspace(self.domain[0], self.domain[1], num_points)
+
+            codomain = self(domain)
+            plt.plot(domain, codomain, color=color, **plt_kwargs)
+        else:
+            plt.axvline(self.center, color=color, ymax=0.95, **plt_kwargs)
 
         # Decorate
         plt.ylim(0.0, 1.05)
@@ -197,6 +213,7 @@ class MembFunc:
             self._build_special(membership)
         elif membership is None:
             self.center = self.params[0]
+            self.domain = None
 
     def _build_generic(self, memb_vals: Iterable[float]):
         """Builds a generic linear function.
@@ -231,8 +248,10 @@ class MembFunc:
         # Save function min and max
         self.domain = (np.min(self.params), np.max(self.params))
 
-        # Save center point used in zeroth order tsk evaluation and plotting
-        self.center = np.mean(self.params[np.where(memb_vals == np.max(memb_vals))])
+        # Save mean of parameters corresponding with max membership as
+        # value used in zeroth order TSK evaluation
+        top_mean = np.mean(self.params[np.where(memb_vals == np.max(memb_vals))])
+        self.center = top_mean
 
     def _build_special(self, memb_func: callable):
         """Builds special membership function from template or given callable.
@@ -243,8 +262,10 @@ class MembFunc:
         # Save custom function as sole sub-function
         self._sub_fns = [lambda a, x=self.params: memb_func(a, x)]
 
-        # Save first parameter as center
+        # Save first parameter as value used in zeroth order TSK evaluation in polynomial
         self.center = self.params[0]
+
+        self.domain = None
 
     def _apply_subfunction(self, a, ind):
         output = self._sub_fns[ind](a)

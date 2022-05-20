@@ -7,7 +7,7 @@ An example of a group could be 'temperature', comprised of membership functions
 such as 'cold', 'warm', and 'hot'.
 """
 
-from typing import List, Tuple
+from typing import List, Tuple, Optional
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -85,22 +85,34 @@ class MembGroup:
         """Finds and returns tuple with domain boundaries for membership.
 
         Returns:
-            Minimum and maximum domain values respectively.
+            Minimum and maximum domain values respectively. If any functions
+            without a domain are in the group, None is returned.
         """
         min_val = float("inf")
         max_val = float("-inf")
 
         for fn in self:
-            min_val = min(min_val, fn.domain[0])
-            max_val = max(max_val, fn.domain[1])
+            # Use first param if function has no domain
+            if fn.domain is None:
+                min_val = min(min_val, fn.params[0])
+                max_val = max(max_val, fn.params[0])
+            # Use function domain if it exists
+            else:
+                min_val = min(min_val, fn.domain[0])
+                max_val = max(max_val, fn.domain[1])
 
         return min_val, max_val
 
-    def plot(self, num_points: int = 500, stagger_labels: bool = False,
+    def plot(self, start: Optional[float] = None, stop: Optional[float] = None,
+             num_points: int = 500, stagger_labels: bool = False,
              line_color: str = "black", fill_alpha=0.1, **plt_kwargs):
         """Plots every function in the group in a new figure.
 
         Args:
+            start: Specified start of plot domain.
+                Defaults to group domain start if None is passed.
+            stop: Specified end of plot domain.
+                Defaults to group domain end if None is passed.
             num_points: Number of points to plot for each function.
             stagger_labels: Whether to stagger function label names on top.
             line_color: matplotlib.pyplot color of the line representing the function.
@@ -112,20 +124,28 @@ class MembGroup:
         ax1 = fig.add_subplot(111)
         ax2 = ax1.twiny()
 
-        # Create domain and xticks
-        domain = np.linspace(self.domain[0], self.domain[1], num_points)
-        xlim = self.domain
+        # Prepare to save xticks
         xticks = dict()
 
-        # For each function, plot and update xticks
+        all_tsk = all([fn.fn_type == "tsk" for fn in self])
+
+        # Create domain based on given parameters or group's domain
+        if start is not None and stop is not None:
+            domain = np.linspace(start, stop, num_points)
+        elif not all_tsk:
+            domain = np.linspace(self.domain[0], self.domain[1], num_points)
+        else:
+            domain = None
+
+        # For each function, plot and update x-ticks
         for fn in self:
             # Plot function if not TSK
-            try:
+            if fn.fn_type != "tsk":
                 codomain = fn(domain)
                 ax1.plot(domain, codomain, color=line_color, **plt_kwargs)
                 ax1.fill_between(domain, codomain, alpha=fill_alpha)
 
-                # Update function xtick labels
+                # Update function x-tick labels
                 xtick_val = fn.center
                 if xtick_val not in xticks.values():
                     xticks[fn.name] = xtick_val
@@ -134,18 +154,19 @@ class MembGroup:
                     xticks[f"{key}/{fn.name}"] = xtick_val
                     del xticks[key]
 
-            # TSK center values
-            except NotImplementedError:
-                ax1.axvline(fn.center, **plt_kwargs)
+            # TSK functions
+            else:
+                plt.axvline(fn.center, color=line_color, ymax=0.95, **plt_kwargs)
                 xticks[fn.name] = fn.center
 
-        # Finalize x and y limits and xticks
-        ax1.set_xlim(*xlim)
-        ax1.set_ylim(0.01, 1.05)
+        # Finalize x and y limits and x-ticks
+        ax1.set_ylim(0.0, 1.05)
+        if not all_tsk:
+            ax1.margins(0.0, x=True)
         ax2.set_xticks(list(xticks.values()))
         ax2.set_xticklabels(list(xticks.keys()), fontsize=8)
-        ax2.set_xlim(*xlim)
-        ax2.set_ylim(-0.05, 1.05)
+        ax2.set_xlim(ax1.get_xlim())
+        ax2.set_ylim(0.0, 1.05)
 
         # Stagger function name labels if requested
         if stagger_labels:

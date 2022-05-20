@@ -20,9 +20,9 @@ def main():
 
             # Output group
             hf.MembGroup("heater", [
-                hf.MembFunc("off", [0.1, 0.2], "leftedge"),
-                hf.MembFunc("medium", [0.1, 0.2, 0.8, 0.9], "trapezoidal"),
-                hf.MembFunc("on", [0.8, 0.9], "rightedge")
+                hf.MembFunc("off", [0.1], "tsk"),
+                hf.MembFunc("medium", [0.5], "tsk"),
+                hf.MembFunc("on", [0.9], "tsk")
             ]),
         ]),
 
@@ -34,7 +34,13 @@ def main():
         ])
     )
 
+    inputs = {"temperature": [[32, 56], [77, 63]]}
+
+    tsk_outputs = fis.eval_tsk(inputs)
+    tsk_val = tsk_outputs["heater"]
+
     fis.groupset["heater"].plot()
+    fis.plot_tsk(tsk_val[1][1])
     plt.show()
 
     print("done")
