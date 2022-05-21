@@ -17,7 +17,7 @@ def main():
     output2 = fn([[1.0, 1.9], [3.0, 2.5]])
     output3 = fn([1.0, 1.1, 3.2])
 
-    fn.plot()
+    fn.plot(fn.params[0], fn.params[-1])
     plt.show()
 
 

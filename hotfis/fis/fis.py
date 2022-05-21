@@ -29,14 +29,14 @@ class FIS:
         >>>     # Create membership functions
         >>>     MembGroupset([
         >>>         # Create temperature group for input
-        >>>         MembGroup("temperature", [
-        >>>             MembFunc("cold", [30, 40], "leftedge", ),
+        >>>         MembGroup("temperature", 30, 70, [
+        >>>             MembFunc("cold", [30, 40], "leftedge"),
         >>>             MembFunc("warm", [30, 40, 60, 70], "trapezoidal"),
         >>>             MembFunc("hot", [60, 70], "rightedge")
         >>>         ]),
         >>>
         >>>         # Create heater group for output
-        >>>         MembGroup("heater", [
+        >>>         MembGroup("heater", 0.0, 1.0, [
         >>>             MembFunc("off", [0.1, 0.2], "leftedge"),
         >>>             MembFunc("medium", [0.1, 0.2, 0.8, 0.9], "trapezoidal"),
         >>>             MembFunc("on", [0.8, 0.9], "rightedge")
@@ -59,11 +59,13 @@ class FIS:
             leftedge cold 30 40
             trapezoidal warm 30 40 60 70
             rightedge hot 60 70
+            domain 30 70
 
             group heater
             leftedge off 0.1 0.2
             trapezoidal medium 0.1 0.2 0.8 0.9
             rightedge on 0.8 0.9
+            domain 0.0 1.0
 
             === example_rules.txt ===
 
@@ -145,8 +147,8 @@ class FIS:
 
         Returns:
             Dictionary with output group names as keys and values that are
-            tuples with two arrays. The first is the domain of the
-            membership function. The second is a corresponding codomain
+            tuples with two arrays. The first array is the domain of the
+            membership function. The second is a corresponding codomain value
             for each input value. See the defuzz_mamdani method for
             converting a domain and codomain(s) into scalar inputs.
         """

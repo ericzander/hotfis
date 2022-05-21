@@ -12,11 +12,11 @@ class FuzzyRuleset:
     """Ruleset to be used in fuzzy inference system evaluation.
 
     FuzzyRulesets are collections of rules that may be evaluated in membership
-    inference. FuzzyRulesets can be defined directly with a List of FuzzyRules
+    inference. FuzzyRulesets can be defined directly with a List of str/FuzzyRules
     or by passing the path to text file with rules on separate lines.
 
     Args:
-        source: Filepath to file with rules or list of FuzzyRules.
+        source: Filepath to file with rules or list of rules as rules or FuzzyRules.
 
     Attributes:
         rules (List[FuzzyRule]): FuzzyRules comprising the ruleset.
@@ -27,9 +27,9 @@ class FuzzyRuleset:
         Method 1:
 
         >>> ruleset1 = FuzzyRuleset([
-        >>>     FuzzyRule("if temperature is cold then heater is on"),
-        >>>     FuzzyRule("if temperature is warm then heater is medium"),
-        >>>     FuzzyRule("if temperature is hot then heater is off"),
+        >>>     "if temperature is cold then heater is on",
+        >>>     "if temperature is warm then heater is medium",
+        >>>     "if temperature is hot then heater is off",
         >>> ])
 
         Method 2::
@@ -46,12 +46,12 @@ class FuzzyRuleset:
     # Constructor
     # -----------
 
-    def __init__(self, source: Union[str, List[FuzzyRule]]):
+    def __init__(self, source: Union[str, List[Union[str, FuzzyRule]]]):
         # Read rules
         if isinstance(source, str):
             self._read_rules(source)
         else:
-            self.rules = [rule for rule in source]
+            self.rules = [FuzzyRule(rule) if isinstance(rule, str) else rule for rule in source]
 
         # Save a list of required input names for convenience
         self.input_names: Set[str] = self.get_input_names()

@@ -16,9 +16,14 @@
 
    .. autosummary::
    
+      ~FIS.convert_to_mamdani
+      ~FIS.convert_to_tsk
+      ~FIS.defuzz_mamdani
+      ~FIS.eval_mamdani
       ~FIS.eval_membership
-      ~FIS.raw_to_mamdani
-      ~FIS.raw_to_tsk
+      ~FIS.eval_tsk
+      ~FIS.plot_mamdani
+      ~FIS.plot_tsk
 
    
    

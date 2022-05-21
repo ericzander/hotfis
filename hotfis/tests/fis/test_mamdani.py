@@ -12,14 +12,14 @@ def main():
         # Define membership functions
         hf.MembGroupset([
             # Input group
-            hf.MembGroup("temperature", [
+            hf.MembGroup("temperature", 30, 70, [
                 hf.MembFunc("cold", [30, 40], "leftedge"),
                 hf.MembFunc("warm", [30, 40, 60, 70], "trapezoidal"),
                 hf.MembFunc("hot", [60, 70], "rightedge")
             ]),
 
             # Output group
-            hf.MembGroup("heater", [
+            hf.MembGroup("heater", 0.0, 1.0, [
                 hf.MembFunc("off", [0.1, 0.2], "leftedge"),
                 hf.MembFunc("medium", [0.1, 0.2, 0.8, 0.9], "trapezoidal"),
                 hf.MembFunc("on", [0.8, 0.9], "rightedge")
@@ -41,7 +41,7 @@ def main():
     defuzzed = fis.defuzz_mamdani(domain, codomains)
 
     fis.groupset["heater"].plot()
-    fis.plot_mamdani(domain, codomains[1][1])
+    fis.plot_mamdani(domain, codomains[0][0])
     plt.show()
 
     print("done")

@@ -35,12 +35,12 @@ class MembGroupset:
         Method 1:
 
         >>> groupset1 = MembGroupset([
-        >>>     MembGroup("temperature", [
+        >>>     MembGroup("temperature",  30, 70, [
         >>>         MembFunc("cold", [30, 40], "leftedge", ),
         >>>         MembFunc("warm", [30, 40, 60, 70], "trapezoidal"),
         >>>         MembFunc("hot", [60, 70], "rightedge")
         >>>     ]),
-        >>>     MembGroup("heater", [
+        >>>     MembGroup("heater", 0.0, 1.0, [
         >>>         MembFunc("off", [0.1, 0.2], "leftedge"),
         >>>         MembFunc("medium", [0.1, 0.2, 0.8, 0.9], "trapezoidal"),
         >>>         MembFunc("on", [0.8, 0.9], "rightedge")
@@ -55,11 +55,13 @@ class MembGroupset:
             leftedge cold 30 40
             trapezoidal warm 30 40 60 70
             rightedge hot 60 70
+            domain 30 70
 
             group heater
             leftedge off 0.1 0.2
             trapezoidal medium 0.1 0.2 0.8 0.9
             rightedge on 0.8 0.9
+            domain 0.0 1.0
 
         >>> groupset2 = MembGroupset("example_groups.txt")
     """
@@ -141,20 +143,19 @@ class MembGroupset:
 
             # Evaluate line
             if not line:
-                self.groups[name] = MembGroup(name, functions)
-                name = None
-                functions = []
+                continue
             elif line[0] == "group":
                 name = line[1]
             elif line[0] in MembFunc.templates:
                 fn = self.__read_function(line)
                 functions.append(fn)
+            elif line[0] == "domain":
+                domain = (float(line[1]), float(line[2]))
+                self.groups[name] = MembGroup(name, domain[0], domain[1], functions)
+                name = None
+                functions = []
             else:
                 raise ValueError(f"Unreadable line: {line}")
-
-        # Wrap-up
-        if name and functions:
-            self.groups[name] = MembGroup(name, functions)
 
     @staticmethod
     def __read_function(line: List[str]) -> MembFunc:

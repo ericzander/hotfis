@@ -8,16 +8,16 @@ from hotfis.membership.membgroup import MembGroup
 
 
 def main():
-    fns = MembGroup("test", [
+    group = MembGroup("test", 0, 2, [
         MembFunc("fn1", [0, 1], "leftedge"),
         MembFunc("fn2", [0, 1, 2], "triangular"),
         MembFunc("fn3", [1, 2], "rightedge"),
     ])
 
-    for fn in fns:
+    for fn in group:
         print(fn.center)
 
-    fns.plot()
+    group.plot()
     plt.show()
 
 

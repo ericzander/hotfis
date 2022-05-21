@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 
 def main():
-    gset = MembGroupset("objects/groupset1.txt")
+    gset = MembGroupset("../objects/groupset1.txt")
 
     for group in gset:
         print(group.name)

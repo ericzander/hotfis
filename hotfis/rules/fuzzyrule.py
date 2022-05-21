@@ -119,7 +119,9 @@ class FuzzyRule:
             else:
                 prev_ms = np.maximum(prev_ms, membership)
 
-        return self.consequent.group_name, self.consequent.fn_name, prev_ms
+        final_membership = prev_ms.item() if prev_ms.size == 1 else prev_ms
+
+        return self.consequent.group_name, self.consequent.fn_name, final_membership
 
     # ---------------
     # Reading Methods

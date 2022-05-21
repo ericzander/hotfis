@@ -19,25 +19,28 @@ class MembGroup:
     """A collection of membership functions corresponding to fuzzy sets.
 
     Args:
-        fns: A list of MembFuncs stored in the group.
         name: The name of the group.
+        xmin: Smallest group domain value used in Mamdani evaluation and visualization.
+        xmax: Largest group domain value used in Mamdani evaluation and visualization.
+        fns: A list of MembFuncs stored in the group.
 
     Attributes:
         fns (Dict[MembFunc]): Dictionary of MembFuncs stored in the group.
             Their names are keys and the objects themselves are values.
         name (str): The name of the group.
+        domain (Tuple[float, float]): Domain for Mamdani evaluation and visualization.
     """
     # -----------
     # Constructor
     # -----------
 
-    def __init__(self, name: str, fns: List[MembFunc]):
+    def __init__(self, name: str, xmin: float, xmax: float, fns: List[MembFunc]):
         # Save group name and functions
         self.name = name
         self.fns = {fn.name: fn for fn in fns}
 
         # Get domain range used in Mamdani evaluation
-        self.domain = self.get_domain()
+        self.domain = (xmin, xmax)
 
     # -------
     # Methods
@@ -81,28 +84,6 @@ class MembGroup:
         """
         return self.fns.values()
 
-    def get_domain(self) -> Tuple[float, float]:
-        """Finds and returns tuple with domain boundaries for membership.
-
-        Returns:
-            Minimum and maximum domain values respectively. If any functions
-            without a domain are in the group, None is returned.
-        """
-        min_val = float("inf")
-        max_val = float("-inf")
-
-        for fn in self:
-            # Use first param if function has no domain
-            if fn.domain is None:
-                min_val = min(min_val, fn.params[0])
-                max_val = max(max_val, fn.params[0])
-            # Use function domain if it exists
-            else:
-                min_val = min(min_val, fn.domain[0])
-                max_val = max(max_val, fn.domain[1])
-
-        return min_val, max_val
-
     def plot(self, start: Optional[float] = None, stop: Optional[float] = None,
              num_points: int = 500, stagger_labels: bool = False,
              line_color: str = "black", fill_alpha=0.1, **plt_kwargs):
@@ -132,10 +113,8 @@ class MembGroup:
         # Create domain based on given parameters or group's domain
         if start is not None and stop is not None:
             domain = np.linspace(start, stop, num_points)
-        elif not all_tsk:
-            domain = np.linspace(self.domain[0], self.domain[1], num_points)
         else:
-            domain = None
+            domain = np.linspace(self.domain[0], self.domain[1], num_points)
 
         # For each function, plot and update x-ticks
         for fn in self:

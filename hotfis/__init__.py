@@ -17,3 +17,6 @@ from .rules.fuzzyruleset import FuzzyRuleset
 
 # Fuzzy inference system (FIS)
 from .fis.fis import FIS
+
+# Fuzzy network of FIS
+from .network.fuzzynetwork import FuzzyNetwork

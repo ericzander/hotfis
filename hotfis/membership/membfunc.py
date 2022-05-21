@@ -8,7 +8,7 @@ and 'hot'.
 """
 
 from __future__ import annotations  # Doc aliases
-from typing import Iterable, Union, Optional
+from typing import Iterable, Union
 from numpy.typing import ArrayLike
 
 import numpy as np
@@ -145,34 +145,27 @@ class MembFunc:
             indices = np.zeros(a.shape, dtype=np.int)
 
         # One-hot encode sub-function indices and reshape for np.piecewise
-        conditions = np.eye(len(self._sub_fns))[indices].astype(bool)
-        conditions = np.swapaxes(conditions, 0, -1)
+        conditions = [indices == i for i in range(len(self._sub_fns))]
 
         # Apply appropriate sub-functions to each input based on indices
         output = np.piecewise(a, conditions, self._sub_fns)
 
         return output
 
-    def plot(self, start: Optional[float] = None, stop: Optional[float] = None,
+    def plot(self, start: float, stop: float,
              num_points: int = 300, color: str = "black", **plt_kwargs):
         """Plots the function for a given domain using matplotlib.
 
         Args:
             start: Specified start of plot domain.
-                Defaults to fn domain start if None is passed.
             stop: Specified end of plot domain.
-                Defaults to fn domain end if None is passed.
             num_points: Number of points to find membership to for plotting.
             color: matplotlib.pyplot color of the line representing the function.
             **plt_kwargs: matplotlib.pyplot plotting options.
         """
         # Plot normal function or Takagi-Sugeno-Kang function
         if self.fn_type != "tsk":
-            if start is not None and stop is not None:
-                domain = np.linspace(start, stop, num_points)
-            else:
-                domain = np.linspace(self.domain[0], self.domain[1], num_points)
-
+            domain = np.linspace(start, stop, num_points)
             codomain = self(domain)
             plt.plot(domain, codomain, color=color, **plt_kwargs)
         else:
@@ -213,7 +206,6 @@ class MembFunc:
             self._build_special(membership)
         elif membership is None:
             self.center = self.params[0]
-            self.domain = None
 
     def _build_generic(self, memb_vals: Iterable[float]):
         """Builds a generic linear function.
@@ -245,9 +237,6 @@ class MembFunc:
         self._sub_fns = self.__create_linear_subfunctions(memb_vals)
         self._is_linear = True
 
-        # Save function min and max
-        self.domain = (np.min(self.params), np.max(self.params))
-
         # Save mean of parameters corresponding with max membership as
         # value used in zeroth order TSK evaluation
         top_mean = np.mean(self.params[np.where(memb_vals == np.max(memb_vals))])
@@ -264,8 +253,6 @@ class MembFunc:
 
         # Save first parameter as value used in zeroth order TSK evaluation in polynomial
         self.center = self.params[0]
-
-        self.domain = None
 
     def _apply_subfunction(self, a, ind):
         output = self._sub_fns[ind](a)
