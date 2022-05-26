@@ -54,15 +54,16 @@ class MembGroup:
         """
         return self.fns[fn_name]
 
-    def __setitem__(self, fn: MembFunc):
+    def __setitem__(self, fn_name: str, fn: MembFunc):
         """Supports function assignment with subscripting.
 
         Will overwrite a function if it already exists.
 
         Args:
+            fn_name: The function name.
             fn: Function to save in group.
         """
-        self.fns[fn.name] = fn
+        self.fns[fn_name] = fn
 
     def __iter__(self):
         """Can iterate through each membership function.
@@ -101,8 +102,7 @@ class MembGroup:
             **plt_kwargs: matplotlib.pyplot plotting options.
         """
         # Create figure twin x axes (top one for function names)
-        fig = plt.figure()
-        ax1 = fig.add_subplot(111)
+        ax1 = plt.figure().add_subplot(111)
         ax2 = ax1.twiny()
 
         # Prepare to save xticks
@@ -135,16 +135,16 @@ class MembGroup:
 
             # TSK functions
             else:
-                plt.axvline(fn.center, color=line_color, ymax=0.95, **plt_kwargs)
+                ax1.axvline(fn.center, color=line_color, ymax=0.95, **plt_kwargs)
                 xticks[fn.name] = fn.center
 
         # Finalize x and y limits and x-ticks
         ax1.set_ylim(0.0, 1.05)
         if not all_tsk:
             ax1.margins(0.0, x=True)
+        ax2.set_xlim(ax1.get_xlim())
         ax2.set_xticks(list(xticks.values()))
         ax2.set_xticklabels(list(xticks.keys()), fontsize=8)
-        ax2.set_xlim(ax1.get_xlim())
         ax2.set_ylim(0.0, 1.05)
 
         # Stagger function name labels if requested

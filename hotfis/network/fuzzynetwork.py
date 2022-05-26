@@ -17,7 +17,7 @@ class _FuzzyNode(FIS):
 
     Attributes:
         name (str): Name of the ruleset.
-        branches (Dict[str, FuzzyNetwork.FISNode]): Dict of named rulesets that
+        branches (Dict[str, FuzzyNetwork.FISNode]): Dict of named FIS nodes that
             output this node's inputs.
         network (FuzzyNetwork): The node's parent network.
     """

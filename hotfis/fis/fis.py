@@ -1,9 +1,13 @@
 """Contains Fuzzy Inference System (FIS) definition.
+
+TODO Mamdani approximation is experimental and needs further doc/testing
 """
 
 from __future__ import annotations  # Doc aliases
-from typing import Union, Mapping, Dict, Tuple
+from typing import Union, Mapping, Dict, Tuple, List
 from numpy.typing import ArrayLike
+
+import itertools
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -309,6 +313,144 @@ class FIS:
         """
         plt.axvline(tsk_output, ls=":", color="black", ymax=0.95)
 
-    # --------------
-    # Helper Methods
-    # --------------
+    # ---------------------
+    # Mamdani Approximation
+    # ---------------------
+
+    _supported_types = {
+        "triangular",
+        "trapezoidal",
+        "leftedge",
+        "rightedge"
+    }
+
+    def approximate_mamdani(self) -> FIS:
+        """Creates FIS with output functions approximated through TSK evaluation.
+
+        Returns:
+            A new FIS with approximated Mamdani output functions.
+        """
+        # Create a dictionary of named approximated function groups
+        group_funcs = self._approx_groups()
+
+        # Create groupset with approximated functions as outputs
+        approx_groupset = self._create_approx_groupset(group_funcs)
+
+        # Create new FIS with new groupset
+        approx_fis = FIS(approx_groupset, self.ruleset)
+
+        return approx_fis
+
+    # Approximation Helpers
+
+    def _approx_groups(self) -> Dict[str, List[MembFunc]]:
+        """Approximates Mamdani output membership function groups given a FIS.
+
+        Returns:
+            A dictionary with group names as keys and a list of membership
+            functions as values.
+        """
+        group_funcs = dict()
+
+        for rule in self.ruleset:
+            # Approximate the output function for a single rule
+            group_name, memb_func = self.__approx_fn(rule)
+
+            # Save function in group output
+            if group_name not in group_funcs:
+                group_funcs[group_name] = []
+            group_funcs[group_name].append(memb_func)
+
+        return group_funcs
+
+    def __approx_fn(self, rule: FuzzyRule) -> Tuple[str, MembFunc]:
+        # Save left, center, and middle antecedent function values
+        all_params = self.__get_antecedent_params(rule)
+
+        # Get combos of antecedent inputs and get average outputs for output fuzzy set
+        #   a = avg(rule outputs for left and center antecedent params as inputs)
+        #   b = rule output for center antecedent params as inputs
+        #   c = avg(rule outputs for center and right antecedent params as inputs)
+        outputs = []
+        for start, end in zip((0, 1, 1), (2, 2, 3)):
+            # Get combinations of relevant antecedent inputs as named columns
+            params = [param[start:end] for param in all_params.values()]
+            combinations = np.array(list(itertools.product(*params)))
+            inputs = {group_name: combinations[:, i] for i, group_name in enumerate(all_params)}
+
+            # Evaluate the rule with each combination and save the avg result
+            output_vals = self.eval_tsk(inputs)[rule.consequent.group_name]
+            outputs.append(np.mean(output_vals))
+
+        # Sort the parameters and construct the approximated output function
+        final_params = np.sort(outputs)
+        approx_fn = self.__create_approx_fn(rule.consequent.fn_name, final_params)
+
+        return rule.consequent.group_name, approx_fn
+
+    def __get_antecedent_params(self, rule) -> Dict[str, np.ndarray]:
+        params = dict()
+
+        # Save key antecedent params for relevant rule
+        for ant in rule.antecedents:
+            fn = self.groupset[ant.group_name][ant.fn_name]
+
+            if fn.fn_type not in self._supported_types:
+                err_str = f"Antecedent function '{fn.name}' does not support " \
+                          f"Mamdani approximation."
+                raise ValueError(err_str)
+
+            params[ant.group_name] = np.array([fn.params[0], fn.center, fn.params[-1]])
+
+        # Save params for all antecedent groups in ruleset not already addressed
+        aux_params = dict()
+        for aux_rule in self.ruleset:
+            if aux_rule is rule:
+                continue
+
+            for ant in aux_rule.antecedents:
+                fn = self.groupset[ant.group_name][ant.fn_name]
+                fn_params = np.array([fn.params[0], fn.center, fn.params[-1]])
+
+                if ant.group_name not in params:
+                    if ant.group_name not in aux_params:
+                        aux_params[ant.group_name] = fn_params
+                    else:
+                        aux_params[ant.group_name] = np.mean([aux_params[ant.group_name],
+                                                             fn_params], axis=0)
+
+        params.update(aux_params)
+        return params
+
+    @staticmethod
+    def __create_approx_fn(fn_name, params):
+        if params[0] == params[1]:
+            fn_type = "leftedge"
+        elif params[1] == params[2]:
+            fn_type = "rightedge"
+        else:
+            fn_type = "triangular"
+
+        params = np.unique(params)
+
+        return MembFunc(fn_name, params, fn_type)
+
+    # Wrap-up Helpers
+
+    def _create_approx_groupset(self: FIS,
+                                group_funcs: Dict[str, List[MembFunc]]) -> MembGroupset:
+        approx_groupset = self.groupset.copy()
+
+        # For each output group name
+        for gname in group_funcs:
+            # Update new group domain
+            xmin, xmax = float("inf"), -float("inf")
+            for fn in group_funcs[gname]:
+                xmin = min(xmin, np.min(fn.params))
+                xmax = max(xmax, np.max(fn.params))
+
+            # Create resulting group and save in output groupset
+            approx_group = MembGroup(gname, xmin, xmax, group_funcs[gname])
+            approx_groupset[gname] = approx_group
+
+        return approx_groupset

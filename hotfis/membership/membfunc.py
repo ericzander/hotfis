@@ -67,9 +67,9 @@ class MembFunc:
             >>> fn6 = MembFunc([8, 2], "tsk")     # --> 8 + 2^2
             >>> fn7 = MembFunc([1, 2, 3], "tsk")  # --> 1 + 2^2 + 3^3
     """
-    # ----------
-    # Attributes
-    # ----------
+    # ------------------
+    # Function Templates
+    # ------------------
 
     # Templates
     templates = {
@@ -107,10 +107,10 @@ class MembFunc:
             self._build_template(membership)
         elif callable(membership):
             self._build_special(membership)
-            self.fn_type = "custom"
+            self.fn_type = "special"
         else:
             self._build_generic(membership)
-            self.fn_type = "custom"
+            self.fn_type = "generic"
 
     # -------
     # Methods

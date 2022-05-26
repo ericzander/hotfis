@@ -11,6 +11,7 @@ temperature.
 from typing import List, Dict, Union
 
 import os
+import copy
 
 from hotfis import MembGroup, MembFunc
 
@@ -90,15 +91,16 @@ class MembGroupset:
         """
         return self.groups[group_name]
 
-    def __setitem__(self, group: MembGroup):
+    def __setitem__(self, group_name: str, group: MembGroup):
         """Supports group assignment with subscripting.
 
         Will overwrite a group if it already exists.
 
         Args:
+            group_name: The group name.
             group: Group to save in groupset.
         """
-        self.groups[group.name] = group
+        self.groups[group_name] = group
 
     def __iter__(self):
         """Can iterate through each group.
@@ -119,6 +121,11 @@ class MembGroupset:
         """Returns each group.
         """
         return self.groups.values()
+
+    def copy(self):
+        """Returns deep copy of groupset
+        """
+        return copy.deepcopy(self)
 
     # ---------------
     # Reading Methods
