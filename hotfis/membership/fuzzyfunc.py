@@ -15,7 +15,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-class MembFunc:
+class FuzzyFunc:
     """Membership function that can determine membership to a fuzzy set.
 
     Can be called as a function on both individual scalar inputs and
@@ -30,7 +30,7 @@ class MembFunc:
             of a polynomial used in evaluation of dedicated Takagi-Sugeno-Kang
             output functions if the template name "tsk" is supplied as membership.
         membership: Indicates how membership should be calculated.
-            A string is interpreted as one of the :doc:`../membfunc_templates`.
+            A string is interpreted as one of the :doc:`../fuzzyfunc_templates`.
             A custom callable that takes an array-like of floats (a), an iterable
             with each parameter (x), and returns membership can also be given.
             An iterable of floats of the same shape as the given domain
@@ -55,17 +55,17 @@ class MembFunc:
 
     Examples:
             >>> # Trapezoidal function with and without templates:
-            >>> fn1 = MembFunc([1, 2, 3, 4], "trapezoidal")
-            >>> fn2 = MembFunc([1, 2, 3, 4], [0, 1, 1, 0])
+            >>> fn1 = FuzzyFunc([1, 2, 3, 4], "trapezoidal")
+            >>> fn2 = FuzzyFunc([1, 2, 3, 4], [0, 1, 1, 0])
 
             >>> # Standard gaussian function with and without templates:
-            >>> fn3 = MembFunc([0, 1], "gaussian")
-            >>> fn4 = MembFunc([0, 1], lambda a, x: np.exp(-((a - x[0]) ** 2 / (2 * x[1] ** 2)))
+            >>> fn3 = FuzzyFunc([0, 1], "gaussian")
+            >>> fn4 = FuzzyFunc([0, 1], lambda a, x: np.exp(-((a - x[0]) ** 2 / (2 * x[1] ** 2)))
 
             >>> # Zeroth, first, and second order Takagi-Sugeno-Kang output functions:
-            >>> fn5 = MembFunc([2.5], "tsk")      # --> 2.5
-            >>> fn6 = MembFunc([8, 2], "tsk")     # --> 8 + 2^2
-            >>> fn7 = MembFunc([1, 2, 3], "tsk")  # --> 1 + 2^2 + 3^3
+            >>> fn5 = FuzzyFunc([2.5], "tsk")      # --> 2.5
+            >>> fn6 = FuzzyFunc([8, 2], "tsk")     # --> 8 + 2^2
+            >>> fn7 = FuzzyFunc([1, 2, 3], "tsk")  # --> 1 + 2^2 + 3^3
     """
     # ------------------
     # Function Templates
@@ -129,7 +129,7 @@ class MembFunc:
             NotImplemented: TSK output functions cannot determine membership.
 
         Example:
-            >>> fn = MembFunc("cold", [30, 40], "leftedge")
+            >>> fn = FuzzyFunc("cold", [30, 40], "leftedge")
             >>> float_membership = fn(35)
             >>> list_memberships = fn([32, 35, 21, 68])
         """
@@ -189,7 +189,7 @@ class MembFunc:
         """
         # Get template membership
         try:
-            membership = MembFunc.templates[template_name]
+            membership = FuzzyFunc.templates[template_name]
         except KeyError:
             raise KeyError(f"Template name {template_name} not found!")
 

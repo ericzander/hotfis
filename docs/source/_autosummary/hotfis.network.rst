@@ -1,7 +1,7 @@
-﻿hotfis
-======
+network
+=======
 
-.. automodule:: hotfis
+.. automodule:: hotfis.network
 
    
    
@@ -28,9 +28,5 @@
    :template: custom-module-template.rst
    :recursive:
 
-   hotfis.fis
-   hotfis.membership
-   hotfis.network
-   hotfis.rules
-   hotfis.tests
+   hotfis.network.fuzzynetwork
 

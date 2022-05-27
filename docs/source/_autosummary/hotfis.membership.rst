@@ -28,7 +28,7 @@ membership
    :template: custom-module-template.rst
    :recursive:
 
-   hotfis.membership.membfunc
-   hotfis.membership.membgroup
-   hotfis.membership.membgroupset
+   hotfis.membership.fuzzyfunc
+   hotfis.membership.fuzzygroup
+   hotfis.membership.fuzzygroupset
 

@@ -1,4 +1,4 @@
-﻿FIS
+FIS
 ===
 
 .. currentmodule:: hotfis.fis.fis
@@ -16,6 +16,7 @@
 
    .. autosummary::
    
+      ~FIS.approximate_mamdani
       ~FIS.convert_to_mamdani
       ~FIS.convert_to_tsk
       ~FIS.defuzz_mamdani

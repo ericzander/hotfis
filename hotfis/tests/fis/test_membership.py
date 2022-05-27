@@ -10,19 +10,19 @@ def main():
     # Fuzzy inference system
     fis = hf.FIS(
         # Define membership functions
-        hf.MembGroupset([
+        hf.FuzzyGroupset([
             # Input group
-            hf.MembGroup("temperature", 30, 70, [
-                hf.MembFunc("cold", [30, 40], "leftedge"),
-                hf.MembFunc("warm", [30, 40, 60, 70], "trapezoidal"),
-                hf.MembFunc("hot", [60, 70], "rightedge")
+            hf.FuzzyGroup("temperature", 30, 70, [
+                hf.FuzzyFunc("cold", [30, 40], "leftedge"),
+                hf.FuzzyFunc("warm", [30, 40, 60, 70], "trapezoidal"),
+                hf.FuzzyFunc("hot", [60, 70], "rightedge")
             ]),
 
             # Output group
-            hf.MembGroup("heater", 0.0, 1.0, [
-                hf.MembFunc("off", [0.1], "tsk"),
-                hf.MembFunc("medium", [0.5], "tsk"),
-                hf.MembFunc("on", [0.9], "tsk")
+            hf.FuzzyGroup("heater", 0.0, 1.0, [
+                hf.FuzzyFunc("off", [0.1], "tsk"),
+                hf.FuzzyFunc("medium", [0.5], "tsk"),
+                hf.FuzzyFunc("on", [0.9], "tsk")
             ]),
         ]),
 

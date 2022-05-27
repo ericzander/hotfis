@@ -1,11 +1,11 @@
 """Fuzzy rule testing.
 """
 
-from hotfis import MembGroupset, FuzzyRule
+from hotfis import FuzzyGroupset, FuzzyRule
 
 
 def main():
-    gset = MembGroupset("../objects/groupset1.txt")
+    gset = FuzzyGroupset("../objects/groupset1.txt")
 
     rule1 = FuzzyRule("if temperature is cold then heater is on")
     output1 = rule1.evaluate({"temperature": 35}, gset)

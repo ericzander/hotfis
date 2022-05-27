@@ -4,11 +4,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-from hotfis.membership.membfunc import MembFunc
+from hotfis.membership.fuzzyfunc import FuzzyFunc
 
 
 def main():
-    fn = MembFunc("fn1", [0, 2, 4], [0, 1, 0])
+    fn = FuzzyFunc("fn1", [0, 2, 4], [0, 1, 0])
     # fn = MembFunc("fn2", [0, 2, 4, 6], "trapezoidal")
     # fn = MembFunc("fn3", [2, 1], "gaussian")
     # fn = MembFunc("fn4", [0, 2, 4, 5, 9], [0.2, 0.4, 1.0, 0.65, 1.0])

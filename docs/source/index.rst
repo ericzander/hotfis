@@ -13,7 +13,7 @@ Contents
    :maxdepth: 1
 
    api
-   membfunc_templates
+   fuzzyfunc_templates
 
 Index
 =====

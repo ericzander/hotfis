@@ -29,34 +29,34 @@ def main():
 
 
 def create_network():
-    groupset = MembGroupset([
-        MembGroup("cloudy", 0, 10, [
-            MembFunc("clear", [4, 6], "leftedge"),
-            MembFunc("overcast", [4, 6], "rightedge"),
+    groupset = FuzzyGroupset([
+        FuzzyGroup("cloudy", 0, 10, [
+            FuzzyFunc("clear", [4, 6], "leftedge"),
+            FuzzyFunc("overcast", [4, 6], "rightedge"),
         ]),
-        MembGroup("time", 0, 10, [
-            MembFunc("day", [3, 7], "leftedge"),
-            MembFunc("night", [3, 7], "rightedge"),
+        FuzzyGroup("time", 0, 10, [
+            FuzzyFunc("day", [3, 7], "leftedge"),
+            FuzzyFunc("night", [3, 7], "rightedge"),
         ]),
-        MembGroup("humidity", 0, 10, [
-            MembFunc("low", [4, 7], "leftedge"),
-            MembFunc("high", [4, 7], "rightedge"),
+        FuzzyGroup("humidity", 0, 10, [
+            FuzzyFunc("low", [4, 7], "leftedge"),
+            FuzzyFunc("high", [4, 7], "rightedge"),
         ]),
-        MembGroup("rain", 0, 10, [
-            MembFunc("light", [1, 5], "leftedge"),
-            MembFunc("heavy", [1, 5], "rightedge"),
+        FuzzyGroup("rain", 0, 10, [
+            FuzzyFunc("light", [1, 5], "leftedge"),
+            FuzzyFunc("heavy", [1, 5], "rightedge"),
         ]),
-        MembGroup("sun", 0, 10, [
-            MembFunc("low", [2, 3], "leftedge"),
-            MembFunc("high", [2, 3], "rightedge"),
+        FuzzyGroup("sun", 0, 10, [
+            FuzzyFunc("low", [2, 3], "leftedge"),
+            FuzzyFunc("high", [2, 3], "rightedge"),
         ]),
-        MembGroup("water", 0, 10, [
-            MembFunc("low", [4, 5], "leftedge"),
-            MembFunc("high", [4, 5], "rightedge"),
+        FuzzyGroup("water", 0, 10, [
+            FuzzyFunc("low", [4, 5], "leftedge"),
+            FuzzyFunc("high", [4, 5], "rightedge"),
         ]),
-        MembGroup("growth", 0, 10, [
-            MembFunc("low", [2, 4], "leftedge"),
-            MembFunc("high", [2, 4], "rightedge"),
+        FuzzyGroup("growth", 0, 10, [
+            FuzzyFunc("low", [2, 4], "leftedge"),
+            FuzzyFunc("high", [2, 4], "rightedge"),
         ])
     ])
 

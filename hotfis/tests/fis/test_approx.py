@@ -10,25 +10,25 @@ def main():
     # Fuzzy inference system
     fis = hf.FIS(
         # Define membership functions
-        hf.MembGroupset([
+        hf.FuzzyGroupset([
             # Input group 1
-            hf.MembGroup("service", 0, 10, [
-                hf.MembFunc("poor", [3, 5], "leftedge"),
-                hf.MembFunc("good", [3, 5, 7], "triangular"),
-                hf.MembFunc("excellent", [5, 7], "rightedge")
+            hf.FuzzyGroup("service", 0, 10, [
+                hf.FuzzyFunc("poor", [3, 5], "leftedge"),
+                hf.FuzzyFunc("good", [3, 5, 7], "triangular"),
+                hf.FuzzyFunc("excellent", [5, 7], "rightedge")
             ]),
 
             # Input group 1
-            hf.MembGroup("food", 0, 10, [
-                hf.MembFunc("rancid", [4, 6], "leftedge"),
-                hf.MembFunc("delicious", [4, 6], "rightedge")
+            hf.FuzzyGroup("food", 0, 10, [
+                hf.FuzzyFunc("rancid", [4, 6], "leftedge"),
+                hf.FuzzyFunc("delicious", [4, 6], "rightedge")
             ]),
 
             # Output group
-            hf.MembGroup("tip", 0, 30, [
-                hf.MembFunc("cheap", [7], "tsk"),
-                hf.MembFunc("average", [17], "tsk"),
-                hf.MembFunc("generous", [26], "tsk")
+            hf.FuzzyGroup("tip", 0, 30, [
+                hf.FuzzyFunc("cheap", [7], "tsk"),
+                hf.FuzzyFunc("average", [17], "tsk"),
+                hf.FuzzyFunc("generous", [26], "tsk")
             ]),
         ]),
 

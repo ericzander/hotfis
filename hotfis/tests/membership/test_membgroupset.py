@@ -1,13 +1,13 @@
 """Membership function groupset testing.
 """
 
-from hotfis import MembGroupset
+from hotfis import FuzzyGroupset
 
 import matplotlib.pyplot as plt
 
 
 def main():
-    gset = MembGroupset("../objects/groupset1.txt")
+    gset = FuzzyGroupset("../objects/groupset1.txt")
 
     for group in gset:
         print(group.name)

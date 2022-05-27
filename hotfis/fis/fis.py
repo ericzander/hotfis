@@ -12,7 +12,7 @@ import itertools
 import numpy as np
 import matplotlib.pyplot as plt
 
-from hotfis import MembFunc, MembGroup, MembGroupset, FuzzyRule, FuzzyRuleset
+from hotfis import FuzzyFunc, FuzzyGroup, FuzzyGroupset, FuzzyRule, FuzzyRuleset
 
 
 class FIS:
@@ -23,7 +23,7 @@ class FIS:
         ruleset: Ruleset to be evaluated or path to file with rules.
 
     Attributes:
-        groupset (MembGroupset): Groupset of membership functions required for evaluation.
+        groupset (FuzzyGroupset): Groupset of membership functions required for evaluation.
         ruleset (FuzzyRuleset): Ruleset to be evaluated.
 
     Example:
@@ -31,27 +31,27 @@ class FIS:
 
         >>> fis1 = FIS(
         >>>     # Create membership functions
-        >>>     MembGroupset([
+        >>>     FuzzyGroupset([
         >>>         # Create temperature group for input
-        >>>         MembGroup("temperature", 30, 70, [
-        >>>             MembFunc("cold", [30, 40], "leftedge"),
-        >>>             MembFunc("warm", [30, 40, 60, 70], "trapezoidal"),
-        >>>             MembFunc("hot", [60, 70], "rightedge")
+        >>>         FuzzyGroup("temperature", 30, 70, [
+        >>>             FuzzyFunc("cold", [30, 40], "leftedge"),
+        >>>             FuzzyFunc("warm", [30, 40, 60, 70], "trapezoidal"),
+        >>>             FuzzyFunc("hot", [60, 70], "rightedge")
         >>>         ]),
         >>>
         >>>         # Create heater group for output
-        >>>         MembGroup("heater", 0.0, 1.0, [
-        >>>             MembFunc("off", [0.1, 0.2], "leftedge"),
-        >>>             MembFunc("medium", [0.1, 0.2, 0.8, 0.9], "trapezoidal"),
-        >>>             MembFunc("on", [0.8, 0.9], "rightedge")
+        >>>         FuzzyGroup("heater", 0.0, 1.0, [
+        >>>             FuzzyFunc("off", [0.1, 0.2], "leftedge"),
+        >>>             FuzzyFunc("medium", [0.1, 0.2, 0.8, 0.9], "trapezoidal"),
+        >>>             FuzzyFunc("on", [0.8, 0.9], "rightedge")
         >>>         ]),
         >>>     ]),
         >>>
         >>>     # Create ruleset
         >>>     FuzzyRuleset([
-        >>>         FuzzyRule("if temperature is cold then heater is on"),
-        >>>         FuzzyRule("if temperature is warm then heater is medium"),
-        >>>         FuzzyRule("if temperature is hot then heater is off"),
+        >>>         "if temperature is cold then heater is on",
+        >>>         "if temperature is warm then heater is medium",
+        >>>         "if temperature is hot then heater is off",
         >>>     ])
         >>> )
 
@@ -86,10 +86,10 @@ class FIS:
     # Constructor
     # -----------
 
-    def __init__(self, groupset: Union[str, MembGroupset],
+    def __init__(self, groupset: Union[str, FuzzyGroupset],
                  ruleset: Union[str, FuzzyRuleset]):
         # Save or create membership function groupset and ruleset
-        self.groupset = MembGroupset(groupset) if isinstance(groupset, str) else groupset
+        self.groupset = FuzzyGroupset(groupset) if isinstance(groupset, str) else groupset
         self.ruleset = FuzzyRuleset(ruleset) if isinstance(ruleset, str) else ruleset
 
     # ------------------
@@ -343,7 +343,7 @@ class FIS:
 
     # Approximation Helpers
 
-    def _approx_groups(self) -> Dict[str, List[MembFunc]]:
+    def _approx_groups(self) -> Dict[str, List[FuzzyFunc]]:
         """Approximates Mamdani output membership function groups given a FIS.
 
         Returns:
@@ -363,7 +363,7 @@ class FIS:
 
         return group_funcs
 
-    def __approx_fn(self, rule: FuzzyRule) -> Tuple[str, MembFunc]:
+    def __approx_fn(self, rule: FuzzyRule) -> Tuple[str, FuzzyFunc]:
         # Save left, center, and middle antecedent function values
         all_params = self.__get_antecedent_params(rule)
 
@@ -433,12 +433,12 @@ class FIS:
 
         params = np.unique(params)
 
-        return MembFunc(fn_name, params, fn_type)
+        return FuzzyFunc(fn_name, params, fn_type)
 
     # Wrap-up Helpers
 
     def _create_approx_groupset(self: FIS,
-                                group_funcs: Dict[str, List[MembFunc]]) -> MembGroupset:
+                                group_funcs: Dict[str, List[FuzzyFunc]]) -> FuzzyGroupset:
         approx_groupset = self.groupset.copy()
 
         # For each output group name
@@ -450,7 +450,7 @@ class FIS:
                 xmax = max(xmax, np.max(fn.params))
 
             # Create resulting group and save in output groupset
-            approx_group = MembGroup(gname, xmin, xmax, group_funcs[gname])
+            approx_group = FuzzyGroup(gname, xmin, xmax, group_funcs[gname])
             approx_groupset[gname] = approx_group
 
         return approx_groupset

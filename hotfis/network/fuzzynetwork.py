@@ -9,7 +9,7 @@ from numpy.typing import ArrayLike
 
 import numpy as np
 
-from hotfis import FIS, MembGroupset, FuzzyRuleset
+from hotfis import FIS, FuzzyGroupset, FuzzyRuleset
 
 
 class _FuzzyNode(FIS):
@@ -73,7 +73,7 @@ class FuzzyNetwork:
     # Constructor
     # -----------
 
-    def __init__(self, groupset: MembGroupset):
+    def __init__(self, groupset: FuzzyGroupset):
         self.groupset = groupset
 
         self.roots = dict()

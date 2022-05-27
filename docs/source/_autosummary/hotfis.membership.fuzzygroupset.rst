@@ -1,7 +1,7 @@
-membgroup
-=========
+fuzzygroupset
+=============
 
-.. automodule:: hotfis.membership.membgroup
+.. automodule:: hotfis.membership.fuzzygroupset
 
    
    
@@ -19,7 +19,7 @@ membgroup
       :toctree:
       :template: custom-class-template.rst
    
-      MembGroup
+      FuzzyGroupset
    
    
 

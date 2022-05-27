@@ -7,7 +7,7 @@ from numpy.typing import ArrayLike
 
 import numpy as np
 
-from hotfis import MembGroupset
+from hotfis import FuzzyGroupset
 
 
 # --------------------------
@@ -30,7 +30,7 @@ class _Antecedent:
         self.fn_name = fn_name
         self.is_and = is_and
 
-    def eval(self, x: ArrayLike, groupset: MembGroupset) -> ArrayLike:
+    def eval(self, x: ArrayLike, groupset: FuzzyGroupset) -> ArrayLike:
         # Calculate membership(s) to respective function in group
         return groupset[self.group_name][self.fn_name](x)
 
@@ -82,7 +82,7 @@ class FuzzyRule:
     # -------
 
     def evaluate(self, x: Mapping[str, ArrayLike],
-                 groupset: MembGroupset) -> Tuple[str, str, ArrayLike]:
+                 groupset: FuzzyGroupset) -> Tuple[str, str, ArrayLike]:
         """Evaluates the rule given valid input values and compatible groupset.
 
         The inputs can be dictionaries or similar data structures where the

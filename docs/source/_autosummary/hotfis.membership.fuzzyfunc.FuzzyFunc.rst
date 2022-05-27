@@ -1,9 +1,9 @@
-MembFunc
-========
+FuzzyFunc
+=========
 
-.. currentmodule:: hotfis.membership.membfunc
+.. currentmodule:: hotfis.membership.fuzzyfunc
 
-.. autoclass:: MembFunc
+.. autoclass:: FuzzyFunc
    :members:
    :show-inheritance:
    :inherited-members:
@@ -16,8 +16,8 @@ MembFunc
 
    .. autosummary::
    
-      ~MembFunc.__call__
-      ~MembFunc.plot
+      ~FuzzyFunc.__call__
+      ~FuzzyFunc.plot
 
    
    

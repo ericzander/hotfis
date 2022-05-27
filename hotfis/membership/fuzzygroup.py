@@ -12,10 +12,10 @@ from typing import List, Tuple, Optional
 import numpy as np
 import matplotlib.pyplot as plt
 
-from hotfis import MembFunc
+from hotfis import FuzzyFunc
 
 
-class MembGroup:
+class FuzzyGroup:
     """A collection of membership functions corresponding to fuzzy sets.
 
     Args:
@@ -34,7 +34,7 @@ class MembGroup:
     # Constructor
     # -----------
 
-    def __init__(self, name: str, xmin: float, xmax: float, fns: List[MembFunc]):
+    def __init__(self, name: str, xmin: float, xmax: float, fns: List[FuzzyFunc]):
         # Save group name and functions
         self.name = name
         self.fns = {fn.name: fn for fn in fns}
@@ -46,7 +46,7 @@ class MembGroup:
     # Methods
     # -------
 
-    def __getitem__(self, fn_name) -> MembFunc:
+    def __getitem__(self, fn_name) -> FuzzyFunc:
         """Supports subscripting with membership function name.
 
         Args:
@@ -54,7 +54,7 @@ class MembGroup:
         """
         return self.fns[fn_name]
 
-    def __setitem__(self, fn_name: str, fn: MembFunc):
+    def __setitem__(self, fn_name: str, fn: FuzzyFunc):
         """Supports function assignment with subscripting.
 
         Will overwrite a function if it already exists.

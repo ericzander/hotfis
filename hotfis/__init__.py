@@ -7,9 +7,9 @@ inspect.TypeAliasForwardRef.__repr__ = lambda self: self.name
 inspect.TypeAliasForwardRef.__hash__ = lambda self: hash(self.name)
 
 # Membership function objects
-from .membership.membfunc import MembFunc
-from .membership.membgroup import MembGroup
-from .membership.membgroupset import MembGroupset
+from .membership.fuzzyfunc import FuzzyFunc
+from .membership.fuzzygroup import FuzzyGroup
+from .membership.fuzzygroupset import FuzzyGroupset
 
 # Rule objects
 from .rules.fuzzyrule import FuzzyRule

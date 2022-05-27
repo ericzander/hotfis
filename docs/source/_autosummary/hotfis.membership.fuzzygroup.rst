@@ -1,7 +1,7 @@
-membfunc
-========
+fuzzygroup
+==========
 
-.. automodule:: hotfis.membership.membfunc
+.. automodule:: hotfis.membership.fuzzygroup
 
    
    
@@ -19,7 +19,7 @@ membfunc
       :toctree:
       :template: custom-class-template.rst
    
-      MembFunc
+      FuzzyGroup
    
    
 

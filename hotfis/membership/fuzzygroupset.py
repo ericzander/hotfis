@@ -13,10 +13,10 @@ from typing import List, Dict, Union
 import os
 import copy
 
-from hotfis import MembGroup, MembFunc
+from hotfis import FuzzyGroup, FuzzyFunc
 
 
-class MembGroupset:
+class FuzzyGroupset:
     """A collection of membership function groups for use in FIS evaluation.
 
     Membership function groupsets are collections of membership function groups
@@ -30,21 +30,21 @@ class MembGroupset:
         source: Path to file with membership function groups or MembGroups.
 
     Attributes:
-        groups (Dict[str, MembGroup]): Dictionary of named groups.
+        groups (Dict[str, FuzzyGroup]): Dictionary of named groups.
 
     Example:
         Method 1:
 
-        >>> groupset1 = MembGroupset([
-        >>>     MembGroup("temperature",  30, 70, [
-        >>>         MembFunc("cold", [30, 40], "leftedge", ),
-        >>>         MembFunc("warm", [30, 40, 60, 70], "trapezoidal"),
-        >>>         MembFunc("hot", [60, 70], "rightedge")
+        >>> groupset1 = FuzzyGroupset([
+        >>>     FuzzyGroup("temperature",  30, 70, [
+        >>>         FuzzyFunc("cold", [30, 40], "leftedge", ),
+        >>>         FuzzyFunc("warm", [30, 40, 60, 70], "trapezoidal"),
+        >>>         FuzzyFunc("hot", [60, 70], "rightedge")
         >>>     ]),
-        >>>     MembGroup("heater", 0.0, 1.0, [
-        >>>         MembFunc("off", [0.1, 0.2], "leftedge"),
-        >>>         MembFunc("medium", [0.1, 0.2, 0.8, 0.9], "trapezoidal"),
-        >>>         MembFunc("on", [0.8, 0.9], "rightedge")
+        >>>     FuzzyGroup("heater", 0.0, 1.0, [
+        >>>         FuzzyFunc("off", [0.1, 0.2], "leftedge"),
+        >>>         FuzzyFunc("medium", [0.1, 0.2, 0.8, 0.9], "trapezoidal"),
+        >>>         FuzzyFunc("on", [0.8, 0.9], "rightedge")
         >>>     ]),
         >>> ])
 
@@ -64,14 +64,14 @@ class MembGroupset:
             rightedge on 0.8 0.9
             domain 0.0 1.0
 
-        >>> groupset2 = MembGroupset("example_groups.txt")
+        >>> groupset2 = FuzzyGroupset("example_groups.txt")
     """
     # -----------
     # Constructor
     # -----------
 
-    def __init__(self, source: Union[str, List[MembGroup]]):
-        self.groups: Dict[str, MembGroup] = dict()
+    def __init__(self, source: Union[str, List[FuzzyGroup]]):
+        self.groups: Dict[str, FuzzyGroup] = dict()
 
         # Read groups from given file or list of groups
         if isinstance(source, str):
@@ -83,7 +83,7 @@ class MembGroupset:
     # Methods
     # -------
 
-    def __getitem__(self, group_name) -> MembGroup:
+    def __getitem__(self, group_name) -> FuzzyGroup:
         """Supports subscripting with group name.
 
         Args:
@@ -91,7 +91,7 @@ class MembGroupset:
         """
         return self.groups[group_name]
 
-    def __setitem__(self, group_name: str, group: MembGroup):
+    def __setitem__(self, group_name: str, group: FuzzyGroup):
         """Supports group assignment with subscripting.
 
         Will overwrite a group if it already exists.
@@ -153,23 +153,23 @@ class MembGroupset:
                 continue
             elif line[0] == "group":
                 name = line[1]
-            elif line[0] in MembFunc.templates:
+            elif line[0] in FuzzyFunc.templates:
                 fn = self.__read_function(line)
                 functions.append(fn)
             elif line[0] == "domain":
                 domain = (float(line[1]), float(line[2]))
-                self.groups[name] = MembGroup(name, domain[0], domain[1], functions)
+                self.groups[name] = FuzzyGroup(name, domain[0], domain[1], functions)
                 name = None
                 functions = []
             else:
                 raise ValueError(f"Unreadable line: {line}")
 
     @staticmethod
-    def __read_function(line: List[str]) -> MembFunc:
+    def __read_function(line: List[str]) -> FuzzyFunc:
         """Helper function for reading a single membership function
         """
         fn_type = line[0]
         fn_name = line[1]
 
         # Pass function type, name, and parameters as floats to create_mf
-        return MembFunc(fn_name, [float(x) for x in line[2:]], fn_type)
+        return FuzzyFunc(fn_name, [float(x) for x in line[2:]], fn_type)
