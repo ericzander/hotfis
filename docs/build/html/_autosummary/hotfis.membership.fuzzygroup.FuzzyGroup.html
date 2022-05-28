@@ -1,0 +1,283 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>FuzzyGroup &#8212; HotFIS 0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="fuzzygroupset" href="hotfis.membership.fuzzygroupset.html" />
+    <link rel="prev" title="fuzzygroup" href="hotfis.membership.fuzzygroup.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="fuzzygroup">
+<h1>FuzzyGroup<a class="headerlink" href="#fuzzygroup" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="hotfis.membership.fuzzygroup.FuzzyGroup">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">FuzzyGroup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xmin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xmax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="hotfis.membership.fuzzyfunc.FuzzyFunc.html#hotfis.membership.fuzzyfunc.FuzzyFunc" title="hotfis.membership.fuzzyfunc.FuzzyFunc"><span class="pre">hotfis.membership.fuzzyfunc.FuzzyFunc</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hotfis.membership.fuzzygroup.FuzzyGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A collection of membership functions corresponding to fuzzy sets.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – The name of the group.</p></li>
+<li><p><strong>xmin</strong> – Smallest group domain value used in Mamdani evaluation and visualization.</p></li>
+<li><p><strong>xmax</strong> – Largest group domain value used in Mamdani evaluation and visualization.</p></li>
+<li><p><strong>fns</strong> – A list of MembFuncs stored in the group.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="hotfis.membership.fuzzygroup.FuzzyGroup.fns">
+<span class="sig-name descname"><span class="pre">fns</span></span><a class="headerlink" href="#hotfis.membership.fuzzygroup.FuzzyGroup.fns" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dictionary of MembFuncs stored in the group.
+Their names are keys and the objects themselves are values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Dict[MembFunc]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="hotfis.membership.fuzzygroup.FuzzyGroup.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#hotfis.membership.fuzzygroup.FuzzyGroup.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the group.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="hotfis.membership.fuzzygroup.FuzzyGroup.domain">
+<span class="sig-name descname"><span class="pre">domain</span></span><a class="headerlink" href="#hotfis.membership.fuzzygroup.FuzzyGroup.domain" title="Permalink to this definition">¶</a></dt>
+<dd><p>Domain for Mamdani evaluation and visualization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Tuple[float, float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hotfis.membership.fuzzygroup.FuzzyGroup.__getitem__" title="hotfis.membership.fuzzygroup.FuzzyGroup.__getitem__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__getitem__</span></code></a>(fn_name)</p></td>
+<td><p>Supports subscripting with membership function name.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#hotfis.membership.fuzzygroup.FuzzyGroup.__iter__" title="hotfis.membership.fuzzygroup.FuzzyGroup.__iter__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__iter__</span></code></a>()</p></td>
+<td><p>Can iterate through each membership function.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hotfis.membership.fuzzygroup.FuzzyGroup.__setitem__" title="hotfis.membership.fuzzygroup.FuzzyGroup.__setitem__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__setitem__</span></code></a>(fn_name, fn)</p></td>
+<td><p>Supports function assignment with subscripting.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#hotfis.membership.fuzzygroup.FuzzyGroup.items" title="hotfis.membership.fuzzygroup.FuzzyGroup.items"><code class="xref py py-obj docutils literal notranslate"><span class="pre">items</span></code></a>()</p></td>
+<td><p>Returns each function name and object.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hotfis.membership.fuzzygroup.FuzzyGroup.keys" title="hotfis.membership.fuzzygroup.FuzzyGroup.keys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">keys</span></code></a>()</p></td>
+<td><p>Returns the names of each contained membership function.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#hotfis.membership.fuzzygroup.FuzzyGroup.plot" title="hotfis.membership.fuzzygroup.FuzzyGroup.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>([start, stop, num_points, ...])</p></td>
+<td><p>Plots every function in the group in a new figure.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hotfis.membership.fuzzygroup.FuzzyGroup.values" title="hotfis.membership.fuzzygroup.FuzzyGroup.values"><code class="xref py py-obj docutils literal notranslate"><span class="pre">values</span></code></a>()</p></td>
+<td><p>Returns each membership function.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="hotfis.membership.fuzzygroup.FuzzyGroup.__getitem__">
+<span class="sig-name descname"><span class="pre">__getitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn_name</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="hotfis.membership.fuzzyfunc.FuzzyFunc.html#hotfis.membership.fuzzyfunc.FuzzyFunc" title="hotfis.membership.fuzzyfunc.FuzzyFunc"><span class="pre">hotfis.membership.fuzzyfunc.FuzzyFunc</span></a></span></span><a class="headerlink" href="#hotfis.membership.fuzzygroup.FuzzyGroup.__getitem__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Supports subscripting with membership function name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>fn_name</strong> – Name of the function to retrieve.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hotfis.membership.fuzzygroup.FuzzyGroup.__iter__">
+<span class="sig-name descname"><span class="pre">__iter__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hotfis.membership.fuzzygroup.FuzzyGroup.__iter__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Can iterate through each membership function.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hotfis.membership.fuzzygroup.FuzzyGroup.__setitem__">
+<span class="sig-name descname"><span class="pre">__setitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="hotfis.membership.fuzzyfunc.FuzzyFunc.html#hotfis.membership.fuzzyfunc.FuzzyFunc" title="hotfis.membership.fuzzyfunc.FuzzyFunc"><span class="pre">hotfis.membership.fuzzyfunc.FuzzyFunc</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hotfis.membership.fuzzygroup.FuzzyGroup.__setitem__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Supports function assignment with subscripting.</p>
+<p>Will overwrite a function if it already exists.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fn_name</strong> – The function name.</p></li>
+<li><p><strong>fn</strong> – Function to save in group.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hotfis.membership.fuzzygroup.FuzzyGroup.items">
+<span class="sig-name descname"><span class="pre">items</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hotfis.membership.fuzzygroup.FuzzyGroup.items" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns each function name and object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hotfis.membership.fuzzygroup.FuzzyGroup.keys">
+<span class="sig-name descname"><span class="pre">keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hotfis.membership.fuzzygroup.FuzzyGroup.keys" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the names of each contained membership function.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hotfis.membership.fuzzygroup.FuzzyGroup.plot">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">500</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stagger_labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'black'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fill_alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">plt_kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hotfis.membership.fuzzygroup.FuzzyGroup.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots every function in the group in a new figure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start</strong> – Specified start of plot domain.
+Defaults to group domain start if None is passed.</p></li>
+<li><p><strong>stop</strong> – Specified end of plot domain.
+Defaults to group domain end if None is passed.</p></li>
+<li><p><strong>num_points</strong> – Number of points to plot for each function.</p></li>
+<li><p><strong>stagger_labels</strong> – Whether to stagger function label names on top.</p></li>
+<li><p><strong>line_color</strong> – matplotlib.pyplot color of the line representing the function.</p></li>
+<li><p><strong>fill_alpha</strong> – Alpha of function color. Set to 0.0 for no fill.</p></li>
+<li><p><strong>**plt_kwargs</strong> – matplotlib.pyplot plotting options.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hotfis.membership.fuzzygroup.FuzzyGroup.values">
+<span class="sig-name descname"><span class="pre">values</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hotfis.membership.fuzzygroup.FuzzyGroup.values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns each membership function.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/hotfis_icon2.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">HotFIS</h1>
+    
+  </a>
+</p>
+
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=ericzander&repo=hotfis&type=star&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../func_templates.html">Function Templates</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="../api.html">API Reference</a><ul>
+  <li><a href="hotfis.html">hotfis</a><ul>
+  <li><a href="hotfis.membership.html">membership</a><ul>
+  <li><a href="hotfis.membership.fuzzygroup.html">fuzzygroup</a><ul>
+      <li>Previous: <a href="hotfis.membership.fuzzygroup.html" title="previous chapter">fuzzygroup</a></li>
+      <li>Next: <a href="hotfis.membership.fuzzygroupset.html" title="next chapter">fuzzygroupset</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Eric Zander.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/_autosummary/hotfis.membership.fuzzygroup.FuzzyGroup.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

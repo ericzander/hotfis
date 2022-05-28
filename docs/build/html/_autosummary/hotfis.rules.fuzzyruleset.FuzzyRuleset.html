@@ -1,0 +1,235 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>FuzzyRuleset &#8212; HotFIS 0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Function Templates" href="../func_templates.html" />
+    <link rel="prev" title="fuzzyruleset" href="hotfis.rules.fuzzyruleset.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="fuzzyruleset">
+<h1>FuzzyRuleset<a class="headerlink" href="#fuzzyruleset" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="hotfis.rules.fuzzyruleset.FuzzyRuleset">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">FuzzyRuleset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="hotfis.rules.fuzzyrule.FuzzyRule.html#hotfis.rules.fuzzyrule.FuzzyRule" title="hotfis.rules.fuzzyrule.FuzzyRule"><span class="pre">hotfis.rules.fuzzyrule.FuzzyRule</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hotfis.rules.fuzzyruleset.FuzzyRuleset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Ruleset to be used in fuzzy inference system evaluation.</p>
+<p>FuzzyRulesets are collections of rules that may be evaluated in membership
+inference. FuzzyRulesets can be defined directly with a List of str/FuzzyRules
+or by passing the path to text file with rules on separate lines.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>source</strong> – Filepath to file with rules or list of rules as rules or FuzzyRules.</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="hotfis.rules.fuzzyruleset.FuzzyRuleset.rules">
+<span class="sig-name descname"><span class="pre">rules</span></span><a class="headerlink" href="#hotfis.rules.fuzzyruleset.FuzzyRuleset.rules" title="Permalink to this definition">¶</a></dt>
+<dd><p>FuzzyRules comprising the ruleset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>List[<a class="reference internal" href="hotfis.rules.fuzzyrule.FuzzyRule.html#hotfis.rules.fuzzyrule.FuzzyRule" title="hotfis.rules.fuzzyrule.FuzzyRule">FuzzyRule</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="hotfis.rules.fuzzyruleset.FuzzyRuleset.input_names">
+<span class="sig-name descname"><span class="pre">input_names</span></span><a class="headerlink" href="#hotfis.rules.fuzzyruleset.FuzzyRuleset.input_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Names of required inputs (ex. {“food”, “service”})</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Set[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="hotfis.rules.fuzzyruleset.FuzzyRuleset.output_names">
+<span class="sig-name descname"><span class="pre">output_names</span></span><a class="headerlink" href="#hotfis.rules.fuzzyruleset.FuzzyRuleset.output_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Names of ruleset outputs (ex. {“tip”})</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Set[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Example</p>
+<p>Method 1:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ruleset1</span> <span class="o">=</span> <span class="n">FuzzyRuleset</span><span class="p">([</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="s2">&quot;if temperature is cold then heater is on&quot;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="s2">&quot;if temperature is warm then heater is medium&quot;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="s2">&quot;if temperature is hot then heater is off&quot;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Method 2:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">===</span> <span class="n">example_rules</span><span class="o">.</span><span class="n">txt</span> <span class="o">===</span>
+
+<span class="k">if</span> <span class="n">service</span> <span class="ow">is</span> <span class="n">poor</span> <span class="ow">or</span> <span class="n">food</span> <span class="ow">is</span> <span class="n">rancid</span> <span class="n">then</span> <span class="n">tip</span> <span class="ow">is</span> <span class="n">cheap</span>
+<span class="k">if</span> <span class="n">service</span> <span class="ow">is</span> <span class="n">good</span> <span class="n">then</span> <span class="n">tip</span> <span class="ow">is</span> <span class="n">average</span>
+<span class="k">if</span> <span class="n">service</span> <span class="ow">is</span> <span class="n">excellent</span> <span class="ow">and</span> <span class="n">food</span> <span class="ow">is</span> <span class="n">delicioius</span> <span class="n">then</span> <span class="n">tip</span> <span class="ow">is</span> <span class="n">generous</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ruleset2</span> <span class="o">=</span> <span class="n">FuzzyRuleset</span><span class="p">(</span><span class="s2">&quot;example_rules.txt&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hotfis.rules.fuzzyruleset.FuzzyRuleset.__iter__" title="hotfis.rules.fuzzyruleset.FuzzyRuleset.__iter__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__iter__</span></code></a>()</p></td>
+<td><p>Supports iteration through rules.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#hotfis.rules.fuzzyruleset.FuzzyRuleset.get_input_names" title="hotfis.rules.fuzzyruleset.FuzzyRuleset.get_input_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_input_names</span></code></a>()</p></td>
+<td><p>Returns a set of required input names.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#hotfis.rules.fuzzyruleset.FuzzyRuleset.get_outputs_name" title="hotfis.rules.fuzzyruleset.FuzzyRuleset.get_outputs_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_outputs_name</span></code></a>()</p></td>
+<td><p>Returns a set of output names.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="hotfis.rules.fuzzyruleset.FuzzyRuleset.__iter__">
+<span class="sig-name descname"><span class="pre">__iter__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hotfis.rules.fuzzyruleset.FuzzyRuleset.__iter__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Supports iteration through rules.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hotfis.rules.fuzzyruleset.FuzzyRuleset.get_input_names">
+<span class="sig-name descname"><span class="pre">get_input_names</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#hotfis.rules.fuzzyruleset.FuzzyRuleset.get_input_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a set of required input names.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hotfis.rules.fuzzyruleset.FuzzyRuleset.get_outputs_name">
+<span class="sig-name descname"><span class="pre">get_outputs_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#hotfis.rules.fuzzyruleset.FuzzyRuleset.get_outputs_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a set of output names.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/hotfis_icon2.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">HotFIS</h1>
+    
+  </a>
+</p>
+
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=ericzander&repo=hotfis&type=star&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../func_templates.html">Function Templates</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="../api.html">API Reference</a><ul>
+  <li><a href="hotfis.html">hotfis</a><ul>
+  <li><a href="hotfis.rules.html">rules</a><ul>
+  <li><a href="hotfis.rules.fuzzyruleset.html">fuzzyruleset</a><ul>
+      <li>Previous: <a href="hotfis.rules.fuzzyruleset.html" title="previous chapter">fuzzyruleset</a></li>
+      <li>Next: <a href="../func_templates.html" title="next chapter">Function Templates</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Eric Zander.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/_autosummary/hotfis.rules.fuzzyruleset.FuzzyRuleset.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
