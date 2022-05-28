@@ -12,6 +12,7 @@ Contents
 .. toctree::
    :maxdepth: 1
 
+   getting_started
    api
    func_templates
 
