@@ -28,9 +28,9 @@
    :template: custom-module-template.rst
    :recursive:
 
+   hotfis.experiments
    hotfis.fis
    hotfis.membership
    hotfis.network
    hotfis.rules
-   hotfis.tests
 

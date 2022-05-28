@@ -62,7 +62,14 @@ html_theme = 'alabaster'
 
 # Theme options
 html_theme_options = {
+    "logo": "hotfis_icon2.png",
+    "logo_name": True,
+    "logo_text_align": "center",
 
+    "github_repo": "hotfis",
+    "github_user": "ericzander",
+    "github_button": True,
+    "github_type": "star",
 }
 
 

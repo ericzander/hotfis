@@ -13,7 +13,7 @@ Contents
    :maxdepth: 1
 
    api
-   fuzzyfunc_templates
+   func_templates
 
 Index
 =====

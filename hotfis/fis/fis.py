@@ -16,7 +16,18 @@ from hotfis import FuzzyFunc, FuzzyGroup, FuzzyGroupset, FuzzyRule, FuzzyRuleset
 
 
 class FIS:
-    """Fuzzy inference system (FIS) comprised of membership functions and a ruleset.
+    """Fuzzy inference system (FIS).
+
+    A FIS is comprised of a FuzzyGroupset containing membership functions and
+    a FuzzyRuleset containing rules referring to said membership functions.
+
+    With compatible membership functions and rules, a FIS is capable of
+    determining memberships, fuzzified Mamdani output, and defuzzified
+    Takagi-Sugeno-Kang (TSK) output.
+
+    The FIS class also includes methods for defuzzifying Mamdani output,
+    plotting Mamdani/TSK output, converting calculated memberships to
+    Mamdani/TSK output, and other utilities.
 
     Args:
         groupset: Groupset of membership functions or path to file with groups.
@@ -326,6 +337,8 @@ class FIS:
 
     def approximate_mamdani(self) -> FIS:
         """Creates FIS with output functions approximated through TSK evaluation.
+
+        EXPERIMENTAL
 
         Returns:
             A new FIS with approximated Mamdani output functions.
