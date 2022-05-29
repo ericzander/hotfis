@@ -1,10 +1,9 @@
-.. HotFIS documentation master file, created by
-   sphinx-quickstart on Sat Apr 30 16:13:39 2022.
+.. HotFIS documentation master file
 
 Welcome
 ==================================
 
-Quickly create, alter, and visualize fuzzy inference systems in Python!
+Create, alter, and visualize fuzzy inference systems in Python!
 
 Contents
 ========
@@ -15,6 +14,11 @@ Contents
    getting_started
    api
    func_templates
+
+Links
+========
+
+* `GitHub Repository <https://github.com/ericzander/hotfis>`_
 
 Index
 =====

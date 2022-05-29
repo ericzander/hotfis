@@ -66,8 +66,8 @@ html_theme_options = {
     "logo_name": True,
     "logo_text_align": "center",
 
-    "github_repo": "hotfis",
     "github_user": "ericzander",
+    "github_repo": "hotfis",
     "github_button": True,
     "github_type": "star",
 }
