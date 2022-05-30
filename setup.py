@@ -2,7 +2,8 @@ import setuptools
 
 setuptools.setup(
     name = "hotfis",
-    version = "0.0.5",
+    version = "0.0.6",
+    description = "Create, alter, and visualize fuzzy inference systems in Python!",
     author = "Eric Zander",
     url = "https://github.com/ericzander/hotfis",
     packages = setuptools.find_packages(),

@@ -102,7 +102,7 @@ class FuzzyGroup:
             **plt_kwargs: matplotlib.pyplot plotting options.
         """
         # Create figure twin x axes (top one for function names)
-        ax1 = plt.figure().add_subplot(111)
+        ax1 = plt.gcf().add_subplot(111)
         ax2 = ax1.twiny()
 
         # Prepare to save xticks
