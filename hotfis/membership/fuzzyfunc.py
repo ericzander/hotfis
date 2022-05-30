@@ -30,7 +30,7 @@ class FuzzyFunc:
             of a polynomial used in evaluation of dedicated Takagi-Sugeno-Kang
             output functions if the template name "tsk" is supplied as membership.
         membership: Indicates how membership should be calculated.
-            A string is interpreted as one of the :doc:`../func_templates`.
+            A string is interpreted as one of the :doc:`../user_guide/func_templates`.
             A custom callable that takes an array-like of floats (a), an iterable
             with each parameter (x), and returns membership can also be given.
             An iterable of floats of the same shape as the given domain

@@ -227,11 +227,16 @@ class FIS:
         Returns:
             Defuzzified output(s).
         """
+        # Calc center of mass of fuzzified output
         top = codomain * domain
         top = np.sum(np.atleast_2d(top), axis=-1)
         bot = np.sum(np.atleast_2d(codomain), axis=-1)
 
-        return top / bot
+        # Calc final output and collapse if one element
+        output = top / bot
+        output = output.item() if output.size == 1 else output
+
+        return output
 
     @staticmethod
     def plot_mamdani(domain: np.ndarray, codomain: np.ndarray):

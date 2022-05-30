@@ -1,11 +1,5 @@
 """Core HotFIS module.
 """
-
-# Autodoc nested type alias rendering
-from sphinx.util import inspect
-inspect.TypeAliasForwardRef.__repr__ = lambda self: self.name
-inspect.TypeAliasForwardRef.__hash__ = lambda self: hash(self.name)
-
 # Membership function objects
 from .membership.fuzzyfunc import FuzzyFunc
 from .membership.fuzzygroup import FuzzyGroup

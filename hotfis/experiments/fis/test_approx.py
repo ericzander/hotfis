@@ -18,7 +18,7 @@ def main():
                 hf.FuzzyFunc("excellent", [5, 7], "rightedge")
             ]),
 
-            # Input group 1
+            # Input group 2
             hf.FuzzyGroup("food", 0, 10, [
                 hf.FuzzyFunc("rancid", [4, 6], "leftedge"),
                 hf.FuzzyFunc("delicious", [4, 6], "rightedge")
