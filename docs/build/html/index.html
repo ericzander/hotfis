@@ -15,7 +15,7 @@
     <script src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Getting Started" href="getting_started.html" />
+    <link rel="next" title="User Guide" href="user_guide.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -34,17 +34,45 @@
             
   <section id="welcome">
 <h1>Welcome<a class="headerlink" href="#welcome" title="Permalink to this headline">¶</a></h1>
-<p>Quickly create, alter, and visualize fuzzy inference systems in Python!</p>
+<p>Create, alter, and visualize fuzzy inference systems in Python!</p>
+</section>
+<section id="description">
+<h1>Description<a class="headerlink" href="#description" title="Permalink to this headline">¶</a></h1>
+<p>HotFIS is a library designed to support
+<a class="reference external" href="https://en.wikipedia.org/wiki/Fuzzy_logic">fuzzy logic</a> through the
+streamlined creation and evaluation of fuzzy inference systems (FIS) in Python.</p>
+<p>In order to support machine learning and data science applications,
+the library leverages <a class="reference external" href="https://numpy.org">Numpy</a> to evaluate both scalar and
+array-like input via <a class="reference external" href="https://doi.org/10.1016/S0020-7373(75)80002-2">Mamdani</a>
+or <a class="reference external" href="https://ieeexplore.ieee.org/document/6313399">Takagi-Sugeno</a> inference.
+Additionally, <a class="reference external" href="https://matplotlib.org">Matplotlib</a> is employed to quickly
+visualize output and support explainability.</p>
+<p>Note: <em>HotFIS is currently in early development!</em> Any suggested
+features and improvements are welcome.</p>
 </section>
 <section id="contents">
 <h1>Contents<a class="headerlink" href="#contents" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="func_templates.html">Function Templates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide.html">User Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/installation.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/mamdani.html">Example: Mamdani</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/takagi-sugeno.html">Example: Takagi-Sugeno</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/func_templates.html">Function Templates</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/hotfis.html">hotfis</a></li>
+</ul>
+</li>
 </ul>
 </div>
+</section>
+<section id="links">
+<h1>Links<a class="headerlink" href="#links" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/ericzander/hotfis">GitHub Repository</a></p></li>
+</ul>
 </section>
 <section id="index">
 <h1>Index<a class="headerlink" href="#index" title="Permalink to this headline">¶</a></h1>
@@ -87,16 +115,15 @@
 
 <h3>Navigation</h3>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide.html">User Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="func_templates.html">Function Templates</a></li>
 </ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="#">Documentation overview</a><ul>
-      <li>Next: <a href="getting_started.html" title="next chapter">Getting Started</a></li>
+      <li>Next: <a href="user_guide.html" title="next chapter">User Guide</a></li>
   </ul></li>
 </ul>
 </div>

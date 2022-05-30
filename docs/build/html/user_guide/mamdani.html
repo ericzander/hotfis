@@ -1,0 +1,206 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Example: Mamdani &#8212; HotFIS 0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Example: Takagi-Sugeno" href="takagi-sugeno.html" />
+    <link rel="prev" title="Installation" href="installation.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="example-mamdani">
+<h1>Example: Mamdani<a class="headerlink" href="#example-mamdani" title="Permalink to this headline">¶</a></h1>
+<p>The following is a basic example of Mamdani inference with the commonly
+employed temperature example.</p>
+<p>A fuzzy inference system (FIS) is created, input values are stored in a
+mapping data structure such as a dictionary, and evaluation is performed.
+The outputs are returned as Tuples with both a domain and codomain as Numpy
+arrays. These outputs may be both defuzzified and plotted using Matplotlib.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Imports</span>
+<span class="kn">import</span> <span class="nn">hotfis</span> <span class="k">as</span> <span class="nn">hf</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>  <span class="c1"># For plotting functionality</span>
+
+<span class="c1"># --------------</span>
+<span class="c1"># FIS Definition</span>
+<span class="c1"># --------------</span>
+
+<span class="c1"># Define membership function groupset</span>
+<span class="n">groupset</span> <span class="o">=</span> <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyGroupset</span><span class="p">([</span>
+    <span class="c1"># Define the temperature input group with a domain of 0-100</span>
+    <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyGroup</span><span class="p">(</span><span class="s2">&quot;temperature&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="p">[</span>
+        <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyFunc</span><span class="p">(</span><span class="s2">&quot;cold&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">],</span> <span class="s2">&quot;leftedge&quot;</span><span class="p">),</span>
+        <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyFunc</span><span class="p">(</span><span class="s2">&quot;warm&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">70</span><span class="p">],</span> <span class="s2">&quot;trapezoidal&quot;</span><span class="p">),</span>
+        <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyFunc</span><span class="p">(</span><span class="s2">&quot;hot&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">60</span><span class="p">,</span> <span class="mi">70</span><span class="p">],</span> <span class="s2">&quot;rightedge&quot;</span><span class="p">)</span>
+    <span class="p">]),</span>
+
+    <span class="c1"># Define the heater output group with a domain of 0-1</span>
+    <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyGroup</span><span class="p">(</span><span class="s2">&quot;heater&quot;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="p">[</span>
+        <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyFunc</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span> <span class="s2">&quot;leftedge&quot;</span><span class="p">),</span>
+        <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyFunc</span><span class="p">(</span><span class="s2">&quot;medium&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">],</span> <span class="s2">&quot;trapezoidal&quot;</span><span class="p">),</span>
+        <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyFunc</span><span class="p">(</span><span class="s2">&quot;on&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">],</span> <span class="s2">&quot;rightedge&quot;</span><span class="p">)</span>
+    <span class="p">]),</span>
+<span class="p">])</span>
+
+<span class="c1"># Define the fuzzy ruleset using group and function names from above</span>
+<span class="n">ruleset</span> <span class="o">=</span> <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyRuleset</span><span class="p">([</span>
+    <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyRule</span><span class="p">(</span><span class="s2">&quot;if temperature is cold then heater is on&quot;</span><span class="p">),</span>
+    <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyRule</span><span class="p">(</span><span class="s2">&quot;if temperature is warm then heater is medium&quot;</span><span class="p">),</span>
+    <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyRule</span><span class="p">(</span><span class="s2">&quot;if temperature is hot then heater is off&quot;</span><span class="p">),</span>
+<span class="p">])</span>
+
+<span class="c1"># Create the fuzzy inference system</span>
+<span class="n">fis</span> <span class="o">=</span> <span class="n">hf</span><span class="o">.</span><span class="n">FIS</span><span class="p">(</span><span class="n">groupset</span><span class="p">,</span> <span class="n">ruleset</span><span class="p">)</span>
+
+<span class="c1"># --------------</span>
+<span class="c1"># FIS Evaluation</span>
+<span class="c1"># --------------</span>
+
+<span class="c1"># Inputs must map the input group names as strings to scalar or array-like inputs</span>
+<span class="c1"># Dictionary and Pandas DataFrames are examples of valid input formats</span>
+<span class="n">temp_inputs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;temperature&quot;</span><span class="p">:</span> <span class="mi">67</span><span class="p">}</span>
+
+<span class="c1"># Get dictionary of outputs for each group</span>
+<span class="n">all_outputs</span> <span class="o">=</span> <span class="n">fis</span><span class="o">.</span><span class="n">eval_mamdani</span><span class="p">(</span><span class="n">temp_inputs</span><span class="p">)</span>
+
+<span class="c1"># Get output tuple with domain and codomain for heater group</span>
+<span class="n">heater_outputs</span> <span class="o">=</span> <span class="n">all_outputs</span><span class="p">[</span><span class="s2">&quot;heater&quot;</span><span class="p">]</span>
+
+<span class="c1"># Split domain and codomain of fuzzified output</span>
+<span class="n">domain</span><span class="p">,</span> <span class="n">codomain</span> <span class="o">=</span> <span class="n">heater_outputs</span>
+
+<span class="c1"># Defuzzify and print output</span>
+<span class="n">final_output</span> <span class="o">=</span> <span class="n">fis</span><span class="o">.</span><span class="n">defuzz_mamdani</span><span class="p">(</span><span class="n">domain</span><span class="p">,</span> <span class="n">codomain</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Input  : </span><span class="si">{</span><span class="n">temp_inputs</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Output : </span><span class="si">{</span><span class="n">final_output</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Plot both the heater group and output</span>
+<span class="n">fis</span><span class="o">.</span><span class="n">groupset</span><span class="p">[</span><span class="s2">&quot;heater&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">fis</span><span class="o">.</span><span class="n">plot_mamdani</span><span class="p">(</span><span class="n">domain</span><span class="p">,</span> <span class="n">codomain</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>Outputs</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Input</span>  <span class="p">:</span> <span class="mi">67</span>
+<span class="n">Output</span> <span class="p">:</span> <span class="mf">0.37079499</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/mamdani_ex.png"><img alt="../_images/mamdani_ex.png" src="../_images/mamdani_ex.png" style="width: 500px;" /></a>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/hotfis_icon2.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">HotFIS</h1>
+    
+  </a>
+</p>
+
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=ericzander&repo=hotfis&type=star&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../user_guide.html">User Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Example: Mamdani</a></li>
+<li class="toctree-l2"><a class="reference internal" href="takagi-sugeno.html">Example: Takagi-Sugeno</a></li>
+<li class="toctree-l2"><a class="reference internal" href="func_templates.html">Function Templates</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="../user_guide.html">User Guide</a><ul>
+      <li>Previous: <a href="installation.html" title="previous chapter">Installation</a></li>
+      <li>Next: <a href="takagi-sugeno.html" title="next chapter">Example: Takagi-Sugeno</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Eric Zander.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/user_guide/mamdani.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
