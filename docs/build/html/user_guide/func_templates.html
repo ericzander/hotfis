@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Function Templates &#8212; HotFIS 0.1 documentation</title>
+    <title>Guide: Functions &#8212; HotFIS  documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
@@ -15,8 +15,8 @@
     <script src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="API Reference" href="../api.html" />
-    <link rel="prev" title="Example: Takagi-Sugeno" href="takagi-sugeno.html" />
+    <link rel="next" title="Guide: Deserialization" href="deserialization.html" />
+    <link rel="prev" title="Guide: FIS" href="fis_guide.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -33,13 +33,155 @@
 
           <div class="body" role="main">
             
-  <section id="function-templates">
-<h1>Function Templates<a class="headerlink" href="#function-templates" title="Permalink to this headline">¶</a></h1>
-<p>The following are templates that may be used in the creation of common fuzzy
-membership functions.</p>
-<section id="triangular">
-<h2>“triangular”<a class="headerlink" href="#triangular" title="Permalink to this headline">¶</a></h2>
-<p>A linear membership function.</p>
+  <section id="guide-functions">
+<h1><a class="toc-backref" href="#id1">Guide: Functions</a><a class="headerlink" href="#guide-functions" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#guide-functions" id="id1">Guide: Functions</a></p>
+<ul>
+<li><p><a class="reference internal" href="#intro" id="id2">Intro</a></p></li>
+<li><p><a class="reference internal" href="#templates" id="id3">Templates</a></p>
+<ul>
+<li><p><a class="reference internal" href="#linear" id="id4">Linear</a></p>
+<ul>
+<li><p><a class="reference internal" href="#triangular-triangular" id="id5">Triangular: ‘triangular’</a></p></li>
+<li><p><a class="reference internal" href="#trapezoidal-trapezoidal" id="id6">Trapezoidal: ‘trapezoidal’</a></p></li>
+<li><p><a class="reference internal" href="#left-edge-leftedge" id="id7">Left Edge: ‘leftedge’</a></p></li>
+<li><p><a class="reference internal" href="#right-edge-rightedge" id="id8">Right Edge: ‘rightedge’</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#special" id="id9">Special</a></p>
+<ul>
+<li><p><a class="reference internal" href="#gaussian-gaussian" id="id10">Gaussian: ‘gaussian’</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#takagi-sugeno-kang" id="id11">Takagi-Sugeno-Kang</a></p>
+<ul>
+<li><p><a class="reference internal" href="#takagi-sugeno-kang-tsk" id="id12">Takagi-Sugeno-Kang: ‘tsk’</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<section id="intro">
+<h2><a class="toc-backref" href="#id2">Intro</a><a class="headerlink" href="#intro" title="Permalink to this headline">¶</a></h2>
+<p>FuzzyFuncs are membership functions corresponding to implicitly defined fuzzy
+sets that form the basis for the creation and evalutation of fuzzy inference
+systems.</p>
+<p>There are three arguments required to build a FuzzyFunc: a name, a list of
+parameters, and how membership should be calculated. There are three ways to
+define the last.</p>
+<ol class="arabic simple">
+<li><p>Passing a template name as a string is interpreted as one of the template
+functions. See the <a class="reference internal" href="#templates">Templates</a> section below.</p></li>
+<li><p>Giving a list of values from 0.0 to 1.0 for each parameter creates a
+piecewise linear function. See the <a class="reference internal" href="#linear">Linear</a> subsection below.</p></li>
+<li><p>Passing a callable that takes an array-like input as the first
+parameter and a list of the function’s parameters as the second creates
+a special function. See the <a class="reference internal" href="#special">Special</a> subsection below.</p></li>
+</ol>
+</section>
+<section id="templates">
+<h2><a class="toc-backref" href="#id3">Templates</a><a class="headerlink" href="#templates" title="Permalink to this headline">¶</a></h2>
+<section id="linear">
+<h3><a class="toc-backref" href="#id4">Linear</a><a class="headerlink" href="#linear" title="Permalink to this headline">¶</a></h3>
+<p>Linear membership functions are initialized with a list of membership values
+corresponding to each parameter. A piecewise function is then formed between
+each parameter-membership point.</p>
+<p>Each linear template function is equivalent to passing the stated list
+of parameter memberships in place of the template name.</p>
+<section id="triangular-triangular">
+<h4><a class="toc-backref" href="#id5">Triangular: ‘triangular’</a><a class="headerlink" href="#triangular-triangular" title="Permalink to this headline">¶</a></h4>
+<p>Parameter Membership:</p>
+<blockquote>
+<div><p><strong>[0, 1, 0]</strong></p>
+</div></blockquote>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">FuzzyFunc</span><span class="p">(</span><span class="s2">&quot;hot&quot;</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;triangular&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/triangular.png"><img alt="../_images/triangular.png" src="../_images/triangular.png" style="width: 380px;" /></a>
+</section>
+<section id="trapezoidal-trapezoidal">
+<h4><a class="toc-backref" href="#id6">Trapezoidal: ‘trapezoidal’</a><a class="headerlink" href="#trapezoidal-trapezoidal" title="Permalink to this headline">¶</a></h4>
+<p>Parameter Membership:</p>
+<blockquote>
+<div><p><strong>[0, 1, 1, 0]</strong></p>
+</div></blockquote>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">FuzzyFunc</span><span class="p">(</span><span class="s2">&quot;hot&quot;</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="s2">&quot;triangular&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/trapezoidal.png"><img alt="../_images/trapezoidal.png" src="../_images/trapezoidal.png" style="width: 380px;" /></a>
+</section>
+<section id="left-edge-leftedge">
+<h4><a class="toc-backref" href="#id7">Left Edge: ‘leftedge’</a><a class="headerlink" href="#left-edge-leftedge" title="Permalink to this headline">¶</a></h4>
+<p>Parameter Membership:</p>
+<blockquote>
+<div><p><strong>[1, 0]</strong></p>
+</div></blockquote>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">FuzzyFunc</span><span class="p">(</span><span class="s2">&quot;hot&quot;</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;leftedge&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/leftedge.png"><img alt="../_images/leftedge.png" src="../_images/leftedge.png" style="width: 380px;" /></a>
+</section>
+<section id="right-edge-rightedge">
+<h4><a class="toc-backref" href="#id8">Right Edge: ‘rightedge’</a><a class="headerlink" href="#right-edge-rightedge" title="Permalink to this headline">¶</a></h4>
+<p>Parameter Membership:</p>
+<blockquote>
+<div><p><strong>[0, 1]</strong></p>
+</div></blockquote>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">FuzzyFunc</span><span class="p">(</span><span class="s2">&quot;hot&quot;</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;rightedge&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/rightedge.png"><img alt="../_images/rightedge.png" src="../_images/rightedge.png" style="width: 380px;" /></a>
+</section>
+</section>
+<section id="special">
+<h3><a class="toc-backref" href="#id9">Special</a><a class="headerlink" href="#special" title="Permalink to this headline">¶</a></h3>
+<p>Unlike linear templates, special templates save a callable instead of a
+list of membership values. The parameters are then used by the callable.</p>
+<p>Each special template function is equivalent to passing the stated callable
+in place of the template name.</p>
+<section id="gaussian-gaussian">
+<h4><a class="toc-backref" href="#id10">Gaussian: ‘gaussian’</a><a class="headerlink" href="#gaussian-gaussian" title="Permalink to this headline">¶</a></h4>
+<p>Parameters:</p>
+<blockquote>
+<div><p><strong>[mean, standard deviation]</strong></p>
+</div></blockquote>
+<p>Function:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">((</span><span class="n">a</span> <span class="o">-</span> <span class="n">params</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">params</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">FuzzyFunc</span><span class="p">(</span><span class="s2">&quot;hot&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;gaussian&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/gaussian.png"><img alt="../_images/gaussian.png" src="../_images/gaussian.png" style="width: 380px;" /></a>
+</section>
+</section>
+<section id="takagi-sugeno-kang">
+<h3><a class="toc-backref" href="#id11">Takagi-Sugeno-Kang</a><a class="headerlink" href="#takagi-sugeno-kang" title="Permalink to this headline">¶</a></h3>
+<p>HotFIS currently only supports zeroth-order Takagi-Sugeno inference. The sole
+parameter corresponds to the output constant associated with the function.</p>
+<p>Takagi-Sugeno-Kang functions may only be used as functions in output groups.
+Stated another way, they may only be stated as rule consequents evaluated
+using fis.eval_tsk.</p>
+<section id="takagi-sugeno-kang-tsk">
+<h4><a class="toc-backref" href="#id12">Takagi-Sugeno-Kang: ‘tsk’</a><a class="headerlink" href="#takagi-sugeno-kang-tsk" title="Permalink to this headline">¶</a></h4>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">FuzzyFunc</span><span class="p">(</span><span class="s2">&quot;hot&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;tsk&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/tsk.png"><img alt="../_images/tsk.png" src="../_images/tsk.png" style="width: 380px;" /></a>
+</section>
+</section>
 </section>
 </section>
 
@@ -77,9 +219,13 @@ membership functions.</p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../user_guide.html">User Guide</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fis_guide.html">Guide: FIS</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Guide: Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deserialization.html">Guide: Deserialization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="approximation.html">Guide: Approximation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="mamdani.html">Example: Mamdani</a></li>
 <li class="toctree-l2"><a class="reference internal" href="takagi-sugeno.html">Example: Takagi-Sugeno</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Function Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="iris.html">Example: Iris</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
@@ -90,8 +236,8 @@ membership functions.</p>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
   <li><a href="../user_guide.html">User Guide</a><ul>
-      <li>Previous: <a href="takagi-sugeno.html" title="previous chapter">Example: Takagi-Sugeno</a></li>
-      <li>Next: <a href="../api.html" title="next chapter">API Reference</a></li>
+      <li>Previous: <a href="fis_guide.html" title="previous chapter">Guide: FIS</a></li>
+      <li>Next: <a href="deserialization.html" title="next chapter">Guide: Deserialization</a></li>
   </ul></li>
   </ul></li>
 </ul>
