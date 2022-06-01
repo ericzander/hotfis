@@ -172,6 +172,7 @@ class FuzzyFunc:
             plt.axvline(self.center, color=color, ymax=0.95, **plt_kwargs)
 
         # Decorate
+        plt.xlim(start, stop)
         plt.ylim(0.0, 1.05)
         plt.grid(visible=True, axis="y", alpha=0.5, ls="--")
         plt.title(self.name)

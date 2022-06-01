@@ -59,6 +59,7 @@ References
 .. [2] \E. H. Mamdani and S. Assilian, “An experiment in linguistic synthesis with a fuzzy logic controller,” International Journal of Man-Machine Studies, vol. 7, no. 1, pp. 1–13, Jan. 1975, doi: 10.1016/s0020-7373(75)80002-2.
 .. [3] \T. Takagi and M. Sugeno, "Fuzzy identification of systems and its applications to modeling and control," in IEEE Transactions on Systems, Man, and Cybernetics, vol. SMC-15, no. 1, pp. 116-132, Jan.-Feb. 1985, doi: 10.1109/TSMC.1985.6313399.
 .. [4] \J. D. Hunter, “Matplotlib: A 2D Graphics Environment,” Computing in Science & Engineering, vol. 9, no. 3, pp. 90–95, 2007, doi: 10.1109/mcse.2007.55.
+.. [5] \M. Madina, "Intepretable learning of Takagi-Sugeno fuzzy systems and application to improving predictions of the El Nino southern oscillation," M.S. thesis, DigiPen Institute of Technology.
 
 Documentation
 =============
