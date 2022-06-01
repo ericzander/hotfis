@@ -5,9 +5,10 @@ User Guide
    :maxdepth: 1
 
    user_guide/installation
+   user_guide/fis_guide
+   user_guide/func_templates
+   user_guide/deserialization
+   user_guide/approximation
    user_guide/mamdani
    user_guide/takagi-sugeno
-   user_guide/func_templates
-
-.. image:: _static/architecture_diagram.png
-  :width: 500
+   user_guide/iris

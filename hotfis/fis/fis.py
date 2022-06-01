@@ -138,11 +138,7 @@ class FIS:
             if group not in all_outputs:
                 all_outputs[group] = dict()
 
-            # Take max if old mf value exists or just save if it does not
-            if fn in all_outputs[group]:
-                all_outputs[group][fn] = max(all_outputs[group][fn], output)
-            else:
-                all_outputs[group][fn] = output
+            all_outputs[group][fn] = output
 
         return all_outputs
 
@@ -434,8 +430,9 @@ class FIS:
                     if ant.group_name not in aux_params:
                         aux_params[ant.group_name] = fn_params
                     else:
-                        aux_params[ant.group_name] = np.mean([aux_params[ant.group_name],
-                                                             fn_params], axis=0)
+                        aux_params[ant.group_name] = np.mean(
+                            [aux_params[ant.group_name], fn_params], axis=0
+                        )
 
         params.update(aux_params)
         return params
