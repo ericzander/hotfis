@@ -130,6 +130,7 @@ class FIS:
         """
         all_outputs = dict()
 
+        # Evaluate for outputs
         for rule in self.ruleset:
             # Get membership function names and corresponding membership values
             group, fn, output = rule.evaluate(x, self.groupset)
@@ -138,7 +139,20 @@ class FIS:
             if group not in all_outputs:
                 all_outputs[group] = dict()
 
-            all_outputs[group][fn] = output
+            # Save consequent membership (add if not first instance of consequent)
+            if fn not in all_outputs[group]:
+                all_outputs[group][fn] = output
+            else:
+                all_outputs[group][fn] += output
+
+        # Ensure all memberships add to 1.0
+        for group in all_outputs:
+            # Find sum of all output memberships
+            sums = np.sum([all_outputs[group][fn] for fn in all_outputs[group]], axis=0)
+
+            # Divide individual output memberships by the sum
+            for fn in all_outputs[group]:
+                all_outputs[group][fn] = all_outputs[group][fn] / sums
 
         return all_outputs
 
@@ -434,8 +448,8 @@ class FIS:
                             [aux_params[ant.group_name], fn_params], axis=0
                         )
 
-        params.update(aux_params)
-        return params
+        aux_params.update(params)
+        return aux_params
 
     @staticmethod
     def __create_approx_fn(fn_name, params):

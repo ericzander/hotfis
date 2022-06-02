@@ -63,3 +63,8 @@ Example:
 
     approx_fis = fis.approximate_mamdani()
     mamdani_output = approx_fis.eval_mamdani(inputs)
+
+Prototype results with tipping example:
+
+.. image:: ../_static/fn_approx.png
+  :width: 400
