@@ -37,9 +37,9 @@
 <h1>Example: Iris<a class="headerlink" href="#example-iris" title="Permalink to this headline">¶</a></h1>
 <p>The following is an example of binary classification with a FIS. The goal is to
 differentiate the versicolor species from the virginica species in the
-iris dataset.</p>
-<p>This example also illustrates TSK evaluation of vectorized input and Pandas
-compatability.</p>
+iris dataset. However, this example is more for illustrating TSK
+evaluation of vectorized input and Pandas compatability. Consequently, the
+membership functions and ruleset are very simple.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># -----</span>
 <span class="c1"># Setup</span>
 <span class="c1"># -----</span>
@@ -114,34 +114,33 @@ compatability.</p>
 
 <span class="c1"># Define membership function groupset</span>
 <span class="n">groupset</span> <span class="o">=</span> <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyGroupset</span><span class="p">([</span>
-    <span class="c1"># Petal width</span>
-    <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyGroup</span><span class="p">(</span><span class="s2">&quot;sepalwidth&quot;</span><span class="p">,</span> <span class="mf">1.8</span><span class="p">,</span> <span class="mf">3.9</span><span class="p">,</span> <span class="p">[</span>
+    <span class="c1"># Sepal length</span>
+    <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyGroup</span><span class="p">(</span><span class="s2">&quot;sepallength&quot;</span><span class="p">,</span> <span class="mf">4.7</span><span class="p">,</span> <span class="mf">7.8</span><span class="p">,</span> <span class="p">[</span>
+        <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyFunc</span><span class="p">(</span><span class="s2">&quot;small&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mf">5.7</span><span class="p">,</span> <span class="mf">6.8</span><span class="p">],</span> <span class="s2">&quot;leftedge&quot;</span><span class="p">),</span>
+        <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyFunc</span><span class="p">(</span><span class="s2">&quot;large&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mf">5.7</span><span class="p">,</span> <span class="mf">6.8</span><span class="p">],</span> <span class="s2">&quot;rightedge&quot;</span><span class="p">)</span>
+    <span class="p">]),</span>
+
+    <span class="c1"># Sepal width</span>
+    <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyGroup</span><span class="p">(</span><span class="s2">&quot;sepalwidth&quot;</span><span class="p">,</span> <span class="mf">1.8</span><span class="p">,</span> <span class="mf">3.8</span><span class="p">,</span> <span class="p">[</span>
         <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyFunc</span><span class="p">(</span><span class="s2">&quot;small&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mf">2.3</span><span class="p">,</span> <span class="mf">3.2</span><span class="p">],</span> <span class="s2">&quot;leftedge&quot;</span><span class="p">),</span>
         <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyFunc</span><span class="p">(</span><span class="s2">&quot;large&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mf">2.5</span><span class="p">,</span> <span class="mf">3.3</span><span class="p">],</span> <span class="s2">&quot;rightedge&quot;</span><span class="p">)</span>
     <span class="p">]),</span>
 
     <span class="c1"># Petal length</span>
-    <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyGroup</span><span class="p">(</span><span class="s2">&quot;sepallength&quot;</span><span class="p">,</span> <span class="mf">4.7</span><span class="p">,</span> <span class="mf">8.1</span><span class="p">,</span> <span class="p">[</span>
-        <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyFunc</span><span class="p">(</span><span class="s2">&quot;small&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mf">5.5</span><span class="p">,</span> <span class="mf">6.7</span><span class="p">],</span> <span class="s2">&quot;leftedge&quot;</span><span class="p">),</span>
-        <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyFunc</span><span class="p">(</span><span class="s2">&quot;large&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mf">5.7</span><span class="p">,</span> <span class="mf">6.9</span><span class="p">],</span> <span class="s2">&quot;rightedge&quot;</span><span class="p">)</span>
+    <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyGroup</span><span class="p">(</span><span class="s2">&quot;petallength&quot;</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.9</span><span class="p">,</span> <span class="p">[</span>
+        <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyFunc</span><span class="p">(</span><span class="s2">&quot;small&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mf">4.8</span><span class="p">,</span> <span class="mf">5.1</span><span class="p">],</span> <span class="s2">&quot;leftedge&quot;</span><span class="p">),</span>
+        <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyFunc</span><span class="p">(</span><span class="s2">&quot;large&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mf">4.8</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">],</span> <span class="s2">&quot;rightedge&quot;</span><span class="p">)</span>
     <span class="p">]),</span>
 
     <span class="c1"># Petal width</span>
-    <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyGroup</span><span class="p">(</span><span class="s2">&quot;petalwidth&quot;</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">2.6</span><span class="p">,</span> <span class="p">[</span>
-        <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyFunc</span><span class="p">(</span><span class="s2">&quot;small&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mf">1.4</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">],</span> <span class="s2">&quot;leftedge&quot;</span><span class="p">),</span>
+    <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyGroup</span><span class="p">(</span><span class="s2">&quot;petalwidth&quot;</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">2.1</span><span class="p">,</span> <span class="p">[</span>
+        <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyFunc</span><span class="p">(</span><span class="s2">&quot;small&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mf">1.6</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">],</span> <span class="s2">&quot;leftedge&quot;</span><span class="p">),</span>
         <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyFunc</span><span class="p">(</span><span class="s2">&quot;large&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">],</span> <span class="s2">&quot;rightedge&quot;</span><span class="p">)</span>
     <span class="p">]),</span>
 
-    <span class="c1"># Petal length</span>
-    <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyGroup</span><span class="p">(</span><span class="s2">&quot;petallength&quot;</span><span class="p">,</span> <span class="mf">2.8</span><span class="p">,</span> <span class="mf">7.1</span><span class="p">,</span> <span class="p">[</span>
-        <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyFunc</span><span class="p">(</span><span class="s2">&quot;small&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mf">4.6</span><span class="p">,</span> <span class="mf">5.1</span><span class="p">],</span> <span class="s2">&quot;leftedge&quot;</span><span class="p">),</span>
-        <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyFunc</span><span class="p">(</span><span class="s2">&quot;large&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mf">4.7</span><span class="p">,</span> <span class="mf">5.2</span><span class="p">],</span> <span class="s2">&quot;rightedge&quot;</span><span class="p">)</span>
-    <span class="p">]),</span>
-
-
     <span class="c1"># Output</span>
-    <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyGroup</span><span class="p">(</span><span class="s2">&quot;virginica&quot;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="p">[</span>
-        <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyFunc</span><span class="p">(</span><span class="s2">&quot;unlikely&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">],</span> <span class="s2">&quot;tsk&quot;</span><span class="p">),</span>
+    <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyGroup</span><span class="p">(</span><span class="s2">&quot;virginica&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="p">[</span>
+        <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyFunc</span><span class="p">(</span><span class="s2">&quot;unlikely&quot;</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.0</span><span class="p">],</span> <span class="s2">&quot;tsk&quot;</span><span class="p">),</span>
         <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyFunc</span><span class="p">(</span><span class="s2">&quot;likely&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">],</span> <span class="s2">&quot;tsk&quot;</span><span class="p">)</span>
     <span class="p">]),</span>
 <span class="p">])</span>
@@ -149,19 +148,20 @@ compatability.</p>
 </div>
 <p><a class="reference internal" href="../_images/slength.png"><img alt="pic3" src="../_images/slength.png" style="width: 48%;" /></a>  <a class="reference internal" href="../_images/swidth.png"><img alt="pic4" src="../_images/swidth.png" style="width: 48%;" /></a></p>
 <p><a class="reference internal" href="../_images/plength.png"><img alt="pic5" src="../_images/plength.png" style="width: 48%;" /></a>  <a class="reference internal" href="../_images/pwidth.png"><img alt="pic6" src="../_images/pwidth.png" style="width: 48%;" /></a></p>
+<a class="reference internal image-reference" href="../_images/virginica.png"><img alt="../_images/virginica.png" src="../_images/virginica.png" style="width: 48%;" /></a>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the fuzzy ruleset using group and function names from above</span>
 <span class="n">ruleset</span> <span class="o">=</span> <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyRuleset</span><span class="p">([</span>
-    <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyRule</span><span class="p">(</span><span class="s2">&quot;if sepalwidth is small then virginica is unlikely&quot;</span><span class="p">),</span>
-    <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyRule</span><span class="p">(</span><span class="s2">&quot;if sepalwidth is large then virginica is likely&quot;</span><span class="p">),</span>
-
     <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyRule</span><span class="p">(</span><span class="s2">&quot;if sepallength is small then virginica is unlikely&quot;</span><span class="p">),</span>
     <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyRule</span><span class="p">(</span><span class="s2">&quot;if sepallength is large then virginica is likely&quot;</span><span class="p">),</span>
 
-    <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyRule</span><span class="p">(</span><span class="s2">&quot;if petalwidth is small then virginica is unlikely&quot;</span><span class="p">),</span>
-    <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyRule</span><span class="p">(</span><span class="s2">&quot;if petalwidth is large then virginica is likely&quot;</span><span class="p">),</span>
+    <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyRule</span><span class="p">(</span><span class="s2">&quot;if sepalwidth is small then virginica is unlikely&quot;</span><span class="p">),</span>
+    <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyRule</span><span class="p">(</span><span class="s2">&quot;if sepalwidth is large then virginica is likely&quot;</span><span class="p">),</span>
 
     <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyRule</span><span class="p">(</span><span class="s2">&quot;if petallength is small then virginica is unlikely&quot;</span><span class="p">),</span>
     <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyRule</span><span class="p">(</span><span class="s2">&quot;if petallength is large then virginica is likely&quot;</span><span class="p">),</span>
+
+    <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyRule</span><span class="p">(</span><span class="s2">&quot;if petalwidth is small then virginica is unlikely&quot;</span><span class="p">),</span>
+    <span class="n">hf</span><span class="o">.</span><span class="n">FuzzyRule</span><span class="p">(</span><span class="s2">&quot;if petalwidth is large then virginica is likely&quot;</span><span class="p">),</span>
 <span class="p">])</span>
 
 <span class="c1"># Create the fuzzy inference system</span>
@@ -172,16 +172,19 @@ compatability.</p>
 <span class="c1"># Evaluation</span>
 <span class="c1"># ----------</span>
 
-<span class="c1"># Evaluate FIS for each iris, save likelihood of virginica/versicolor</span>
+<span class="c1"># Evaluate FIS for each iris</span>
 <span class="n">iris</span><span class="p">[</span><span class="s2">&quot;is_virginica&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fis</span><span class="o">.</span><span class="n">eval_tsk</span><span class="p">(</span><span class="n">iris</span><span class="p">)[</span><span class="s2">&quot;virginica&quot;</span><span class="p">]</span>
+
+<span class="c1"># Convert from [-1, 1] to [0, 1] and create negated column for versicolor</span>
+<span class="n">iris</span><span class="p">[</span><span class="s2">&quot;is_virginica&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">iris</span><span class="p">[</span><span class="s2">&quot;is_virginica&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
 <span class="n">iris</span><span class="p">[</span><span class="s2">&quot;is_versicolor&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">iris</span><span class="p">[</span><span class="s2">&quot;is_virginica&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
 
-<span class="c1"># Round to more likely class and save accuracy</span>
+<span class="c1"># Save name of more likely class and compute accuracy</span>
 <span class="n">iris</span><span class="p">[</span><span class="s2">&quot;prediction&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">iris</span><span class="p">[</span><span class="s2">&quot;is_virginica&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;int&quot;</span><span class="p">)</span>
 <span class="n">iris</span><span class="p">[</span><span class="s2">&quot;prediction&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">iris</span><span class="p">[</span><span class="s2">&quot;prediction&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;versicolor&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;virginica&quot;</span><span class="p">})</span>
 <span class="n">accuracy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">iris</span><span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">iris</span><span class="p">[</span><span class="s2">&quot;prediction&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="n">iris</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-<span class="c1"># Calculate sum of correct likelihood and average</span>
+<span class="c1"># Sum of TSK output for correct class</span>
 <span class="n">score</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">iris</span><span class="p">[</span><span class="n">iris</span><span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;versicolor&quot;</span><span class="p">][</span><span class="s2">&quot;is_versicolor&quot;</span><span class="p">])</span> <span class="o">+</span>
          <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">iris</span><span class="p">[</span><span class="n">iris</span><span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;virginica&quot;</span><span class="p">][</span><span class="s2">&quot;is_virginica&quot;</span><span class="p">]))</span>
 <span class="n">score</span> <span class="o">/=</span> <span class="n">iris</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -191,8 +194,8 @@ compatability.</p>
 
 <span class="c1"># Show results</span>
 <span class="n">display</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Accuracy: </span><span class="si">{</span><span class="n">accuracy</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Score: </span><span class="si">{</span><span class="n">score</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Accuracy                        : </span><span class="si">{</span><span class="n">accuracy</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sum of output for correct class : </span><span class="si">{</span><span class="n">score</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <table class="colwidths-given docutils align-default">
@@ -211,30 +214,30 @@ compatability.</p>
 </thead>
 <tbody>
 <tr class="row-even"><td><p>versicolor</p></td>
-<td><p>0.0</p></td>
-<td><p>1.0</p></td>
+<td><p>0.483871</p></td>
+<td><p>0.516129</p></td>
 <td><p>versicolor</p></td>
 </tr>
 <tr class="row-odd"><td><p>versicolor</p></td>
-<td><p>0.5</p></td>
-<td><p>0.5</p></td>
+<td><p>0.390029</p></td>
+<td><p>0.609971</p></td>
+<td><p>versicolor</p></td>
+</tr>
+<tr class="row-even"><td><p>versicolor</p></td>
+<td><p>0.558621</p></td>
+<td><p>0.441379</p></td>
 <td><p>virginica</p></td>
 </tr>
-<tr class="row-even"><td><p>…</p></td>
+<tr class="row-odd"><td><p>…</p></td>
 <td><p>…</p></td>
 <td><p>…</p></td>
 <td><p>…</p></td>
-</tr>
-<tr class="row-odd"><td><p>virginica</p></td>
-<td><p>0.75</p></td>
-<td><p>0.25</p></td>
-<td><p>virginica</p></td>
 </tr>
 </tbody>
 </table>
 <p><strong>Outputs</strong>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Accuracy</span><span class="p">:</span> <span class="mf">0.93</span>
-<span class="n">Score</span><span class="p">:</span> <span class="mf">0.92</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Accuracy                        : 0.90
+Sum of output for correct class : 0.7912
 </pre></div>
 </div>
 </section>
@@ -273,13 +276,8 @@ compatability.</p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../user_guide.html">User Guide</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="fis_guide.html">Guide: FIS</a></li>
-<li class="toctree-l2"><a class="reference internal" href="func_templates.html">Guide: Functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="deserialization.html">Guide: Deserialization</a></li>
-<li class="toctree-l2"><a class="reference internal" href="approximation.html">Guide: Approximation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="mamdani.html">Example: Mamdani</a></li>
-<li class="toctree-l2"><a class="reference internal" href="takagi-sugeno.html">Example: Takagi-Sugeno</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Example: Iris</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides.html">Guides</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="examples.html">Examples</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
@@ -290,8 +288,10 @@ compatability.</p>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
   <li><a href="../user_guide.html">User Guide</a><ul>
+  <li><a href="examples.html">Examples</a><ul>
       <li>Previous: <a href="takagi-sugeno.html" title="previous chapter">Example: Takagi-Sugeno</a></li>
       <li>Next: <a href="../api.html" title="next chapter">API Reference</a></li>
+  </ul></li>
   </ul></li>
   </ul></li>
 </ul>
