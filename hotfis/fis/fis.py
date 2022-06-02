@@ -448,8 +448,8 @@ class FIS:
                             [aux_params[ant.group_name], fn_params], axis=0
                         )
 
-        params.update(aux_params)
-        return params
+        aux_params.update(params)
+        return aux_params
 
     @staticmethod
     def __create_approx_fn(fn_name, params):

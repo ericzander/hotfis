@@ -47,8 +47,9 @@ def main():
 
     new_fis = fis.approximate_mamdani()
 
-    #fis.groupset["tip"].plot()
-    new_fis.groupset["tip"].plot()
+    _, ax2 = new_fis.groupset["tip"].plot(6, 27)
+    fis.groupset["tip"].plot(6, 27)
+    ax2.remove()
 
     plt.show()
 

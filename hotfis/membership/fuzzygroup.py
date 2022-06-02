@@ -10,6 +10,7 @@ such as 'cold', 'warm', and 'hot'.
 from typing import List, Tuple, Optional
 
 import numpy as np
+from matplotlib.axis import Axis
 import matplotlib.pyplot as plt
 
 from hotfis import FuzzyFunc
@@ -87,7 +88,8 @@ class FuzzyGroup:
 
     def plot(self, start: Optional[float] = None, stop: Optional[float] = None,
              num_points: int = 500, stagger_labels: bool = False,
-             line_color: str = "black", fill_alpha=0.1, **plt_kwargs):
+             line_color: str = "black", fill_alpha=0.1,
+             **plt_kwargs) -> Tuple[Axis, Axis]:
         """Plots every function in the group in a new figure.
 
         Args:
@@ -100,10 +102,14 @@ class FuzzyGroup:
             line_color: matplotlib.pyplot color of the line representing the function.
             fill_alpha: Alpha of function color. Set to 0.0 for no fill.
             **plt_kwargs: matplotlib.pyplot plotting options.
+
+        Returns:
+            The main axis being plotted and a second twin axis on top
+            where function names are written as xtick labels.
         """
         # Create figure twin x axes (top one for function names)
-        ax1 = plt.gcf().add_subplot(111)
-        ax2 = ax1.twiny()
+        ax1 = plt.gca()#plt.gcf().add_subplot(111)
+        ax2 = plt.gca().twiny()
 
         # Prepare to save xticks
         xticks = dict()
@@ -155,3 +161,7 @@ class FuzzyGroup:
         # Decorate
         plt.title(self.name, pad=16)
         ax1.grid(visible=True, axis="y", alpha=0.5, ls="--")
+
+        plt.sca(ax1)
+
+        return ax1, ax2
