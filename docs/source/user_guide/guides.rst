@@ -4,7 +4,7 @@ Guides
 .. toctree::
    :maxdepth: 1
 
-   fis_guide
-   func_templates
-   deserialization
-   approximation
+   guides/fis_guide
+   guides/func_templates
+   guides/deserialization
+   guides/approximation

@@ -4,6 +4,7 @@ Examples
 .. toctree::
    :maxdepth: 1
 
-   mamdani
-   takagi-sugeno
-   iris
+   examples/mamdani
+   examples/takagi-sugeno
+   examples/iris
+   examples/approx

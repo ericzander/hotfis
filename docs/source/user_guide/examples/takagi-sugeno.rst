@@ -82,5 +82,5 @@ Unlike Mamdani inference, outputs are implicitly defuzzified.
     Food    : (6.5)
     --> Tip (19.75)
 
-.. image:: ../_static/tsk_ex.png
+.. image:: ../../_static/tsk_ex.png
   :width: 500

@@ -67,10 +67,10 @@ membership functions and ruleset are very simple.
 
 |pic1|  |pic2|
 
-.. |pic1| image:: ../_static/iris/svs.png
+.. |pic1| image:: ../../_static/iris/svs.png
    :width: 48%
 
-.. |pic2| image:: ../_static/iris/pvs.png
+.. |pic2| image:: ../../_static/iris/pvs.png
    :width: 48%
 
 .. code-block:: python
@@ -114,21 +114,21 @@ membership functions and ruleset are very simple.
 
 |pic3|  |pic4|
 
-.. |pic3| image:: ../_static/iris/slength.png
+.. |pic3| image:: ../../_static/iris/slength.png
    :width: 48%
 
-.. |pic4| image:: ../_static/iris/swidth.png
+.. |pic4| image:: ../../_static/iris/swidth.png
    :width: 48%
 
 |pic5|  |pic6|
 
-.. |pic5| image:: ../_static/iris/plength.png
+.. |pic5| image:: ../../_static/iris/plength.png
    :width: 48%
 
-.. |pic6| image:: ../_static/iris/pwidth.png
+.. |pic6| image:: ../../_static/iris/pwidth.png
    :width: 48%
 
-.. image:: ../_static/iris/virginica.png
+.. image:: ../../_static/iris/virginica.png
   :width: 48%
 
 .. code-block:: python

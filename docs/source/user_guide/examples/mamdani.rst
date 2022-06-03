@@ -57,19 +57,17 @@ arrays. These outputs may be both defuzzified and plotted using Matplotlib.
     # Get dictionary of outputs for each group
     all_outputs = fis.eval_mamdani(temp_inputs)
 
-    # Get output tuple with domain and codomain for heater group
+    # Get output for the heater groups
     heater_outputs = all_outputs["heater"]
 
-    # Split domain and codomain of fuzzified output
-    domain, codomain = heater_outputs
-
     # Defuzzify and print output
-    final_output = fis.defuzz_mamdani(domain, codomain)
+    final_output = fis.defuzz_mamdani(heater_outputs)
     print(f"Input  : {temp_inputs['temperature']}")
     print(f"Output : {final_output}")
 
     # Plot both the heater group and output
     fis.groupset["heater"].plot()
+    domain, codomain = heater_outputs  # Split Mamdani output tuple for plotting
     fis.plot_mamdani(domain, codomain)
     plt.show()
 
@@ -78,5 +76,5 @@ arrays. These outputs may be both defuzzified and plotted using Matplotlib.
     Input  : 67
     Output : 0.37079499
 
-.. image:: ../_static/mamdani_ex.png
+.. image:: ../../_static/mamdani_ex.png
   :width: 500

@@ -12,7 +12,7 @@ inference.
 
 The structure of the FIS is as follows:
 
-.. image:: ../_static/architecture_diagram.png
+.. image:: ../../_static/architecture_diagram.png
   :width: 600
 
 Membership
@@ -40,7 +40,7 @@ Example:
     fn.plot(-2, 2)
     plt.show()
 
-.. image:: ../_static/fuzzyfuncs/triangular.png
+.. image:: ../../_static/fuzzyfuncs/triangular.png
   :width: 380
 
 FuzzyGroup
@@ -62,7 +62,7 @@ Example:
     group.plot()
     plt.show()
 
-.. image:: ../_static/group_ex.png
+.. image:: ../../_static/group_ex.png
   :width: 450
 
 FuzzyGroupset
@@ -141,8 +141,9 @@ After creating a FIS, components can be retrieved and manipulated.
     hot_fn = fis.groupset["temperature"]["hot"]
 
 Input can be also be evaluated for memberships, fuzzified Mamdani output,
-and TSK output. See examples like :doc:`mamdani` and :doc:`takagi-sugeno` for
-basic illustrations of evaluation, defuzzification, and visualization.
+and TSK output. See examples like :doc:`../examples/mamdani` and
+:doc:`../examples/takagi-sugeno` for basic illustrations of evaluation,
+defuzzification, and visualization.
 
 .. code-block:: python
 

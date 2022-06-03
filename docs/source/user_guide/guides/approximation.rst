@@ -66,5 +66,6 @@ Example:
 
 Prototype results with tipping example:
 
-.. image:: ../_static/fn_approx.png
+.. image:: ../../_static/approx/fn_approx.png
   :width: 400
+

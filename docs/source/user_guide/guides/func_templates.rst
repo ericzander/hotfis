@@ -49,7 +49,7 @@ Example:
 
     FuzzyFunc("hot", [-1, 0, 1], "triangular")
 
-.. image:: ../_static/fuzzyfuncs/triangular.png
+.. image:: ../../_static/fuzzyfuncs/triangular.png
   :width: 380
 
 Trapezoidal: 'trapezoidal'
@@ -65,7 +65,7 @@ Example:
 
     FuzzyFunc("hot", [-2, -1, 1, 2], "triangular")
 
-.. image:: ../_static/fuzzyfuncs/trapezoidal.png
+.. image:: ../../_static/fuzzyfuncs/trapezoidal.png
   :width: 380
 
 Left Edge: 'leftedge'
@@ -81,7 +81,7 @@ Example:
 
     FuzzyFunc("hot", [-1, 1], "leftedge")
 
-.. image:: ../_static/fuzzyfuncs/leftedge.png
+.. image:: ../../_static/fuzzyfuncs/leftedge.png
   :width: 380
 
 Right Edge: 'rightedge'
@@ -97,7 +97,7 @@ Example:
 
     FuzzyFunc("hot", [-1, 1], "rightedge")
 
-.. image:: ../_static/fuzzyfuncs/rightedge.png
+.. image:: ../../_static/fuzzyfuncs/rightedge.png
   :width: 380
 
 Special
@@ -126,7 +126,7 @@ Example:
 
     FuzzyFunc("hot", [0, 1], "gaussian")
 
-.. image:: ../_static/fuzzyfuncs/gaussian.png
+.. image:: ../../_static/fuzzyfuncs/gaussian.png
   :width: 380
 
 Takagi-Sugeno-Kang
@@ -148,5 +148,5 @@ Example:
 
     FuzzyFunc("hot", [0], "tsk")
 
-.. image:: ../_static/fuzzyfuncs/tsk.png
+.. image:: ../../_static/fuzzyfuncs/tsk.png
   :width: 380

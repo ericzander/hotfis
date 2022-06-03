@@ -173,7 +173,7 @@ class FIS:
         Returns:
             Dictionary with output group names as keys and values that are
             tuples with two arrays. The first array is the domain of the
-            membership function. The second is a corresponding codomain value
+            output group. The second is a corresponding codomain with values
             for each input value. See the defuzz_mamdani method for
             converting a domain and codomain(s) into scalar inputs.
         """
@@ -211,10 +211,10 @@ class FIS:
 
             # For each output function's calculated membership
             for fn_name, fn_alpha in memberships[group_name].items():
-                # Get output membership function values for each point in domain
+                # Get output function memberships for each point in domain
                 fn_vals = group[fn_name](domain)
 
-                # Take whichever is less, function membership value or membership
+                # Take whichever is less, function value or membership
                 vals = np.vectorize(lambda x: np.minimum(fn_vals, x),
                                     signature="()->(n)")(fn_alpha)
 
@@ -227,20 +227,23 @@ class FIS:
         return outputs
 
     @staticmethod
-    def defuzz_mamdani(domain: np.ndarray, codomain: np.ndarray) -> ArrayLike:
+    def defuzz_mamdani(mamdani_output: Tuple[np.ndarray, np.ndarray]) -> ArrayLike:
         """Defuzzifies Mamdani output and returns scalar value(s).
 
         Args:
-            domain: Domain of Mamdani output.
-            codomain: Output memberships corresponding to domain.
+            mamdani_output: Tuple in dictionary returned by eval_mamdani with
+                the domain as the first element and one or more codomains
+                as the second element.
 
         Returns:
-            Defuzzified output(s).
+            Defuzzified output(s) for each codomain in codomains.
         """
-        # Calc center of mass of fuzzified output
-        top = codomain * domain
+        domain, codomains = mamdani_output
+
+        # Calc center of mass of fuzzified output(s)
+        top = codomains * domain
         top = np.sum(np.atleast_2d(top), axis=-1)
-        bot = np.sum(np.atleast_2d(codomain), axis=-1)
+        bot = np.sum(np.atleast_2d(codomains), axis=-1)
 
         # Calc final output and collapse if one element
         output = top / bot
@@ -249,7 +252,7 @@ class FIS:
         return output
 
     @staticmethod
-    def plot_mamdani(domain: np.ndarray, codomain: np.ndarray):
+    def plot_mamdani(domain: np.ndarray, codomain: np.ndarray, defuzz=True):
         """Plots output of Mamdani inference.
 
         Can be used in conjunction with an output membership function group's
@@ -258,6 +261,7 @@ class FIS:
         Args:
             domain: Domain values of output as returned by Mamdani eval.
             codomain: Output membership values as returned by Mamdani eval.
+            defuzz: Indicates of output should be defuzzified and plotted.
         """
         # Plot line
         plt.plot(domain, codomain, ls=":", color="black")
@@ -266,8 +270,9 @@ class FIS:
         plt.fill_between(domain, codomain, color="grey", alpha=0.2)
 
         # Plot line indicating defuzzified output
-        defuzzed = FIS.defuzz_mamdani(domain, codomain)
-        plt.axvline(defuzzed, ls=":", color="black", ymin=0.0, ymax=0.95)
+        if defuzz:
+            defuzzed = FIS.defuzz_mamdani((domain, codomain))
+            plt.axvline(defuzzed, ls=":", color="black", ymin=0.0, ymax=0.95)
 
     # --------------------------
     # Takagi-Sugeno-Kang Methods
